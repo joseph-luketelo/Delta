@@ -1,7 +1,6 @@
 TODO:
+-better documentation
 -figure out how to use REQUIREJS or something similar, for concat'ing multiple js files into one.
-
--get raw input events from the browser and pass to game engine.
 -add checks for undefined/null/type (instanceof) where needed.
 
 	
