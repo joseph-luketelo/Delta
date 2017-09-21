@@ -1,4 +1,4 @@
-//common color enum
+//Enum containing common colors.
 let Colors = {
 	RED: "rgba(255, 0, 0, 255)",
 	GREEN: "rgba(0, 255, 0, 255)",
