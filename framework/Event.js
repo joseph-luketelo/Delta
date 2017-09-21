@@ -1,12 +1,28 @@
+/*
+	base Event class.
+	contains the Event's filter (see EventFilter.js), a specific event enum (see EventEnum.js), and optional data.
+	possible events could include: collision, game event triggers, activating doors, etc.
+	
+	example: an event for when a door opens
+	
+	class DoorEvent extends Event {
+		consturctor(doorObject) {
+			super(EventFilter.GAME_EVENT, EventEnum.GAME_EVENT_DOOR_OPEN, doorObject);
+		}
+	}
+	
+	//Some other class creates a DoorEvent, and publishes it to the event queue.
+	(see using_events.txt)
+	
+	// any class handling a DoorEvent can retrieve data about the door, ex:
+	handleDoorEvent(doorEvent) {
+		console.log(doorEvent.getData().getDoorLocation());
+	}
+	
+*/
 
-
-
-
-// base game Event class.
-// input events or game objects can create a Event, which can be placed on the
-// event queue in the EventManager; the appropriate listeners will be notified.
-// not to be confused with Event and event objects in html.
 class Event {
+	//data: data about the event, usually the event's source.
 	constructor(eventFilter = EventFilter.OTHER, eventEnum = EventEnum.OTHER, data = null) {
 		this.eventFilter = eventFilter;
 		this.eventEnum = eventEnum;
