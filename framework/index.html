@@ -2,7 +2,25 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<script src="src.js" defer></script>
+	<!-- Order of scripts is important. -->
+	<script src="Colors.js" defer></script>
+	<script src="EventFilter.js" defer></script>
+	<script src="EventEnum.js" defer></script>
+	<script src="GameEngine.js" defer></script>
+	<script src="GameObject.js" defer></script>
+	<script src="Player.js" defer></script>
+	<script src="Event.js" defer></script>
+	<script src="EventListener.js" defer></script>
+	<script src="EventPublisher.js" defer></script>
+	<script src="EventQueue.js" defer></script>
+	<script src="ListenerMap.js" defer></script>
+	<script src="State.js" defer></script>
+	<script src="GameState.js" defer></script>
+	<script src="TestGameState.js" defer></script>
+	<script src="KeyState.js" defer></script>
+	<script src="Point.js" defer></script>
+	<script src="Transform.js" defer></script>
+	<script src="main.js" defer></script> <!-- this script must be listed last. -->
 	<title> framework </title>
 	<style>
 	body {
