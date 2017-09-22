@@ -1,5 +1,9 @@
 "use strict";
 
+/*
+	Entry and main loop methods.
+*/
+
 
 /* GLOBAL VARIABLES */
 const CANVAS = document.getElementById("canvas_id");
@@ -8,7 +12,7 @@ const WIDTH = CANVAS.width;
 const HEIGHT = CANVAS.height;
 const ENGINE = new GameEngine();
 
-//entry method: called by the html, after page is done loading (html's script tag must use the "defer" attribute)
+//entry method: called by the html page, after it's is done loading (script tags must use the "defer" attribute)
 function setup() {
 	console.log("setup");
 	
@@ -24,21 +28,30 @@ function setup() {
 	window.requestAnimationFrame(update); //starts the game update loop
 }
 
-//main game loop
+//main game loop, called every frame.
 function update() {
 	ENGINE.update();
 	ENGINE.render();
-	// console.log(ENGINE.getKeyState().getKey('w'));
 	window.requestAnimationFrame(update); //continue looping
 }
 
 //for testing
 function test() {
+	
 	let map = new ListenerMap();
-	let el = new EventListener(function(e) {
+	let el = new EventListener(EventFilter.OTHER, function(e) {
 		console.log(e);
-	}, EventFilter.OTHER);
+	});
 	map.addListener(el);
 	
-	
+	let evt = EventEnum.GAME_EVENT_DOOR_OPEN;
+	switch (evt) {
+		case EventEnum.GAME_EVENT_DOOR_OPEN:
+			// console.log("door");
+			break;
+		default:
+			console.log("default");
+			break;
+	}
+	// console.log(ENGINE.getKeyState().getKey('w'));
 }
