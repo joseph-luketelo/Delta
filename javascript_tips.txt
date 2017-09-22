@@ -7,21 +7,34 @@ basic html container:
 	<html>
 	<head>
 		<meta charset="UTF-8">
-		<script src="src.js" defer></script>
+		<script src="main.js" defer></script> <!-- this is where script(s) are loaded. -->
 		<title> framework </title>
 	</head>
-	<body onload="setup()">
+	<body onload="setup()"> <!-- this is where the entry method (in main.js) is called. -->
 		<canvas id="canvas_id" width="900" height="600"></canvas>
 	</body>
 	</html>
 
 //the scripts are loaded via the <script> tag.
-//note the "onload" attribute in the body. this calls the entry method, in this case setup(), in src.js
+//note the "onload" attribute in the body. this calls the entry method, in this case setup(), in main.js
+main.js:
+	//entry method: called once after the page is done loading.
+	function setup() {
+		window.requestAnimationFrame(update); //starts looping
+	}
+	
+	//main update loop, called every frame
+	function update() {
+		window.requestAnimationFrame(update); //continue looping. 
+		//^ this requests the next animation frame from the browser.
+	}
+//end main.js
 
 
 
 running:
 open the .html file in any browser.
+make sure the html includes all the necessary scripts.
 referesh the page to "re-compile"
 
 
