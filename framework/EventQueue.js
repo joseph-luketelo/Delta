@@ -1,11 +1,15 @@
-
-// Receives Events from some source and adds them to the queue.
-// dequeued events are passed to a given map of listeners.
-// used for game Events, ex collision, defeating a boss, activating a door, or other trigger events.
+/*
+	Receives Events from some source and adds them to the queue.
+	Dequeued events are passed to a given map of EventListeners; each listener handles
+	the event on some way.
+	class that contain an EventQueue: GameState
+*/
 class EventQueue {
 	constructor() {
-		this.eventQueue = new Array();
+		this.eventQueue = new Array(); //array of Events.
 	}
+	
+	//add an event to the event queue.
 	enqueue(event) {
 		if (event instanceof Event) {
 			this.eventQueue.push(event); //add event to the end of the array
@@ -29,6 +33,7 @@ class EventQueue {
 		}
 	}
 	
+	//Remove events from the queue.
 	clear() {
 		this.eventQueue = new Array();
 	}
