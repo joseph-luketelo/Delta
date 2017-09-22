@@ -1,6 +1,7 @@
 TODO:
--better documentation
--figure out how to use REQUIREJS or something similar, for concat'ing multiple js files into one.
--add checks for undefined/null/type (instanceof) where needed.
+-figure out how to use REQUIREJS or something similar, for concatenating multiple js files into one.
+
+Possible bugs:
+-missing checks for undefined/null/valid type (instanceof)
 
 	
