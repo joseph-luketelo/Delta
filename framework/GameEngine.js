@@ -1,42 +1,38 @@
-//Map raw input events from the browser into Events.
-class RawInputMap {
-	static map(event) {
-		return new Event();
-	}
-}
+/*
+	Contains main game logic & structure.
+	Updates & renders the current GameState
+	Use different GameStates for different desired behaviours,
+	ex playing, paused, menu, game over, etc.
+*/
 
-
-//Updates & renders the current game state
 class GameEngine {
 	constructor() {
-		//TODO define other states, such as playing, game over, etc
 		this.keyState = new KeyState(); //keeps track of which keys are down
 		
-		//TODO define game objects, ex player, enemies, platforms, example:
+		//TODO define game objects here, ex player, enemies, platforms, example:
 		this.player = new Player(WIDTH/2, HEIGHT/2);
 		this.gameObjects = new Array(); //list of all
 		this.gameObjects.push(this.player);
 		
-		//TODO define GameStates
-		this.testGameState = new TestGameState(this.gameObjects); //pass all objects
-		this.currentState = this.testGameState;
+		//TODO define other states, such as playing, game over, etc
+		//pass GameObjects to the states that should know about them. 
+		// ex a PlayingState should know about the Player, a PauseState shouldn't.
+		this.testGameState = new TestGameState(this.gameObjects); //pass all objects to this state.
+		
+		this.currentState = this.testGameState; //set the current state.
 		this.currentState.onEnter();
 		
 	}
+	
 	update() {
 		this.currentState.update();
 	}
+	
 	render() {
 		this.currentState.render();
 	}
 	
-	//receive an event from the browser.
-	receiveRawKeyEvent(e, isPressed) {
-		this.receiveEvent(RawInputMap.map(e));
-		this.keyState.setKey(e.key, isPressed);
-	}
-	
-	//receive Events
+	//receive Events, and pass to the current state to handle.
 	receiveEvent(e) {
 		// console.log(e);
 		if (e instanceof Event) {
@@ -54,6 +50,15 @@ class GameEngine {
 		this.currentState.onEnter();
 	}
 	
+	//receive a KeyboardEvent from the browser, 
+	//translate the KeyboardEvent into an Event, and queue it,
+	//and update the KeyState.
+	receiveRawKeyEvent(e, isPressed) {
+		this.receiveEvent(RawKeyMap.map(e));
+		this.keyState.setKey(e.key, isPressed);
+	}
+	
+	//accessed by objects who want to know about KeyStates, ex Player.
 	getKeyState() {
 		return this.keyState;
 	}
