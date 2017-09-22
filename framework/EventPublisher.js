@@ -1,6 +1,8 @@
-//publishes events to the event queue of the current game state.
-//objects that want to create Events will need an EventPublisher.
-//TODO references global GAME_ENGINE. not great practice, open to suggestions.
+/*
+	Publishes events to the EventQueue of the current game state.
+	Objects that want to create Events will need an EventPublisher.
+	References global GameEngine ENGINE. not great practice, open to suggestions
+*/
 class EventPublisher {
 	publishEvent(e) {
 		ENGINE.receiveEvent(e);
