@@ -1,18 +1,16 @@
-
-
-
-//A GameState for when the game is in the start menu.
+/*
+	A sample GameState
+*/
 class TestGameState extends GameState {
 	constructor(gameObjects) {
 		super();
 		this.gameObjects = gameObjects;
-		this.addListeners(gameObjects);
-		//add listeners here
-		//TODO add listeners on GameObjects to listenerMap
-		// this.listenerMap.addListener(some_listener);
+		this.addListenersFromObjects(gameObjects); //adds the listeners on each GameObject in gameObjects to the listenerMap
+		//add other listeners here as needed. ex
+		//this.addListener(some_listener);
 	}
 	update() {
-		this.eventQueue.dequeue(this.listeners);
+		this.eventQueue.dequeue(this.eventListeners);
 		for (let obj of this.gameObjects) {
 			obj.update();
 		}
