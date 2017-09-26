@@ -3,52 +3,52 @@
 	for desired behaviours.
 	A State is used by any class that requires different states and behaviours.
 	ex for the GameEngine, there might be an idleState, playingState, pausedState, etc
-	
+
 	The State pattern eliminates the need for using switch statements to choose a behaviour.
 	A State should reflect the using object's behaviours and methods.
-	
+
 	// example:
-	class User {
+	class GameEngine {
 		constructor() {
-			this.currentState = new UserState(); //initial state
+			this.currentState = new GameState(); //empty initial state
 		}
-		
+
 		//the behaviour that depends on the current state
-		doSomething() {
-			currentState.doSomething();
+		gameBehaviour() {
+			currentState.gameBehaviour();
 		}
-		
+
 		//change the current state
 		setState(state) {
 			this.currentState = state;
 		}
 	}
-	
-	//base state class
-	class UserState {
-		doSomething() {}
+
+	//base empty state class
+	class GameState {
+		gameBehaviour() {}
 	}
-	
+
 	//idle behaviour
-	class IdleUserState extends UserState {
-		doSomething() {
+	class IdleGameState extends GameState {
+		gameBehaviour() {
 			//idle behaviour
 		}
 	}
-	
+
 	//dance behaviour
-	class DanceUserState extends UserState {
-		doSomething() {
+	class DanceGameState extends GameState {
+		gameBehaviour() {
 			//dance behaviour
 		}
 	}
-	
-	let user = new User();
-	user.doSomething(); //does nothing
-	user.setState(new IdleUserState());
-	user.doSomething(); //idles
-	user.setState(new DanceUserState());
-	user.doSomething(); //dances
+
+	let engine = new GameEngine();
+	engine.gameBehaviour(); //does nothing
+	engine.setState(new IdleGameState());
+	engine.gameBehaviour(); //idles
+	engine.setState(new DanceGameState());
+	engine.gameBehaviour(); //dances
 */
 
 
@@ -57,7 +57,7 @@ class State {
 	render() {}
 	onEnter() {} //entry logic, ex. start a timer, spawn stuff
 	onExit() {} //exit logic, ex stop a timer, release resources
-	
+
 	//Return true if this state can be entered.
 	//override for specific entry requirements.
 	canEnter () {return true;}
