@@ -15,8 +15,10 @@ basic html container:
 	</body>
 	</html>
 
-//the scripts are loaded via the <script> tag.
-//note the "onload" attribute in the body. this calls the entry method, in this case setup(), in main.js
+Basic flow: html page loads, calls a method in your .js script using the onload atttribute.
+Scripts must be loaded via the <script> tag. use the defer attribute, so that the script can access elements on the page, ex canvas.
+Note the "onload" attribute in the body. this calls the entry method, in this case setup(), in main.js
+You can set the "onload" attribute to call any method within your script.
 main.js:
 	//entry method: called once after the page is done loading.
 	function setup() {
