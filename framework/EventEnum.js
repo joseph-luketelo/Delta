@@ -1,10 +1,8 @@
 /*
-	Enum of specific events, used for handling Event objects. if an EventListener wants to receive events under
-	EventFilter.KEYBOARD, they can then handle the the specific key event.
-	Some possible event enums: player attack, enemy attack, collision event, 
-		picking up item, activating a lever or door, game pause, resume,
-		defeating boss, triggering sounds
-	
+	Enums used for classifying specific events under filters.
+	For example, if an EventListener receives events under the filter
+	EventFilter.KEYBOARD, it can then handle the the specific event:
+
 	// example
 	handleKeyEvent(e) {
 		switch(e.getEventEnum()) {
@@ -16,9 +14,7 @@
 				break;
 		}
 	}
-
 */
-
 
 let EventEnum = {
 	KEY_DOWN_W: "KEY_DOWN_W",
@@ -30,11 +26,8 @@ let EventEnum = {
 	KEY_UP_A: "KEY_UP_A",
 	KEY_UP_S: "KEY_UP_S",
 	KEY_UP_D: "KEY_UP_D",
-	
+
 	GAME_EVENT_DOOR_OPEN: "GAME_EVENT_DOOR_OPEN",
-	
+
 	OTHER: "OTHER"
 };
-
-
-
