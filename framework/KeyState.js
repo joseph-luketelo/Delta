@@ -12,7 +12,7 @@ class KeyState {
 			this.keyMap.set(k, false);
 		}
 		this.instance = null;
-		
+
 	}
 	setKey(key, state) {
 		if (this.keyMap.has(key)) {
@@ -20,10 +20,11 @@ class KeyState {
 		}
 		// console.log(key, state);
 	}
-	
-	//get whether a key is down or up
-	//@param key: a string containing one of the values in this.keys array.
+
+	//get whether a key is being held down or not.
+	//@param key: a string equal to one of the values in this.keys array.
+	//@return true if the given key is down, false if it's up
 	getKey(key) {
-		return this.keyMap.get(key);	
+		return this.keyMap.get(key);
 	}
 }
