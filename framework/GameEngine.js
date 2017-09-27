@@ -64,8 +64,11 @@ class GameEngine {
 	// @param isPressed: a boolean representing whether the KeyboardEvent
 	// corresponded to a pressed or released event.
 	receiveRawKeyEvent(e, isPressed) {
-		this.receiveEvent(RawKeyMap.map(e));
-		this.keyState.setKey(e.key, isPressed);
+		const keyEvent = RawKeyMap.map(e);
+		if (keyEvent != null) {
+			this.receiveEvent(keyEvent);
+			this.keyState.setKey(e.key, isPressed);
+		}
 	}
 
 	//accessed by objects who want to know about KeyStates, ex Player.
