@@ -21,7 +21,7 @@ class ListenerMap {
 
 	//Return the array of EventListeners under the given filter.
 	getEventListeners(filter) {
-		if (filter instanceof EventFilter == false) { throw new TypeError(); }
+		if (!EventFilter.hasOwnProperty(""+filter)) { throw new TypeError(); }
 		return this.eventListeners.get(filter);
 	}
 }
