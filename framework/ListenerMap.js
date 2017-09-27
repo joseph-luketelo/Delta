@@ -1,8 +1,6 @@
-
 /*
-	Contains a map of EventListeners to each filter in EventFilter; 
 	Map<EventFilter, EventListener[]>
-	Used by GameStates for keeping track of the EventListeners under their 
+	Used by GameStates for keeping track of the EventListeners and their
 	respective EventFilters.
 */
 
@@ -13,17 +11,17 @@ class ListenerMap {
 			this.eventListeners.set(filter, new Array());
 		}
 	}
-	
+
 	//Add the given EventListener to the array in the Map, that
 	// corresponds to the listener's EventFilter.
-	addListener(listener) {
-		//TODO check for valid listener
+	addEventListener(listener) {
+		if (listener instanceof EventListener == false) { throw new TypeError(); }
 		this.eventListeners.get(listener.getEventFilter()).push(listener);
 	}
-	
+
 	//Return the array of EventListeners under the given filter.
-	getListeners(filter) {
+	getEventListeners(filter) {
+		if (filter instanceof EventFilter == false) { throw new TypeError(); }
 		return this.eventListeners.get(filter);
 	}
-	
 }
