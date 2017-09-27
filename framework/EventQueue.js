@@ -6,33 +6,26 @@
 */
 class EventQueue {
 	constructor() {
-		this.eventQueue = new Array(); //array of Events.
+		this.eventQueue = new Array(); //the queue of Events.
 	}
-	
-	//add an event to the event queue.
+
+	// Add an event to the event queue.
+	// @param event an Event to add to this queue
 	enqueue(event) {
-		if (event instanceof Event) {
-			this.eventQueue.push(event); //add event to the end of the array
-		} else {
-			throw new TypeError(event + " is not an instance of Event.");
-		}
+		if (event instanceof Event == false) { throw new TypeError(); }
+		this.eventQueue.push(event); //add event to the end of the array
 	}
-	
-	//pass the next event in the queue to the EventListeners in the given ListenerMap.
-	dequeue(listenerMap) {
-		if (this.eventQueue.length > 0) {
-			if (listenerMap instanceof ListenerMap) {
-				let e = this.eventQueue.shift(); //remove event from the front of the array
-				let listeners = listenerMap.getListeners(e.getEventFilter());
-				listeners.forEach(function(listener) {
-					listener.handleEvent(e);
-				});
-			} else {
-				throw new TypeError("argument error: " + listenerMap);
-			}
-		}
+
+	//@return return the next event in the queue, or undefined if queue is empty.
+	dequeue() {
+		//unchecked
+		return this.eventQueue.shift(); //remove event from the front of the array
 	}
-	
+
+	isEmpty() {
+		return this.eventQueue.length == 0;
+	}
+
 	//Remove events from the queue.
 	clear() {
 		this.eventQueue = new Array();
