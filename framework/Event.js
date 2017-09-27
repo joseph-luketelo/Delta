@@ -1,24 +1,16 @@
 /*
-	base Event class.
-	contains the Event's filter (see EventFilter.js), a specific event enum (see EventEnum.js), and optional data.
-	possible events could include: collision, game event triggers, activating doors, etc.
-	
-	example: an event for when a door opens
-	
-	class DoorEvent extends Event {
-		consturctor(doorObject) {
-			super(EventFilter.GAME_EVENT, EventEnum.GAME_EVENT_DOOR_OPEN, doorObject);
-		}
-	}
-	
-	//Some other class creates a DoorEvent, and publishes it to the event queue.
-	(see using_events.txt)
-	
-	// any class handling a DoorEvent can retrieve data about the door, ex:
-	handleDoorEvent(doorEvent) {
-		console.log(doorEvent.getData().getDoorLocation());
-	}
-	
+	Events allow classes or Systems to communicate indirectly. One class publishes a specific event,
+	another class interested in such events can handle the event.
+
+	Events should be published using an EventPublisher.
+	EventListeners must be registed to a GameState to receive Events. this is done in the GameEngine constructor.
+
+	EventFilter: used by ListenerMap and GameState for filtering Events.
+	EventEnum: a specific enum value used for distinguishing events under a filter
+	ex. an EventListener interested in key events would use the filter
+	EventFilter.KEYBOARD, in order to receive events like KEY_DOWN_W when the 'w' key is pressed.
+	Other possible events could include: collisions, score reached triggers -> spawning bosses
+
 */
 
 class Event {
