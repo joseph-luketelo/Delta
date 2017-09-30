@@ -39,7 +39,7 @@ class GameState extends State {
 	addSystem(system) {
 		if (system instanceof System == false) { throw new TypeError("invalid argument:" + system); }
 		this.systems.push(system);
-		// this.registerEventListeners(system.getEventListeners());
+		this.registerEventListeners(system.getEventListeners());
 	}
 
 	//@param l: an EventListener
