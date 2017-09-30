@@ -41,9 +41,11 @@ referesh the page to "re-compile"
 
 
 
-logging:
-in chrome, ctrl+shift+j or ctrl+shift+i to bring up the console.
-use console.log() to log stuff.
+logging 7 debugging:
+in chrome, ctrl+shift+j or ctrl+shift+i to bring up the console & dev tools panel.
+use console.log() in your code to log stuff.
+this panel can also be used for profiling, debugging, etc
+
 
 
 
