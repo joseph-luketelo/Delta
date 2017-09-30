@@ -32,10 +32,12 @@ class GameEngine {
 	}
 
 	update() {
+		//update the current GameState. this state will update its systems.
 		this.currentState.update();
 	}
 
 	render() {
+		//render the current GameState. this state will render its systems.
 		this.currentState.render();
 	}
 
