@@ -13,24 +13,21 @@ class GameEngine {
 		// this.pausedState = new GameState(); //TODO
 		// this.gameOverState = new GameState(); //TODO
 
-		//Define game objects here, ex player, enemies, platforms, example:
+		//Define game objects here
 		let player = new Player(WIDTH/2, HEIGHT/2);
 		let asteroids = new Array(); //array of asteroids
 
-		//Define your System here. pass objects defined above to your system's constructor.
-		//let yourSystem = new SomeKindOfSystem(relevantObjects); //example
+		//Define your System here.
 		let playerSystem = new GameObjectSystem(player);
-		let asteroidSystem = new GameObjectSystem(asteroids);
-		let collisionSystem = new CollisionSystem(player, asteroids);
+		let asteroidSystem = new GameObjectSystem(asteroids); //sample asteroid system
+		let collisionSystem = new CollisionSystem(player, asteroids); //sample collision system
 
-		//Add your system to the main playingState
-		// this.playingState.addSystem(yourSystem); //example
+		//Add your System to the main playingState
+		//listeners in the System's listeners are automatically registered with the GameState.
 		this.playingState.addSystem(playerSystem);
 		this.playingState.addSystem(asteroidSystem);
 
 		//Register event listeners from GameObjects and Systems with approrpiate GameState
-		//ex typically playingState, but GameObjects relating to the pause menu would register to the pausedState.
-		this.playingState.registerEventListeners(player.getEventListeners());
 
 		//set initial game state and enter
 		this.currentState = this.playingState; //set the current state.
