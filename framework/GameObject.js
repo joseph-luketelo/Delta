@@ -42,6 +42,8 @@ class GameObject {
 	}
 
 	// Return this object's array of EventListeners.
+	//use this for adding this object's listeners to a System's, or registering
+	//this object's listners with a GameState.
 	getEventListeners() {
 		return this.eventListeners;
 	}
