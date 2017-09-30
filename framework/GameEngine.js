@@ -18,7 +18,7 @@ class GameEngine {
 		let asteroids = new Array(); //array of asteroids
 
 		//Define your System here.
-		let playerSystem = new GameObjectSystem(player);
+		let playerSystem = new GameObjectSystem(player); //responsible for updating & rendering GameObjects.
 		let asteroidSystem = new GameObjectSystem(asteroids); //sample asteroid system
 		let collisionSystem = new CollisionSystem(player, asteroids); //sample collision system
 
