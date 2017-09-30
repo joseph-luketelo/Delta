@@ -2,7 +2,7 @@
 
 /*
 	Set up global references to html elements, like the canvas and context
-	Contains entry and main loop methods.
+	Contains entry and main loop methods that are called by the page on load.
 */
 
 
@@ -19,10 +19,10 @@ function setup() {
 
 	//add key event listeners
 	document.addEventListener("keydown", function(event) {
-	   ENGINE.receiveRawKeyEvent(event, true);
+		ENGINE.receiveRawKeyEvent(event, true);
 	});
 	document.addEventListener("keyup", function(event) {
-	   ENGINE.receiveRawKeyEvent(event, false);
+		ENGINE.receiveRawKeyEvent(event, false);
 	});
 
 	test(); //for testing
@@ -34,9 +34,6 @@ function update() {
 	ENGINE.update();
 	ENGINE.render();
 	window.requestAnimationFrame(update); //continue looping
-}
-
-class M {
 }
 
 //for testing
