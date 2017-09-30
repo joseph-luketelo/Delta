@@ -40,10 +40,12 @@ class Point {
 
 	//cap max magnitude value
 	capMax(max) {
-		let lengthSquared = (this.x*this.x) + (this.y*this.y);
-		if (lengthSquared > max*max && lengthSquared > 0) {
-			let ratio = max / Math.sqrt(lengthSquared);
-			this.mult(ratio);
+		if (this.magnitude() > max) {
+			let lengthSquared = (this.x*this.x) + (this.y*this.y);
+			if (lengthSquared > max*max && lengthSquared > 0) {
+				let ratio = max / Math.sqrt(lengthSquared);
+				this.mult(ratio);
+			}
 		}
 	}
 
