@@ -1,5 +1,5 @@
 //Maps KeyboardEvents from the browser into Events.
-//only map desired KeyboardEvents.
+//NOTE only map the necessary KeyboardEvents that will be used.
 class RawKeyMap {
 	static map(keyEvent) {
 		//TODO map KeyboardEvents from the browser to the appropriate Event.
