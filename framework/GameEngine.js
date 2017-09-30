@@ -21,13 +21,13 @@ class GameEngine {
 		let playerSystem = new GameObjectSystem(player); //responsible for updating & rendering GameObjects.
 		let asteroidSystem = new GameObjectSystem(asteroids); //sample asteroid system
 		let collisionSystem = new CollisionSystem(player, asteroids); //sample collision system
+		// A GameObject's EventListeners need to be added manually, either to a System's listeners,
+		// or registered to a GameState.
+		// A System's EventListeners are automatically registered with the GameState when the system is added to it.
 
 		//Add your System to the main playingState
-		//listeners in the System's listeners are automatically registered with the GameState.
 		this.playingState.addSystem(playerSystem);
 		this.playingState.addSystem(asteroidSystem);
-
-		//Register event listeners from GameObjects and Systems with approrpiate GameState
 
 		//set initial game state and enter
 		this.currentState = this.playingState; //set the current state.
