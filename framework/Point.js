@@ -15,7 +15,7 @@ class Point {
 	setX(x) {
 		this.x = x;
 	}
-	setY() {
+	setY(y) {
 		this.y = y;
 	}
 	set(x, y) {
