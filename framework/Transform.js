@@ -1,3 +1,6 @@
+/*
+	Component containing xy location & rotation data.
+*/
 class Transform {
 	constructor(x = 0, y = 0) {
 		this.location = new Point(x, y);
