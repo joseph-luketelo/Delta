@@ -1,6 +1,3 @@
-/*
-	2D Point containing x and y coordinates.
-*/
 class Point {
 	constructor(x = 0, y = 0) {
 		this.x = x;
@@ -22,13 +19,17 @@ class Point {
 		this.x = x;
 		this.y = y;
 	}
+	setPoint(p) {
+		this.x = p.getX();
+		this.y = p.getY();
+	}
 	add(x, y) {
 		this.x += x;
 		this.y += y;
 	}
-	addPoint(point) {
-		this.x += point.getX();
-		this.y += point.getY();
+	addPoint(p) {
+		this.x += p.getX();
+		this.y += p.getY();
 	}
 	mult(factor) {
 		this.x *= factor;
@@ -37,31 +38,37 @@ class Point {
 	magnitude() {
 		return Math.sqrt((this.x * this.x) + (this.y * this.y));
 	}
-
+	
 	//cap max magnitude value
 	capMax(max) {
-		if (this.magnitude() > max) {
-			let lengthSquared = (this.x*this.x) + (this.y*this.y);
-			if (lengthSquared > max*max && lengthSquared > 0) {
-				let ratio = max / Math.sqrt(lengthSquared);
-				this.mult(ratio);
-			}
+		let lengthSquared = (x*x) + (y*y);
+		if (lengthSquared > max*max && lengthSquared > 0) {
+			let ratio = max / Math.sqrt(lengthSquared);
+			this.mult(ratio);
 		}
 	}
 
 	normalize() {
-		let mag = this.magnitude();
+		let mag = magnitude();
 		if (mag > 0) {
-			this.x /= mag;
-			this.y /= mag;
+			x /= mag;
+			y /= mag;
 		} else if (mag == 0) {
 		} else {
 			//TODO throw error
 		}
 	}
-	clear() {
-		this.x = 0;
-		this.y = 0;
+	
+	//use this point as a range, and return a random value within the range, x: min, y: max
+	rand() {
+		return Math.random() * (this.y - this.x) + this.x;
 	}
-
+	
+	//akn: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+	randInt() {
+		// [min, max)
+		const min = Math.ceil(this.x);
+		const max = Math.floor(this.y);
+		return Math.floor(Math.random() * (max - min)) + min;
+	}
 }
