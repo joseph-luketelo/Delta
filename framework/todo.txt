@@ -1,7 +1,10 @@
 TODO:
--figure out how to use REQUIREJS or something similar, for concatenating multiple js files into one.
+	Projectile class; projectiles fired by player
+
+	low priority:
+	-figure out how to use REQUIREJS or something similar, for concatenating multiple js files into one.
 
 Possible bugs:
--missing checks for undefined/null/valid type (instanceof)
+	-missing checks for undefined/null/valid type (instanceof)
 
 	
