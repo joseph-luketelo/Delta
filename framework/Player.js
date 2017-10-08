@@ -9,8 +9,9 @@ class Player extends GameObject {
 		super();
 		this.location = new Point(x, y);
 		this.speed = 2;
-
-		// add event listeners here if needed. example:
+		this.projectiles = new Array(); //NOTE: do not reassign. An array containing player's projectiles.
+		
+		// NOTE add EventListeners here if needed. example:
 		// this.gameEventHandler = new EventListener(EventFilter.GAME_EVENT, function(e) {
 		//	handle game event
 		// });
@@ -19,9 +20,14 @@ class Player extends GameObject {
 		// Add player states if needed. ex walking, running, attacking, shooting, taking damage
 	}
 	update() {
-		//NOTE possible optimization, set up reference to ENGINE's KeyState in constructor.
-		if (ENGINE.getKeyState().getKey('a')) {
+		if (ENGINE.getKeyState().getKey('w')) {
+			this.move(0, -this.speed);
+		}
+		if (ENGINE.getKeyState().getKey('a')) { //NOTE possible optimization, set up reference to ENGINE's KeyState in constructor.
 			this.move(-this.speed, 0);
+		}
+		if (ENGINE.getKeyState().getKey('s')) {
+			this.move(0, this.speed);
 		}
 		if (ENGINE.getKeyState().getKey('d')) {
 			this.move(this.speed, 0);
@@ -39,4 +45,9 @@ class Player extends GameObject {
 
 	getX() { return this.location.getX(); }
 	getY() { return this.location.getY(); }
+	
+	//Used by CollisionSystem.
+	getProjectiles() {
+		return this.projectiles();
+	}
 }
