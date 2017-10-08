@@ -21,8 +21,8 @@ class CollisionSystem extends System {
 	}
 	
 	update() {
-		checkPlayer_Asteroids();
-		checkProjectiles_Asteroids();
+		this.checkPlayer_Asteroids();
+		this.checkProjectiles_Asteroids();
 	}
 	
 	// Check if player is colliding with an asteroid
