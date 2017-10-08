@@ -12,6 +12,7 @@
 class GameObject {
 	constructor() {
 		this.isActive = true;
+		this.transform = new Transform();
 		this.eventListeners = new Array();
 		this.eventPublisher = new EventPublisher();
 	}
@@ -46,5 +47,9 @@ class GameObject {
 	//this object's listners with a GameState.
 	getEventListeners() {
 		return this.eventListeners;
+	}
+	
+	getLocation() {
+		return this.transform.getLocation();
 	}
 }
