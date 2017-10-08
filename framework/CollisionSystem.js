@@ -1,10 +1,8 @@
 /*
-	A template for a CollisionSystem.
-	Handles collisions between objects like player, projectiles, and asteroids.
+	Checks for and handles collisions between objects like player, projectiles, and asteroids.
+	Responsible for determining if conditions of a collision (ex distance threshold).
 	NOTE: alter as needed.
  */
-
-
 
 class CollisionSystem extends System {
 	// @param player: The player
