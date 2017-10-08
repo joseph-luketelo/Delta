@@ -9,6 +9,9 @@ class Transform {
 	setLocation(x, y) {
 		this.location.set(x, y);
 	}
+	setLocationPoint(point) {
+		this.location.setPoint(point);
+	}
 	getX() {
 		return this.location.getX();
 	}
