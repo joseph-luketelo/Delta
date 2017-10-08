@@ -11,7 +11,7 @@
 
 class GameObject {
 	constructor() {
-		this.isActive = true;
+		this.isActive = true; //use for flagging for removal, or other functionality,
 		this.transform = new Transform();
 		this.eventListeners = new Array();
 		this.eventPublisher = new EventPublisher();
