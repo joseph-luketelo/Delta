@@ -17,18 +17,20 @@ class GameEngine {
 		let player = new Player(WIDTH/2, HEIGHT/2);
 		let asteroids = new Array(); //array of asteroids
 
-		//Define your System here.
-		let playerSystem = new GameObjectSystem(player); //responsible for updating & rendering GameObjects.
-		let asteroidSystem = new GameObjectSystem(asteroids); //sample asteroid system
+		//Define Systems here.
+		let gameObjectSystem = new GameObjectSystem();
+		gameObjectSystem.addObject(player);
+		gameObjectSystem.addObjects(asteroids);
 		let collisionSystem = new CollisionSystem(player, asteroids); //sample collision system
 
 		//Add your System to the main playingState
-		this.playingState.addSystem(playerSystem);
-		this.playingState.addSystem(asteroidSystem);
+		this.playingState.addSystem(gameObjectSystem);
+		this.playingState.addSystem(collisionSystem);
 
 		//set initial game state and enter
 		this.currentState = this.playingState; //set the current state.
 		this.currentState.onEnter();
+		
 	}
 
 	update() {
