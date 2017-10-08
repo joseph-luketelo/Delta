@@ -1,5 +1,5 @@
 /*
-	A possible template for a CollisionSystem.
+	A template for a CollisionSystem.
 	Handles collisions between objects like player, projectiles, and asteroids.
 	NOTE: alter as needed.
  */
@@ -17,6 +17,7 @@ class CollisionSystem extends System {
 		this.player = player;
 		this.asteroids = asteroids;
 		// this.projectiles = player.getProjectiles(); //get the player's list of projectiles.
+		// this.enemies = enemies;
 	}
 	
 	update() {
