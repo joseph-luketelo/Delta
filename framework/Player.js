@@ -7,7 +7,8 @@
 class Player extends GameObject {
 	constructor(x = 0, y = 0) {
 		super();
-		this.location = new Point(x, y);
+		this.location = this.transform.getLocation(); //reference for convenience
+		this.transform.getLocation().set(x, y);
 		this.speed = 2;
 		this.projectiles = new Array(); //NOTE: do not reassign. An array containing player's projectiles.
 		
