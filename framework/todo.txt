@@ -1,5 +1,4 @@
 TODO:
-	- move .png assets into a container class or object (see Colors for example of container)
 	- Projectile class; projectiles fired by player
 
 low priority:
