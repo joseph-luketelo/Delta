@@ -11,11 +11,10 @@ player_ship.src = 'assets/player_ship.png';
 class Player extends GameObject {
 	constructor(x = 0, y = 0) {
 		super();
-		this.location = this.transform.getLocation(); //reference for convenience
-		this.transform.getLocation().set(x, y);
+		this.transform.setLocation(x, y);
 		this.speed = 2;
 		this.projectiles = new Array(); //NOTE: do not reassign. An array containing player's projectiles.
-		
+
 		// NOTE add EventListeners here if needed. example:
 		// this.gameEventHandler = new EventListener(EventFilter.GAME_EVENT, function(e) {
 		//	handle game event
@@ -39,19 +38,29 @@ class Player extends GameObject {
 		}
 	}
 	move(x, y) {
-		this.location.add(x, y);
+		this.transform.getLocation().add(x, y);
+	}
+	
+	rotate(radians) {
+		const rot = this.getRotation();
+		this.transform.setRotation(rot + radians);
 	}
 
 	render() {
-		//TODO render player here. currently just a blue square.
-		CTX.drawImage(player_ship,this.location.getX(), this.location.getY(), player_ship.width, player_ship.height);
+		//TODO rotation
+		CTX.save();
+		CTX.translate(this.getX(), this.getY());
+		CTX.rotate(this.getRotation());
+		CTX.drawImage(player_ship, 0, 0, player_ship.width, player_ship.height);
+		CTX.restore();
 	}
 
-	getX() { return this.location.getX(); }
-	getY() { return this.location.getY(); }
+	getX() { return this.transform.getX(); }
+	getY() { return this.transform.getY(); }
+	getRotation() { return this.transform.getRotation(); }
 	
-	//Used by CollisionSystem.
-	getProjectiles() {
-		return this.projectiles();
-	}
+	//Used by CollisionSystem?
+	// getProjectiles() {
+	// 	return this.projectiles();
+	// }
 }
