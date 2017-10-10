@@ -3,6 +3,10 @@
 	(use a and d keys)
 	See GameObject.js for more details
 */
+var player_ship = new Image();
+player_ship.onload = function() {
+};
+player_ship.src = 'assets/player_ship.png';
 
 class Player extends GameObject {
 	constructor(x = 0, y = 0) {
@@ -40,8 +44,7 @@ class Player extends GameObject {
 
 	render() {
 		//TODO render player here. currently just a blue square.
-		CTX.fillStyle = Colors.BLUE;
-		CTX.fillRect(this.location.getX(), this.location.getY(), 10, 10);
+		CTX.drawImage(player_ship,this.location.getX(), this.location.getY(), player_ship.width, player_ship.height);
 	}
 
 	getX() { return this.location.getX(); }
