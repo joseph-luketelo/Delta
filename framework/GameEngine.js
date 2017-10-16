@@ -65,7 +65,7 @@ class GameEngine {
 	receiveRawKeyEvent(e, isPressed) {
 		const keyEvent = RawKeyMap.map(e);
 		if (keyEvent != null) {
-			this.receiveEvent(keyEvent);
+			this.queueEvent(keyEvent);
 			this.keyState.setKey(e.key, isPressed);
 		}
 	}
