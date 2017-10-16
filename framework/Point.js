@@ -71,4 +71,10 @@ class Point {
 		const max = Math.floor(this.y);
 		return Math.floor(Math.random() * (max - min)) + min;
 	}
+	
+	static randPoint() { //return a random point between 0 and 1
+		const x = Math.random();
+		const y = Math.random();
+		return new Point(x, y);
+	}
 }
