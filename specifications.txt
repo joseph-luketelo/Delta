@@ -1,0 +1,102 @@
+Initialization notes
+	Player
+		- starts in center of screen
+		- set health/num lives
+		- set stats: health, speed, defense/shields, etc
+		- set score to zero
+
+GameObject //base class for player, asteroid, etc
+	-EventPublisher publisher
+	-Transform transform //contains x, t, rotation data
+	-boolean isActive //flag
+	-Array<EventListener> eventListeners
+	+boolean getIsActive()
+	+void publishEvent(Event e)
+	+void deactivate() //set isActive flag to false
+	+void update() // stup method, override for behaviour
+	+void render() // stub method, override for behaviour
+	+void addEventListener(eventListener)
+	+Array<EventLIstener> getEventListeners()
+	+Point getLocation()
+
+
+Player/Ship extends GameObject	
+	-int health/lives left
+	-Array<Projectile> projectiles
+	+move(x, y)
+	+aim/rotate(float radians)
+	+Projectile shoot() //publish event containing Projectile? or create projectile and shoot it?
+	+void update()
+	+void render() //render player
+	+void takeDamage(int damage)
+	+int getHealth()
+	+void destroy()
+	+Array<Projectile> getProjectiles() //used by collision checker
+
+
+Projectile extends GameObject
+	-int damage
+	-Point velocity, acceleration
++constructor(size, speed, damage, etc)
+	+void update()
+	+void render() //render projectile/missile sprite
+	+void destroy() //set as inactive and spawn particles, add to score
+	
+ProjectileSystem //owns and updates an array of Projectiles
+	-Array<Projectile> projectiles
+	+void update()
+	+void render()
+	+Array<Projectile> getProjectiles
+	+addProjectile(Projectile p)
+	+void removeInactive() //remove inactive or destroyed asteroids from the array.
+
+Asteroid extends GameObject
+	-int health, size
+	-float speed
+	-int points; //points to add to score
+	+constructor(health, size, speed, damage, etc)
+	+void update()
+	+void render() //render asteroid sprite
+	+void takeDamage(damage);
+	+void destroy() //set as inactive and spawn particles, add to score
+	+getPoints();
+
+AsteroidSystem //owns and updates an array of asteroids
+	-Array<Asteroid> asteroids
+	+void update()
+	+void render()
+	+Array<Asteroid> getAsteroids
+	+addAsteroid(Asteroid a)
+	+void removeInactive() //remove inactive or destroyed asteroids from the array.
+
+Enemy extends GameObject
+	-Point target //point to shoot at
+	-Point moveTarget //direction to move towards?
+	-int points; //points to add to score
+	+void update();
+	+void render();
+	+void takeDamage(damage);
+	+Projectile shoot();
+	+int getPoints();
+	
+
+GameModeSystem 
+//responsible for switching between modes (vertical, asteroid, bosses, etc)
+	//responsible for spawning asteroids, enemies, and bosses
+	constructor()
+	+void update()
+	+void switchToScroller(int level)  //level determines scroller difficulty
+	+void switchToBoss(int level) //level determines boss difficulty/health
+	+voi dswitchToAsteroid(int level) //level determines how many asteroids to spawn
+
+
+CollisionChecker // checks for collisions & handles them. gets objects from systems
+	//needs access to arrays of asteroids/projectiles
+	//check for collisions
+	+void checkProjectiles_Asteroids(Array<Projectile> projectiles, Array<Asteroid> asteroids)
+	+void checkPlayer_Asteroids(Player player, Array<Asteroid> asteroids);
+	//handle a collision
+	+void handleProjectiles_Asteroids(Projectile projectile, Asteroid asteroid)
+	+void handlePlayer_Asteroids(Player player, Asteroid asteroid);
+    
+    
