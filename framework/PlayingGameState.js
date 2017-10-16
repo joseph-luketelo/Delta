@@ -9,7 +9,6 @@ class PlayingGameState extends GameState {
 
 	update() {
 		this.dequeueEvent();
-		// this.eventQueue.dequeue(this.eventListeners);
 		for (let sys of this.systems) {
 			sys.update();
 		}
