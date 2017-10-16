@@ -43,8 +43,8 @@ class GameEngine {
 		this.currentState.render();
 	}
 
-	//receive Events, and pass to the current state to handle.
-	receiveEvent(e) {
+	//receive Events, and pass to the current state to queue
+	queueEvent(e) {
 		if (e instanceof Event == false) { throw new TypeError(); }
 		this.currentState.enqueueEvent(e);
 	}
