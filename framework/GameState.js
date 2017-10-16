@@ -5,14 +5,14 @@
 
 	Responsible for managing an EventQueue, and passing Events to EventListeners.
 		Since each GameState has its own EventQueue, this prevents Events from
-		disappearing if the game is paused, and allows prevents input events
-		from piling up while the game is paused.
+		disappearing if the game is paused, and prevents input events from 
+		piling up while the game is paused.
 */
 class GameState extends State {
 	constructor() {
 		super();
 		this.eventQueue = new EventQueue();
-		this.listenerMap = new ListenerMap();
+		this.listenerMap = new ListenerMap(); //Map <EventFilter, Array<EventListener>>
 		this.systems = new Array();
 	}
 
@@ -21,10 +21,12 @@ class GameState extends State {
 	onEnter() {} //entry logic, ex. start a timer, spawn stuff
 	onExit() {} //exit logic, ex stop a timer, release resources
 
+	//add an event to the queue
 	enqueueEvent(e) {
 		this.eventQueue.enqueue(e);
 	}
 
+	//dequeue all events from the event queue and pass them to EventListeners in the listener map
 	dequeueEvent() {
 		while (!this.eventQueue.isEmpty()) {
 			const e = this.eventQueue.dequeue();
@@ -42,18 +44,19 @@ class GameState extends State {
 		this.registerEventListeners(system.getEventListeners());
 	}
 
+	//add an event listener to the map
 	//@param l: an EventListener
 	registerEventListener(l) {
 		if (l instanceof EventListener == false) { throw new TypeError(); }
 		this.listenerMap.addEventListener(l);
 	}
 
+	//add multiple event listeners to the map
 	//@param listeners: an Array of EventListeners
 	registerEventListeners(listeners) {
 		if (listeners instanceof Array == false) { throw new TypeError(); }
 		for (let l of listeners) {
-			if (l instanceof EventListener == false) { throw new TypeError(); }
-			this.listenerMap.addEventListener(l);
+			this.registerEventListener(l);
 		}
 	}
 
