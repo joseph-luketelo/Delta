@@ -38,7 +38,7 @@ class System {
 
 	addEventListener(l) {
 		if (l instanceof EventListener == false) { throw new TypeError(); }
-		this.eventListeners.addEventListener(l);
+		this.eventListeners.push(l);
 	}
 	addEventListeners(listeners) {
 		if (listeners instanceof Array == false) { throw new TypeError(); }
