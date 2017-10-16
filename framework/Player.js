@@ -14,14 +14,6 @@ class Player extends GameObject {
 		this.transform.setLocation(x, y);
 		this.speed = 2;
 		this.projectiles = new Array(); //NOTE: do not reassign. An array containing player's projectiles.
-
-		// NOTE add EventListeners here if needed. example:
-		// this.gameEventHandler = new EventListener(EventFilter.GAME_EVENT, function(e) {
-		//	handle game event
-		// });
-		// this.addEventListener(this.keyEventHandler);
-
-		// Add player states if needed. ex walking, running, attacking, shooting, taking damage
 	}
 	update() {
 		if (ENGINE.getKeyState().getKey('w')) {
