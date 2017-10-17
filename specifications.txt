@@ -42,7 +42,7 @@ Projectile extends GameObject
 	+void render() //render projectile/missile sprite
 	+void destroy() //set as inactive and spawn particles, add to score
 	
-ProjectileSystem //owns and updates an array of Projectiles
+ProjectileSystem extends GameObjectSystem //owns and updates an array of Projectiles
 	-Array<Projectile> projectiles
 	+void update()
 	+void render()
@@ -62,7 +62,7 @@ Asteroid extends GameObject
 	+getPoints();
 	+getIsActive(); //override: flag for determining if this asteroid should be removed (ie destroyed, out of bounds)
 
-AsteroidSystem //owns and updates an array of asteroids
+AsteroidSystem extends GameObjectSystem //owns and updates an array of asteroids
 	-Array<Asteroid> asteroids
 	+void update()
 	+void render()
