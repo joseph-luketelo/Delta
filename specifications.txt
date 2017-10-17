@@ -60,6 +60,7 @@ Asteroid extends GameObject
 	+void takeDamage(damage);
 	+void destroy() //set as inactive and spawn particles, add to score
 	+getPoints();
+	+getIsActive(); //override: flag for determining if this asteroid should be removed (ie destroyed, out of bounds)
 
 AsteroidSystem //owns and updates an array of asteroids
 	-Array<Asteroid> asteroids
@@ -78,6 +79,7 @@ Enemy extends GameObject
 	+void takeDamage(damage);
 	+Projectile shoot();
 	+int getPoints();
+	+getIsActive(); //override: flag for determining if this asteroid should be removed (ie destroyed, out of bounds)
 	
 
 GameModeSystem 
