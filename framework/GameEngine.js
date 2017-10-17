@@ -14,23 +14,34 @@ class GameEngine {
 		// this.gameOverState = new GameState(); //TODO
 
 		//Define game objects here
-		let player = new Player(WIDTH/2, HEIGHT/2);
-		let asteroids = new Array(); //array of asteroids
+		//
 
 		//Define Systems here.
-		let gameObjectSystem = new GameObjectSystem(); //System that updates and renders GameObjects
-		gameObjectSystem.addObject(player);
-		gameObjectSystem.addObjects(asteroids);
-		let collisionSystem = new CollisionSystem(player, asteroids); //sample collision system
-
+		let playerSystem = new PlayerSystem(new Player(WIDTH/2, HEIGHT/2)); //updates and renders player
+		let asteroidSystem = new GameObjectSystem(); //updates and renders asteriods
+		let collisionSystem = new CollisionSystem(playerSystem, asteroidSystem); //sample collision system
+		
+		//spawn testing TODO move to a container class
+		let testObjSupplier = function() { return new TestAsteroid(); };
+		let spawnFreqRange = new Point(5, 5);
+		let numPerSpawnRange = new Point(1, 1);
+		let maxNum = 10;
+		let testAstSpawner = new ObjectSpawner(testObjSupplier, spawnFreqRange, numPerSpawnRange, maxNum);
+		let testEneSpawner = new ObjectSpawner(testObjSupplier, spawnFreqRange, numPerSpawnRange, maxNum);
+		let level_01 = new Level(Mode.SCROLLER, 100, testAstSpawner, testEneSpawner, undefined); // mode, targetScore, asteroidSpawner, enemySpawner, bossSpawner
+		let level_02 = new Level(Mode.SCROLLER, 200, testAstSpawner, testEneSpawner, undefined);
+		let levels = [level_01, level_02];
+		let gameModeManager = new GameModeManager(levels, playerSystem, asteroidSystem, undefined, undefined); // levels, playerSystem, asteroidSystem, enemySystem, bossSystem)
+		this.playingState.addSystem(gameModeManager);
+		
 		//Add your System to the main playingState
-		this.playingState.addSystem(gameObjectSystem);
+		this.playingState.addSystem(playerSystem);
+		this.playingState.addSystem(asteroidSystem);
 		this.playingState.addSystem(collisionSystem);
 
-		//set initial game state and enter
+		//set initial GameState and enter
 		this.currentState = this.playingState; //set the current state.
 		this.currentState.onEnter();
-		
 	}
 
 	update() {
