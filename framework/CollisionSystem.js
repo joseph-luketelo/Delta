@@ -7,13 +7,13 @@
 class CollisionSystem extends System {
 	// @param player: The player
 	// @param asteroids: An array of asteroids
-	constructor(player, asteroids) {
-		if (player instanceof Player == false || asteroids instanceof Array == false) { throw new Error("Invalid arguments"); }
+	constructor(playerSystem, asteroidSystem) {
+		if (playerSystem instanceof PlayerSystem == false || asteroidSystem instanceof GameObjectSystem == false) { throw new Error("Invalid arguments"); }
 		super();
 		
 		// GameObjects or lists of GameObjects that will be checked for collisions.
-		this.player = player;
-		this.asteroids = asteroids;
+		this.playerSystem = playerSystem;
+		this.asteroidSystem = asteroidSystem;
 		// this.projectiles = player.getProjectiles(); //get the player's list of projectiles.
 		// this.enemies = enemies;
 	}
@@ -25,14 +25,14 @@ class CollisionSystem extends System {
 	
 	// Check if player is colliding with an asteroid
 	checkPlayer_Asteroids() {
-		// TODO check collision
-		// TODO handle the collision
+		// TODO check for collision between player & asteroids
+		// let player = playerSystem.getPlayer();
+		// let asteroids = this.asteroidSystem.getObjects();
 	}
 	
 	// Check if any of the player's projectiles are colliding wit an asteroid
 	checkProjectiles_Asteroids() {
 		// TODO check collision
-		// TODO handle the collision
 	}
 	
 	//NOTE example method for if an asteroid is hit
