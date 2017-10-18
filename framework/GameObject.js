@@ -10,17 +10,26 @@
 */
 
 class GameObject {
-	constructor() {
+	constructor(points = 0) {
 		this.isActive = true; //use for flagging for removal, or other functionality,
+		this.points = points; //number of points to add to score if this obj is destroyed.
 		this.transform = new Transform();
 		this.eventListeners = new Array();
 		this.eventPublisher = new EventPublisher();
 	}
 
 	// Override for specific behaviours.
+	// setup() {}
 	update() {}
 	render() {}
 
+	setPoints(p) {
+		this.points = p;
+	}
+	getPoints() {
+		return this.points;
+	}
+	
 	// Publish an event to the current EventQueue.
 	// @param e an Event to publish
 	publishEvent(e) {
@@ -51,5 +60,14 @@ class GameObject {
 	
 	getLocation() {
 		return this.transform.getLocation();
+	}
+	
+	
+	//set to inactive and create event
+	//@param points an integer number of points to add to the score. Score is kept on the LevelManager.
+	destroy() {
+		this.isActive = false;
+		const destroyEvent = new Event(EventFilter.DESTROY, EventEnum.DESTROY_OBJECT, this.points);
+		this.publishEvent(destroyEvent);
 	}
 }
