@@ -22,16 +22,9 @@ class GameObject {
 	// setup() {}
 	update() {}
 	render() {}
-
-	setPoints(p) {
-		this.points = p;
-	}
-	getPoints() {
-		return this.points;
-	}
 	
-	// Publish an event to the current EventQueue.
-	// @param e an Event to publish
+	// Publish an event to current event queue on current game state
+	// @param e: the Event to publish
 	publishEvent(e) {
 		if (e instanceof Event == false) { throw new TypeError(); }
 		this.eventPublisher.publishEvent(e);
