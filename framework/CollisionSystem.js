@@ -23,6 +23,10 @@ class CollisionSystem extends System {
 		this.checkProjectiles_Asteroids();
 	}
 	
+	onEnter() {}
+	onExit() {}
+	render() {}
+	
 	// Check if player is colliding with an asteroid
 	checkPlayer_Asteroids() {
 		// TODO check for collision between player & asteroids

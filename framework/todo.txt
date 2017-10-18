@@ -1,4 +1,5 @@
 TODO:
+	- see specifications.txt
 	- Projectile class; projectiles fired by player
 
 low priority:

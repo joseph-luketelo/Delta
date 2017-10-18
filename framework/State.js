@@ -53,10 +53,11 @@
 
 
 class State {
+	// setup() {}
 	update() {}
-	render() {}
 	onEnter() {} //entry logic, ex. start a timer, spawn stuff
 	onExit() {} //exit logic, ex stop a timer, release resources
+	render() {}
 
 	//Return true if this state can be entered.
 	//override for specific entry requirements.

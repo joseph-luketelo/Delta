@@ -2,6 +2,7 @@
 	GameStates allow the GameEngine to have different behaviours depending on the game state,
 	ex. start menu, paused, playing, game over, etc.
 	Extend this class to create different states.
+	Calls setup, upate, render, onEnter, onExit for all its Systems.
 
 	Responsible for managing an EventQueue, and passing Events to EventListeners.
 		Since each GameState has its own EventQueue, this prevents Events from
@@ -16,11 +17,32 @@ class GameState extends State {
 		this.systems = new Array();
 	}
 
-	update() {}
-	render() {}
-	onEnter() {} //entry logic, ex. start a timer, spawn stuff
-	onExit() {} //exit logic, ex stop a timer, release resources
-
+	setup() {
+		for (let sys of this.systems) {
+			sys.setup();
+		}
+	}
+	
+	update() {
+		this.dequeueEvent();
+		for (let sys of this.systems) {
+			sys.update();
+		}
+	}
+	
+	onEnter() { //entry logic, ex. start a timer, spawn stuff
+		for (let sys of this.systems) {
+			sys.onEnter();
+		}
+	}
+	
+	onExit() { //exit logic, ex stop a timer, release resources
+		for (let sys of this.systems) {
+			sys.onExit();
+		}
+	}
+	
+	
 	//add an event to the queue
 	enqueueEvent(e) {
 		this.eventQueue.enqueue(e);
@@ -43,6 +65,8 @@ class GameState extends State {
 		this.systems.push(system);
 		this.registerEventListeners(system.getEventListeners());
 	}
+	// removeSystem(system) {
+	// }
 
 	//add an event listener to the map
 	//@param l: an EventListener

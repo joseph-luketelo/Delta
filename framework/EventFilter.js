@@ -8,6 +8,7 @@ let EventFilter = {
 	KEYBOARD: "KEYBOARD",
 	COLLISION: "COLLISION",
 	DESTROY: "DESTROY", //when an object (asteroid, enemy, player) is destroyed
-	GAME_EVENT: "GAME_EVENT",
+	GAME: "GAME",
+	// GAME_EVENT: "GAME_EVENT",
 	OTHER: "OTHER",
 }
