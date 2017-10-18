@@ -42,6 +42,8 @@ Player extends GameObject
 	+void takeDamage(int damage) //damage player
 	+int getHealth()
 	+Array<Projectile> getProjectiles() //used by collision checker?
+	+setToAsteroidMode() //set movement restrictions
+	+setToScrollerMode() //set movement restrictions
 
 
 Projectile extends GameObject
