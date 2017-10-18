@@ -18,9 +18,6 @@ class CollisionSystem extends System {
 		// this.enemies = enemies;
 	}
 	
-	setup() {
-	}
-	
 	update() {
 		this.checkPlayer_Asteroids();
 		this.checkProjectiles_Asteroids();
