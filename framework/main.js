@@ -1,5 +1,3 @@
-"use strict";
-
 /*
 	Set up global references to html elements, like the canvas and context
 	Contains entry and main loop methods that are called by the page on load.
@@ -23,6 +21,9 @@ function setup() {
 	});
 	document.addEventListener("keyup", function(event) {
 		ENGINE.receiveRawKeyEvent(event, false);
+		// if (event.key == "q") {
+		// 	ENGINE.setupNewGame2();
+		// }
 	});
 
 	test(); //for testing
