@@ -20,6 +20,12 @@ class KeyState {
 		}
 		// console.log(key, state);
 	}
+	
+	clearKeys() {
+		this.keyMap.forEach(function(value, key) {
+			value = false;
+		});
+	}
 
 	//get whether a key is being held down or not.
 	//@param key: a string equal to one of the values in this.keys array.
