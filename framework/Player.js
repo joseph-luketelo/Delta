@@ -11,10 +11,19 @@ player_ship.src = 'assets/player_ship.png';
 class Player extends GameObject {
 	constructor(x = 0, y = 0) {
 		super();
+		this.startLocation = new Point(x, y);
 		this.transform.setLocation(x, y);
 		this.speed = 2;
 		this.projectiles = new Array(); //NOTE: do not reassign. An array containing player's projectiles.
 	}
+	
+	// setup() {
+	// 	this.transform.setLocation(this.startLocation.getX(), this.startLocation.getY());
+	// 	while (this.projectiles.length > 0) {
+	// 		this.projectiles.pop();
+	// 	}
+	// }
+	
 	update() {
 		if (ENGINE.getKeyState().getKey('w')) {
 			this.move(0, -this.speed);
