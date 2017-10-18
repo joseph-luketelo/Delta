@@ -34,6 +34,12 @@ class GameObjectSystem extends System {
 		}
 	}
 	
+	// setup() {
+	// 	while (this.gameObjects.length > 0) {
+	// 		this.gameObjects.pop();
+	// 	}
+	// }
+	
 	//return array of objects
 	getObjects() {
 		return this.gameObjects;
