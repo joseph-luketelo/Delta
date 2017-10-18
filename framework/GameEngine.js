@@ -5,45 +5,74 @@
 	ex playing, paused, menu, game over, etc.
 */
 
-class GameEngine {
-	constructor() {
-		this.keyState = new KeyState(); //keeps track of which keys are down
-		this.playingState = new PlayingGameState(); //the main GameState
-		// this.startMenuState = new GameState(); //TODO
-		// this.pausedState = new GameState(); //TODO
-		// this.gameOverState = new GameState(); //TODO
 
-		//Define game objects here
-		//
-
+let GameStatePresets = {
+	getNewPlayingState: function() {
+		let playingState = new PlayingGameState();
+		
 		//Define Systems here.
 		let playerSystem = new PlayerSystem(new Player(WIDTH/2, HEIGHT/2)); //updates and renders player
 		let asteroidSystem = new GameObjectSystem(); //updates and renders asteriods
+		let enemySystem = new GameObjectSystem(); //updates and renders enemies
 		let collisionSystem = new CollisionSystem(playerSystem, asteroidSystem); //sample collision system
+		let bossSystem = undefined;
 		
-		//spawn testing TODO move to a container class
-		let testObjSupplier = function() { return new TestAsteroid(); };
-		let spawnFreqRange = new Point(5, 5);
-		let numPerSpawnRange = new Point(1, 1);
-		let maxNum = 10;
-		let testAstSpawner = new ObjectSpawner(testObjSupplier, spawnFreqRange, numPerSpawnRange, maxNum);
-		let testEneSpawner = new ObjectSpawner(testObjSupplier, spawnFreqRange, numPerSpawnRange, maxNum);
-		let level_01 = new Level(Mode.SCROLLER, 100, testAstSpawner, testEneSpawner, undefined); // mode, targetScore, asteroidSpawner, enemySpawner, bossSpawner
-		let level_02 = new Level(Mode.SCROLLER, 200, testAstSpawner, testEneSpawner, undefined);
-		let levels = [level_01, level_02];
-		let gameModeManager = new GameModeManager(levels, playerSystem, asteroidSystem, undefined, undefined); // levels, playerSystem, asteroidSystem, enemySystem, bossSystem)
-		this.playingState.addSystem(gameModeManager);
+		//Spawning & levelling TODO use preset levels array on the LevelSet
+		let levelSetSupplier = LevelPresets.getPresets;
+		let levelManager = new LevelManager(levelSetSupplier, playerSystem, asteroidSystem, enemySystem, bossSystem); // levels, playerSystem, asteroidSystem, enemySystem, bossSystem)
+		
+		playingState.addSystem(levelManager);
 		
 		//Add your System to the main playingState
-		this.playingState.addSystem(playerSystem);
-		this.playingState.addSystem(asteroidSystem);
-		this.playingState.addSystem(collisionSystem);
+		playingState.addSystem(playerSystem);
+		playingState.addSystem(asteroidSystem);
+		playingState.addSystem(enemySystem);
+		playingState.addSystem(collisionSystem);
+		
+		return playingState;
+	}
+}
 
+
+class GameEngine {
+	constructor() {
+		this.keyState = new KeyState(); //keeps track of which keys are down
+		
+		// NOTE: -moved PlayingState initialization stuff in GameEngine's 
+		// constructor to GameStatePresets object
+	
+		this.playingState = GameStatePresets.getNewPlayingState();
 		//set initial GameState and enter
-		this.currentState = this.playingState; //set the current state.
+		
+		this.currentState = this.playingState; //the GameEngine's current State
 		this.currentState.onEnter();
 	}
 
+	// Future: implement pausing
+	// pauseGame() {
+	// 	this.enterState(this.pausedState);
+	// } 
+	// unPause() {
+	// 	this.enterState(this.playingState);
+	// }
+	//start playing a new game from the start menu
+	
+	//setup a new game by assigning new instances
+	setupNewGame() {
+		this.keyState.clearKeys();
+		this.playingState = GameStatePresets.getNewPlayingState();
+		this.currentState = this.playingState; //the GameEngine's current State
+		this.currentState.onEnter();
+	}
+	
+	// setup by calling setup() or reset() on all necessary objects. higehr cohesion
+	// setupNewGame() {
+	// 	//TODO call or setup() methods on necessary classes
+	// 	for (let state of this.gameStates) {
+	// 		state.setup();
+	// 	}
+	// }
+	
 	update() {
 		//update the current GameState. the current state will update its systems.
 		this.currentState.update();
@@ -66,6 +95,13 @@ class GameEngine {
 		this.currentState.onExit();
 		this.currentState = newState;
 		this.currentState.onEnter();
+	}
+	
+	tryEnterState(newState) {
+		if (newState instanceof State == false) { throw new TypeError(); }
+		if (this.currentState.canExit() && newState.canEnter()) {
+			this.enterState(newState);
+		}
 	}
 
 	// Translates the given KeyboardEvent into an Event, queues it,
