@@ -5,25 +5,26 @@ Modes: scroller, asteroid, boss
 	determine when things spawn based on score/difficulty
 	presets, sample progressions
 	
+	from the game doc:
+		Sample progression: scroller lvl (easy) > asteroid lvl (easy) 
+			> boss lvl (easy) > scroller lvl (med) > asteroid lvl (med) 
+			> boss lvl (med) > etc. //original
+		Sample progression: scroller lvl (easy) > scroller lvl (med) 
+			> boss lvl (invaders mode) > asteroid lvl (easy) > asteroid lvl (med) 
+			> boss lvl (asteroid mode) > etc 
+			//may want to switch to this for smoother and simpler transition
 */
 
 let Mode = {
 	ASTEROID: "ASTEROID",
 	SCROLLER: "SCROLLER",
-	BOSS: "BOSS"
+	BOSS_A: "BOSS_A",
+	BOSS_S: "BOSS_S"
 }
 
-/* from the game doc:
-Sample progression: scroller lvl (easy) > asteroid lvl (easy) 
-	> boss lvl (easy) > scroller lvl (med) > asteroid lvl (med) 
-	> boss lvl (med) > etc. //original
-Sample progression: scroller lvl (easy) > scroller lvl (med) 
-	> boss lvl (invaders mode) > asteroid lvl (easy) > asteroid lvl (med) 
-	> boss lvl (asteroid mode) > etc 
-	//may want to switch to this for smoother and simpler transition
-*/
 
-//A Container/set of predefined levels/level suppliers
+/*	A Container object for predefined levels
+*/
 let LevelPresets = {
 	/*	naming: lvl_#type
 		#: level number
@@ -33,7 +34,7 @@ let LevelPresets = {
 		type bs: boss & scroller
 	*/
 	
-	/* TEMPLATE LEVEL SUPPLIER
+	/* TEMPLATE LEVEL
 	lvl_00_template: function() { //Level supplier
 		const mode = Mode.SCROLLER;
 		const levelNum = 0;
@@ -53,6 +54,7 @@ let LevelPresets = {
 		return new Level(mode, levelNum, targetScore, asteroidSpawner, enemySpawner, undefined);
 	*/
 	
+	//Return a new Level
 	level_01s: function() { //Level supplier
 		const mode = Mode.SCROLLER;
 		const levelNum = 1;
@@ -79,6 +81,7 @@ let LevelPresets = {
 		const a_spawnFreqRange = new Point(1, 1); //frequency range to spawn asteroids (frames)
 		const a_numPerSpawnRange = new Point(1, 1); //number of asteroids to spawn at each spawn interval
 		const a_maxNum = 10; //max number of asteroids to spawn for this level
+		// const a_maxNum = -1; //max number of asteroids to spawn for this level
 		const asteroidSpawner = new ObjectSpawner(a_supplier, a_spawnFreqRange, a_numPerSpawnRange, a_maxNum);
 		
 		const e_supplier = function() { return new TestEnemy(); };
@@ -91,8 +94,8 @@ let LevelPresets = {
 		return new Level(mode, levelNum, targetScore, asteroidSpawner, enemySpawner, undefined);
 	},
 	
-	//return a new array of new preset levels
-	// TODO rename to getPresets
+	
+	// Return a new array of all level presets
 	getPresets: function() {
 		const CLASS = LevelPresets;
 		return [CLASS.level_01s(), CLASS.level_02s()];
@@ -145,30 +148,33 @@ class TestEnemy extends TestAsteroid {
 }
 
 
-
-// or spawn frequency & max num to spawn
+/*	Class responsible for spawning objects.
+	contains data about how often an object should spawn, how many,
+	and if a max number of spawned objects has been reached.
+	
+*/
 class ObjectSpawner {
 	constructor(objectSupplier, spawnFreqRange, numPerSpawnRange, maxNum) {
-		this.objectSupplier = objectSupplier;
-		this.spawnFreqRange = spawnFreqRange;
-		this.numPerSpawnRange = numPerSpawnRange; //TODO unused
-		this.maxNum = maxNum;
-		this.totalSpawned = 0;
-		this.maxReached = false;
+		this.objectSupplier = objectSupplier; //a callback/function that returns a new GameObject
+		this.spawnFreqRange = spawnFreqRange; //a point specifying the frequency that asteroids should spawn (in frames).
+		this.numPerSpawnRange = numPerSpawnRange; //TODO unused. a number specifying the number of objects to spawn each spawn interval.
+		this.maxNum = maxNum; //maximum number of objects that can be spawned. set to -1 for unlimited.
+		this.totalSpawned = 0; //total number spawned so far
+		this.maxReached = false; //flag, true if totalSpawned reaches maxNum
 		this.nextSpawn = this.spawnFreqRange.randInt(); //countdown timer till next spawn
-		this.isReady = false; 
-		this.objBuffer = new Array();
+		this.isReady = false; //flag, true if countdown timer has reached 0 and an object has been spawned.
+		this.objBuffer = new Array(); //array for holding spawned objects. used by LevelManager
 	}
 	
-	setup() {
-		this.totalSpawned = 0;
-		this.maxReached = false;
-		this.nextSpawn = this.spawnFreqRange.randInt();
-		this.isReady = false;
-		while(this.objBuffer.length > 0) {
-			this.objBuffer.pop();
-		}
-	}
+	// setup() {
+	// 	this.totalSpawned = 0;
+	// 	this.maxReached = false;
+	// 	this.nextSpawn = this.spawnFreqRange.randInt();
+	// 	this.isReady = false;
+	// 	while(this.objBuffer.length > 0) {
+	// 		this.objBuffer.pop();
+	// 	}
+	// }
 	
 	update() {
 		if (!this.maxReached) {
@@ -179,36 +185,41 @@ class ObjectSpawner {
 		}
 	}
 	
+	//restart timer for next spawn
 	resetTimer() {
-		if (this.totalSpawned < this.maxNum) {
+		if (this.maxNum == -1 || this.totalSpawned < this.maxNum) {
 			this.nextSpawn = this.spawnFreqRange.randInt();
 			this.isReady = false;
 		} else {
 			this.maxReached = true;
+			this.isReady = false;
 		}
 	}
 	
+	//TODO
 	spawn(args) {
 		this.totalSpawned += 1;
-		this.objBuffer.push(this.objectSupplier());
+		this.objBuffer.push(this.objectSupplier(/* use args */));
 		this.isReady = false;
 	}
+	
 	getIsReady() {
 		return this.isReady;
 	}
+	
 	getBuffer() {
 		return this.objBuffer;
 	}
 }
 
-
+//Contains data about the current level.
 //keep track of spawning data, add spawned obejcts to a buffer
 class Level {
 	constructor(mode, levelNum, targetScore, asteroidSpawner, enemySpawner, bossSpawner) { //TODO unchecked
 		//NOTE unchecked constructor
-		this.mode = mode;
-		this.levelNum = levelNum;
-		this.targetScore = targetScore;
+		this.mode = mode; //the mode, one of: Mode.SCROLLER, Mode.ASTEROID, Mode.BOSS_A, Mode.BOSS_S
+		this.levelNum = levelNum; //the current level number. will be printed to the screen.
+		this.targetScore = targetScore; //the score that must be reached in order to proceed to next level. set to -1 if unused.
 		this.asteroidSpawner = asteroidSpawner;
 		this.enemySpawner = enemySpawner;
 		this.spawners = new Array(); //array of ObjectSpawners
@@ -223,17 +234,17 @@ class Level {
 		}
 	}
 	
-	setup() {
-		for (let spawner of this.spawners) {
-			spawner.setup();
-		}
-	}
+	// setup() {
+	// 	for (let spawner of this.spawners) {
+	// 		spawner.setup();
+	// 	}
+	// }
 	
 	update() {
 		for (let spawner of this.spawners) {
 			spawner.update();
 			if (spawner.getIsReady()) {
-				spawner.spawn();
+				spawner.spawn(/*TODO args*/);
 				spawner.resetTimer();
 			}
 		}
@@ -241,7 +252,9 @@ class Level {
 	
 	//display level stuff
 	render() {
-		//draw level num
+		CTX.fillStyle = Colors.BLACK;
+		//TODO font style
+		CTX.fillText("level: " + this.levelNum, WIDTH/2, 10);
 	}
 	
 	//TODO set/restrict player movement. do in GameModeManager instead?
@@ -260,13 +273,13 @@ class Level {
 	}
 }
 
-//driven by score
-class LevelManager extends System {
-	constructor(levelSetSupplier, playerSystem, asteroidSystem, enemySystem, bossSystem) {
+// Class that updates and manages Levels. Each level contains data for spawning asteroids & enemies
+class LevelSystem extends System {
+	constructor(levelPresetsSupplier, playerSystem, asteroidSystem, enemySystem, bossSystem) {
 		super();
 		this.score = 0;
-		this.levelSetSupplier = levelSetSupplier; //gets a new array of predefined levels
-		this.levels = this.levelSetSupplier();
+		this.levelPresetsSupplier = levelPresetsSupplier; //gets a new array of predefined levels
+		this.levels = this.levelPresetsSupplier();
 		this.currentLevel = this.levels[0];
 		this.levelCount = 0;
 		
@@ -282,18 +295,19 @@ class LevelManager extends System {
 			instance.checkNextLevelCondition();
 		});
 		
+		this.levelsCleared = false; //flag for preventing multiple gameWon events
 		this.addEventListener(destroyListener);
 	}
 	
-	setup() {
-		this.score = 0;
-		this.levelCount = 0;
-		this.currentLevel = this.levels[0];
-		// this.levels = this.levelSetSupplier();
-		for (let l of this.levels) {
-			l.setup();
-		}
-	}
+	// setup() {
+	// 	this.score = 0;
+	// 	this.levelCount = 0;
+	// 	this.currentLevel = this.levels[0];
+	// 	// this.levels = this.levelPresetsSupplier();
+	// 	for (let l of this.levels) {
+	// 		l.setup();
+	// 	}
+	// }
 	
 	onEnter() {}
 	onExit() {}
@@ -330,7 +344,7 @@ class LevelManager extends System {
 		// this.isLevelCleared();
 	}
 	
-	// Check if player's score has reached the current level's target score.
+	// Return true if player's score has reached the level's target score.
 	isScoreReached() {
 		return this.score >= this.currentLevel.getTargetScore();
 	}
@@ -340,16 +354,19 @@ class LevelManager extends System {
 		return (this.asteroidSystem.getLength() == 0 && this.enemySystem.getLength() == 0);
 	}
 	
-	// Proceed to the next level.
-	//TODO what happens when all levels are cleared?
+	// Proceed to the next level, or publish a game won Event if all levels have been cleared.
 	goToNextLevel() {
 		this.currentLevel.onExit();
 		this.levelCount++;
 		if (this.levels[this.levelCount] != undefined) {
 			this.currentLevel = this.levels[this.levelCount];
 			this.currentLevel.onEnter();
-		} else { //if next level is undefined
-			console.warn("Warning: next level is undefined");
+		} else { //if next level is undefined, then all levels have been cleared.
+			if (this.levelsCleared == false) {
+				this.levelsCleared = true;
+				const event = new Event(EventFilter.GAME, EventEnum.GAME_WON, undefined);
+				this.publishEvent(event);
+			}
 		}
 	}
 	
@@ -357,6 +374,7 @@ class LevelManager extends System {
 		this.score += points;
 	}
 
+	//set player movement mode
 	setPlayerMovement(isTopDown) { 
 		//TODO restrict player movement based on mode
 	}
