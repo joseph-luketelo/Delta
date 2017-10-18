@@ -31,11 +31,19 @@ class System {
 		this.eventListeners = new Array();
 	}
 
+	setup() {}
 	update() {}
-	// onEnter() {}
-	// onExit() {}
+	onEnter() {}
+	onExit() {}
 	render() {}
 
+	// Publish an event to the current EventQueue.
+	// @param e an Event to publish
+	publishEvent(e) {
+		if (e instanceof Event == false) { throw new TypeError(); }
+		this.eventPublisher.publishEvent(e);
+	}
+	
 	addEventListener(l) {
 		if (l instanceof EventListener == false) { throw new TypeError(); }
 		this.eventListeners.push(l);
@@ -51,12 +59,4 @@ class System {
 	getEventListeners() {
 		return this.eventListeners;
 	}
-
-	// Publish an event to the current EventQueue.
-	// @param e an Event to publish
-	publishEvent(e) {
-		if (e instanceof Event == false) { throw new TypeError(); }
-		this.eventPublisher.publishEvent(e);
-	}
-
 }
