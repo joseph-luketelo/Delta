@@ -41,7 +41,7 @@ class System {
 	// @param e an Event to publish
 	publishEvent(e) {
 		if (e instanceof Event == false) { throw new TypeError(); }
-		this.eventPublisher.publishEvent(e);
+		this.publisher.publishEvent(e);
 	}
 	
 	addEventListener(l) {
