@@ -11,7 +11,7 @@ class PlayerSystem extends System {
 		this.player.render();
 	}
 	getPlayer() {
-		return this.player();
+		return this.player;
 	}
 	setPlayer(p) {
 		this.player = p;
