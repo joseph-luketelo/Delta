@@ -6,44 +6,13 @@
 */
 
 
-let GameStatePresets = {
-	getNewPlayingState: function() {
-		let playingState = new PlayingGameState();
-		
-		//Define Systems here.
-		let playerSystem = new PlayerSystem(new Player(WIDTH/2, HEIGHT/2)); //updates and renders player
-		let asteroidSystem = new GameObjectSystem(); //updates and renders asteriods
-		let enemySystem = new GameObjectSystem(); //updates and renders enemies
-		let collisionSystem = new CollisionSystem(playerSystem, asteroidSystem); //sample collision system
-		let bossSystem = undefined;
-		
-		//Spawning & levelling TODO use preset levels array on the LevelSet
-		let levelSetSupplier = LevelPresets.getPresets;
-		let levelManager = new LevelManager(levelSetSupplier, playerSystem, asteroidSystem, enemySystem, bossSystem); // levels, playerSystem, asteroidSystem, enemySystem, bossSystem)
-		
-		playingState.addSystem(levelManager);
-		
-		//Add your System to the main playingState
-		playingState.addSystem(playerSystem);
-		playingState.addSystem(asteroidSystem);
-		playingState.addSystem(enemySystem);
-		playingState.addSystem(collisionSystem);
-		
-		return playingState;
-	}
-}
-
-
 class GameEngine {
 	constructor() {
 		this.keyState = new KeyState(); //keeps track of which keys are down
 		
-		// NOTE: -moved PlayingState initialization stuff in GameEngine's 
-		// constructor to GameStatePresets object
-	
-		this.playingState = GameStatePresets.getNewPlayingState();
-		//set initial GameState and enter
-		
+		// NOTE: initialization stuff in GameEngine's constructor 
+		// moved to PlayingGameState's constructor.
+		this.playingState = new PlayingGameState();
 		this.currentState = this.playingState; //the GameEngine's current State
 		this.currentState.onEnter();
 	}
@@ -57,21 +26,13 @@ class GameEngine {
 	// }
 	//start playing a new game from the start menu
 	
-	//setup a new game by assigning new instances
+	//setup a new game by creating new GameStates (discard old ones)
 	setupNewGame() {
 		this.keyState.clearKeys();
-		this.playingState = GameStatePresets.getNewPlayingState();
+		this.playingState = new PlayingGameState();
 		this.currentState = this.playingState; //the GameEngine's current State
 		this.currentState.onEnter();
 	}
-	
-	// setup by calling setup() or reset() on all necessary objects. higehr cohesion
-	// setupNewGame() {
-	// 	//TODO call or setup() methods on necessary classes
-	// 	for (let state of this.gameStates) {
-	// 		state.setup();
-	// 	}
-	// }
 	
 	update() {
 		//update the current GameState. the current state will update its systems.
