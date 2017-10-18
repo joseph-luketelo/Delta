@@ -18,10 +18,17 @@ class CollisionSystem extends System {
 		// this.enemies = enemies;
 	}
 	
+	setup() {
+	}
+	
 	update() {
 		this.checkPlayer_Asteroids();
 		this.checkProjectiles_Asteroids();
 	}
+	
+	onEnter() {}
+	onExit() {}
+	render() {}
 	
 	// Check if player is colliding with an asteroid
 	checkPlayer_Asteroids() {
