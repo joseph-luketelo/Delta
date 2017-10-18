@@ -7,13 +7,6 @@ class PlayingGameState extends GameState {
 		super();
 	}
 
-	update() {
-		this.dequeueEvent();
-		for (let sys of this.systems) {
-			sys.update();
-		}
-	}
-
 	render() {
 		CTX.fillStyle = Colors.WHITE; //background
 		CTX.fillRect(0, 0, WIDTH, HEIGHT);
