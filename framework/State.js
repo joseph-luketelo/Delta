@@ -53,7 +53,7 @@
 
 
 class State {
-	setup() {}
+	// setup() {}
 	update() {}
 	onEnter() {} //entry logic, ex. start a timer, spawn stuff
 	onExit() {} //exit logic, ex stop a timer, release resources
