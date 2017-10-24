@@ -36,7 +36,7 @@ class PlayingGameState extends GameState {
 	}
 
 	render() {
-		CTX.fillStyle = Colors.WHITE; //background
+		CTX.fillStyle = Colors.PURPLE; //background
 		CTX.fillRect(0, 0, WIDTH, HEIGHT);
 
 		//TODO determine render order if necessary. reorder the addSystem statements in constructor.
