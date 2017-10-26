@@ -1,13 +1,3 @@
-// TODO make object lists for GameObjectSystem
-// Updated:
-// GameEngine.js
-// GameModeManager.js
-// GameObjectSystem.js
-// CollisionSystem.js
-
-
-
-
 /*
 	A system that updates and renders an array of game objects.
 	GameObjects in an array will be automatically removed if they are set to inactive.
@@ -33,7 +23,7 @@ class GameObjectSystem extends System {
 			this.addObject(o);
 		}
 	}
-	
+
 	//return array of objects
 	getObjects() {
 		return this.gameObjects;

@@ -16,7 +16,7 @@
 	}
 */
 
-let EventEnum = {
+const EventEnum = {
 	KEY_DOWN_W: "KEY_DOWN_W",
 	KEY_DOWN_A: "KEY_DOWN_A",
 	KEY_DOWN_S: "KEY_DOWN_S",
@@ -29,7 +29,7 @@ let EventEnum = {
 
 	GAME_EVENT_DOOR_OPEN: "GAME_EVENT_DOOR_OPEN",
 	GAME_WON: "GAME_WON",
-	
+
 	DESTROY_OBJECT: "DESTROY_OBJECT", //object destroyed
 	// DESTROY_ASTEROID: "DESTROY_ASTEROID",
 	// DESTROY_ENEMY: "DESTROY_ENEMY",

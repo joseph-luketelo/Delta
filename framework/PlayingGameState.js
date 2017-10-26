@@ -6,33 +6,45 @@ class PlayingGameState extends GameState {
 	constructor() {
 		super();
 
+
 		//Define Systems here.
-		let playerSystem = new PlayerSystem(new Player(WIDTH/2, HEIGHT/2)); //updates and renders player
-		let asteroidSystem = new GameObjectSystem(); //updates and renders asteriods
-		let enemySystem = new GameObjectSystem(); //updates and renders enemies
-		let collisionSystem = new CollisionSystem(playerSystem, asteroidSystem); //sample collision system
+		let playerSystem = new PlayerSystem(new Player(WIDTH/2, HEIGHT/2)); //updates and renders player, contains the player
+		let asteroidSystem = new GameObjectSystem(); //updates and renders asteriods, contains the array of asteroids
+		let enemySystem = new GameObjectSystem(); //updates and renders enemies, contains the array of enemies
+		// let collisionSystem = new CollisionSystem(playerSystem, asteroidSystem); //sample collision system
+			//checks and handles collisions
+			//call damage() on game objects if they have been hit
+			//call destroy() on game objects if they have been destroyed
 		let bossSystem = undefined;
-		
+		//transitionSystem = new System();
+
 		//Spawning & levelling TODO use preset levels array on the LevelSet
 		let levelPresetsSupplier = LevelPresets.getPresets; //returns an array of Level presets
 		let levelSystem = new LevelSystem(levelPresetsSupplier, playerSystem, asteroidSystem, enemySystem, bossSystem); // levels, playerSystem, asteroidSystem, enemySystem, bossSystem)
-		
+
 		//Add your System to the main playingState
 		//eventlisteners belonging to each system will be automaticlaly registered with this state.
 		this.addSystem(enemySystem);
 		this.addSystem(asteroidSystem);
 		this.addSystem(playerSystem);
 		this.addSystem(levelSystem);
-		this.addSystem(collisionSystem);
-		
+		// this.addSystem(collisionSystem);
+
 		let gameWonListener = new EventListener(EventFilter.GAME, function(event) {
 			if (event.getEventEnum() == EventEnum.GAME_WON) {
 				console.log('Game won');
-				//TODO handle when the game is won. 
+				//TODO handle when the game is won.
 				//transition to GameWon state
 			}
 		});
 		this.registerEventListener(gameWonListener);
+	}
+
+	update() {
+		this.dequeueEvent();
+		for (let sys of this.systems) {
+			sys.update();
+		}
 	}
 
 	render() {

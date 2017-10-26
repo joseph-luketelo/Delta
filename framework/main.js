@@ -3,13 +3,8 @@
 	Contains entry and main loop methods that are called by the page on load.
 */
 
-
-/* GLOBAL VARIABLES */
-const CANVAS = document.getElementById("canvas_id");
-const CTX = CANVAS.getContext("2d"); //any object can access the context & draw stuff
-const WIDTH = CANVAS.width;
-const HEIGHT = CANVAS.height;
-const ENGINE = new GameEngine();
+//Other globals declared or defined in globals.js
+ENGINE = new GameEngine();
 
 //entry method: called by the html page, after it's is done loading (script tags must use the "defer" attribute)
 function setup() {
