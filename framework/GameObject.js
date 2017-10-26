@@ -14,6 +14,8 @@ class GameObject {
 		this.isActive = true; //use for flagging for removal, or other functionality,
 		this.points = points; //number of points to add to score if this obj is destroyed.
 		this.transform = new Transform();
+		this.velocity = new Point();
+
 		this.eventListeners = new Array();
 		this.eventPublisher = new EventPublisher();
 	}
@@ -51,16 +53,14 @@ class GameObject {
 		return this.eventListeners;
 	}
 
-	setLocation(x, y) {
-		this.transform.setLocation(x, y);
-	}
-
-	getLocation() {
-		return this.transform.getLocation();
-	}
-
+	setLocation(x, y) {this.transform.setLocation(x, y); }
+	getLocation() { return this.transform.getLocation(); }
 	getX() { return this.transform.getX(); }
 	getY() { return this.transform.getY(); }
+
+	getVelocity() { return this.velocity; }
+	setVelocity(x, y) { this.velocity.set(x, y); }
+	setVelocityP(point) { this.velocity.setPoint(point); }
 
 	getPoints() {
 		return this.points;

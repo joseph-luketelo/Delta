@@ -16,14 +16,7 @@ class Player extends GameObject {
 		this.speed = 2;
 		this.projectiles = new Array(); //NOTE: do not reassign. An array containing player's projectiles.
 	}
-	
-	// setup() {
-	// 	this.transform.setLocation(this.startLocation.getX(), this.startLocation.getY());
-	// 	while (this.projectiles.length > 0) {
-	// 		this.projectiles.pop();
-	// 	}
-	// }
-	
+
 	update() {
 		if (ENGINE.getKeyState().getKey('w')) {
 			this.move(0, -this.speed);
@@ -41,7 +34,7 @@ class Player extends GameObject {
 	move(x, y) {
 		this.transform.getLocation().add(x, y);
 	}
-	
+
 	rotate(radians) {
 		const rot = this.getRotation();
 		this.transform.setRotation(rot + radians);
@@ -59,9 +52,4 @@ class Player extends GameObject {
 	getX() { return this.transform.getX(); }
 	getY() { return this.transform.getY(); }
 	getRotation() { return this.transform.getRotation(); }
-	
-	//Used by CollisionSystem?
-	// getProjectiles() {
-	// 	return this.projectiles();
-	// }
 }
