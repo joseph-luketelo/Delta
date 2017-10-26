@@ -5,3 +5,9 @@ const WIDTH = CANVAS.width;
 const HEIGHT = CANVAS.height;
 
 let ENGINE = undefined;
+
+
+// Utility functions
+const randInt = function(min, max) {
+	return Math.random() * (max - min) + min;
+}

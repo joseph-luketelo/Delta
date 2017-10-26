@@ -1,5 +1,5 @@
 //Enum containing common colors.
-let Colors = {
+const Colors = {
 	RED: "rgba(255, 0, 0, 255)",
 	GREEN: "rgba(0, 255, 0, 255)",
 	BLUE: "rgba(0, 0, 255, 255)",

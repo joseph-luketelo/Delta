@@ -10,10 +10,12 @@
 */
 
 class GameObject {
-	constructor(points = 0) {
+	constructor(points = 0, life = 100) {
 		this.offscreenBuffer = 100;
 		this.isActive = true; //use for flagging for removal, or other functionality,
 		this.points = points; //number of points to add to score if this obj is destroyed.
+		this.life = life;
+
 		this.transform = new Transform();
 		this.velocity = new Point();
 
@@ -22,7 +24,6 @@ class GameObject {
 	}
 
 	// Override for specific behaviours.
-	// setup() {}
 	update() {}
 	render() {}
 
@@ -32,7 +33,6 @@ class GameObject {
 		if (e instanceof Event == false) { throw new TypeError(); }
 		this.eventPublisher.publishEvent(e);
 	}
-
 
 	//return true if thsi object is off-screen.
 	//includes offscreenBuffer, incase objects also need to spawn offscreen.

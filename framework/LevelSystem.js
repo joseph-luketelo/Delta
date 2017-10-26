@@ -32,7 +32,7 @@ Modes: scroller, asteroid, boss
 
 */
 
-let Mode = {
+const Mode = {
 	ASTEROID: "ASTEROID",
 	SCROLLER: {
 		type: "SCROLLER",
@@ -43,10 +43,9 @@ let Mode = {
 	BOSS_S: "BOSS_S"
 }
 
-
 /*	A Container object for predefined levels
 */
-let LevelPresets = {
+const LevelPresets = {
 	/*	naming: lvl_#type
 		#: level number
 		type s: scroller
@@ -55,28 +54,7 @@ let LevelPresets = {
 		type bs: boss & scroller
 	*/
 
-	/* TEMPLATE LEVEL
-	lvl_00_template: function() { //Level supplier
-		const mode = Mode.SCROLLER;
-		const levelNum = 0;
-		const a_supplier = function() { return new TestAsteroid(); };
-		const a_spawnFreqRange = new Point(1, 1); //frequency range to spawn asteroids (frames)
-		const a_numPerSpawnRange = new Point(1, 1); //number of asteroids to spawn at each spawn interval
-		const a_maxNum = 5; //max number of asteroids to spawn for this level
-		const asteroidSpawner = new ObjectSpawner(a_supplier, a_spawnFreqRange, a_numPerSpawnRange, a_maxNum);
-
-		const e_supplier = function() { return new TestAsteroid(); };
-		const e_spawnFreqRange = new Point(1, 1); //frequency range to spawn enemies (frames)
-		const e_numPerSpawnRange = new Point(1, 1); //number of enemies to spawn at each spawn interval
-		const e_maxNum = 5; //max number of enemies to spawn for this level
-		const enemySpawner = new ObjectSpawner(e_supplier, e_spawnFreqRange, e_numPerSpawnRange, e_maxNum);
-
-		const targetScore = -1;
-		return new Level(mode, levelNum, targetScore, asteroidSpawner, enemySpawner, undefined);
-	*/
-
-	//Return a new Level
-	level_01s: function() { //Level supplier
+	level_01: function() { //Level supplier
 		const mode = Mode.SCROLLER;
 		const levelNum = 1;
 		const a_supplier = function() {
@@ -90,9 +68,10 @@ let LevelPresets = {
 			return ast;
 		};
 
-		const a_spawnFreqRange = new Point(1, 1); //frequency range to spawn asteroids (frames)
+		const a_spawnFreqRange = new Point(10, 50); //frequency range to spawn asteroids (frames)
 		const a_numPerSpawnRange = new Point(1, 1); //number of asteroids to spawn at each spawn interval
-		const a_maxNum = 5; //max number of asteroids to spawn for this level
+		const a_maxNum = -1; //max number of asteroids to spawn for this level
+		// const a_maxNum = 5; //max number of asteroids to spawn for this level
 		const asteroidSpawner = new ObjectSpawner(a_supplier, a_spawnFreqRange, a_numPerSpawnRange, a_maxNum);
 
 		const e_supplier = function() { return new TestEnemy(); };
@@ -105,7 +84,7 @@ let LevelPresets = {
 		return new Level(mode, levelNum, targetScore, asteroidSpawner, enemySpawner, undefined);
 	},
 
-	level_02s: function() { //Level supplier
+	level_02: function() {
 		const mode = Mode.SCROLLER;
 		const levelNum = 2;
 		const a_supplier = function() {
@@ -136,10 +115,42 @@ let LevelPresets = {
 	},
 
 
+	level_a00: function() {
+		const mode = Mode.ASTEROID;
+		const levelNum = 2;
+		const a_supplier = function() {
+			let ast = new TestAsteroid();
+			// let dir = randInt(0, 4);
+			// let x = mode.ast_start_x_range.rand();
+			// let y = mode.ast_start_y_range.rand();
+			// ast.setLocation(x, y);
+			// let dx = new Point(-0.1, 0.1).rand();
+			// let dy = new Point(2, 5).rand();
+			// ast.setVelocity(dx, dy);
+			return ast;
+		};
+
+		const a_spawnFreqRange = new Point(1, 1); //frequency range to spawn asteroids (frames)
+		const a_numPerSpawnRange = new Point(1, 1); //number of asteroids to spawn at each spawn interval
+		const a_maxNum = 10; //max number of asteroids to spawn for this level
+		// const a_maxNum = -1; //max number of asteroids to spawn for this level
+		const asteroidSpawner = new ObjectSpawner(a_supplier, a_spawnFreqRange, a_numPerSpawnRange, a_maxNum);
+
+		const e_supplier = function() { return new TestEnemy(); };
+		const e_spawnFreqRange = new Point(1, 1); //frequency range to spawn enemies (frames)
+		const e_numPerSpawnRange = new Point(1, 1); //number of enemies to spawn at each spawn interval
+		const e_maxNum = 10; //max number of enemies to spawn for this level
+		const enemySpawner = new ObjectSpawner(e_supplier, e_spawnFreqRange, e_numPerSpawnRange, e_maxNum);
+
+		const targetScore = 50;
+		return new Level(mode, levelNum, targetScore, asteroidSpawner, enemySpawner, undefined);
+	},
+
+
 	// Return a new array of all level presets
 	getPresets: function() {
 		const CLASS = LevelPresets;
-		return [CLASS.level_01s(), CLASS.level_02s()];
+		return [CLASS.level_01(), CLASS.level_02()];
 	}
 }
 
@@ -189,13 +200,8 @@ class ObjectSpawner {
 		this.isReady = false;
 	}
 
-	getIsReady() {
-		return this.isReady;
-	}
-
-	getBuffer() {
-		return this.objBuffer;
-	}
+	getIsReady() { return this.isReady; }
+	getBuffer() { return this.objBuffer; }
 }
 
 //Contains data about the current level.
@@ -224,30 +230,23 @@ class Level {
 		for (let spawner of this.spawners) {
 			spawner.update();
 			if (spawner.getIsReady()) {
-				spawner.spawn(/*TODO args*/);
+				spawner.spawn(/*args*/);
 				spawner.resetTimer();
 			}
 		}
 	}
 
-	//display level stuff
 	render() {
 		CTX.fillStyle = Colors.BLACK;
-		//TODO font style
-		CTX.fillText("level: " + this.levelNum, WIDTH/2, 10);
+		CTX.fillText("level: " + this.levelNum, WIDTH/2, 10); //TODO font style
 	}
 
-	//TODO set/restrict player movement. do in GameModeManager instead?
 	onEnter() {}
 	onExit() {}
-
 	getMode() { return this.mode; }
 	getLevelNum() { return this.levelNum; }
 	getTargetScore() { return this.targetScore; }
-
-	getAsteroidBuffer() {
-		return this.asteroidSpawner.getBuffer();
-	}
+	getAsteroidBuffer() { return this.asteroidSpawner.getBuffer(); }
 	getEnemyBuffer() {
 		return this.enemySpawner == undefined ? undefined : this.enemySpawner.getBuffer();
 	}
@@ -320,19 +319,14 @@ class LevelSystem extends System {
 	checkNextLevelCondition() {
 		if (this.levelCondition()) {
 			this.goToNextLevel();
-
 		}
 	}
 
 	// Return true if player's score has reached the level's target score.
-	isScoreReached() {
-		return this.score >= this.currentLevel.getTargetScore();
-	}
-
+	isScoreReached() { return this.score >= this.currentLevel.getTargetScore(); }
 	// Return true if there are no active asteroids or enemies left.
-	isLevelCleared() {
-		return (this.asteroidSystem.getLength() == 0 && this.enemySystem.getLength() == 0);
-	}
+
+	isLevelCleared() { return (this.asteroidSystem.getLength() == 0 && this.enemySystem.getLength() == 0); }
 
 	// Proceed to the next level, or publish a game won Event if all levels have been cleared.
 	goToNextLevel() {
@@ -342,7 +336,7 @@ class LevelSystem extends System {
 			this.currentLevel = this.levels[this.levelCount];
 			this.currentLevel.onEnter();
 		} else { //if next level is undefined, then all levels have been cleared.
-			if (this.levelsCleared == false) {
+			if (this.levelsCleared == false) { //check flag, ensure only called once
 				this.levelsCleared = true;
 				const event = new Event(EventFilter.GAME, EventEnum.GAME_WON, undefined);
 				this.publishEvent(event);
@@ -358,11 +352,26 @@ class LevelSystem extends System {
 	setPlayerMovement(isTopDown) {
 		//TODO restrict player movement based on mode
 	}
-
 }
 
-
-
+let Images = {
+	asteroid: {
+		image: new Image(),
+		width: 51,
+		height: 49,
+		wOffset: 51/2,
+		hOffset: 49/2,
+	},
+	alien: {
+		image: new Image(),
+		width: 51,
+		height: 51,
+		wOffset: 51/2,
+		hOffset: 51/2,
+	}
+}
+Images.asteroid.image.src = "assets/asteroid.png";
+Images.alien.image.src = "assets/alien.png";
 
 //Placeholder asteroid class, black rotating squares.
 class TestAsteroid extends GameObject {
@@ -370,13 +379,15 @@ class TestAsteroid extends GameObject {
 		super(points);
 		this.rotSpd = Math.random() * (Math.PI/30);
 		this.velocity.mult(2);
+		this.image = Images.asteroid;
 	}
 
 	update() {
 		this.transform.getLocation().addPoint(this.velocity);
 		this.transform.setRotation(this.transform.getRotation() + this.rotSpd);
 		if (this.isOffscreen()) {
-			this.destroy();
+			// this.destroy(); //TODO call deactivate() instead.
+			this.deactivate();
 		}
 	}
 
@@ -384,13 +395,8 @@ class TestAsteroid extends GameObject {
 		CTX.save();
 		CTX.translate(this.transform.getX(), this.transform.getY());
 		CTX.rotate(this.transform.getRotation());
-		CTX.fillStyle = Colors.BLACK;
-		CTX.fillRect(-5, -5, 10, 10);
+		CTX.drawImage(this.image.image, -this.image.wOffset, -this.image.hOffset);
 		CTX.restore();
-	}
-
-	getLife() {
-		return this.life;
 	}
 }
 
@@ -399,9 +405,9 @@ class TestEnemy extends TestAsteroid {
 	constructor(points = 10) {
 		super(points);
 		this.rotSpd = 0;
+		this.image = Images.alien;
 	}
 	render() {
-		CTX.fillStyle = Colors.BLUE;
-		CTX.fillRect(this.transform.getX(), this.transform.getY(), 10, 10);
+		CTX.drawImage(this.image.image, -this.image.wOffset, -this.image.hOffset);
 	}
 }
