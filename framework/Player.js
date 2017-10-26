@@ -1,45 +1,52 @@
 /*
 	A simple Player that can move horizontally on the screen.
-	(use a and d keys)
+	(use wasd keys to move)
 	See GameObject.js for more details
 */
-// var player_ship = new Image();
-// player_ship.onload = function() {
-// };
-// player_ship.src = 'assets/player_ship.png';
 
-var player_idle = new Image();
-player_idle.onload = function() {
-};
-player_idle.src = 'assets/ship_idle.png';
 
-var player_forward = new Image();
-player_forward.onload = function() {
-};
-player_forward.src = 'assets/ship_forward.png';
+class PlayerSprite {
+	constructor() {
+		//setup images
+		this.idle = new Image();
+		this.forward = new Image();
+		this.backward = new Image();
+		this.left = new Image();
+		this.right = new Image();
+		this.idle.src = 'assets/ship_idle.png';
+		this.forward.src = 'assets/ship_forward.png';
+		this.backward.src = 'assets/ship_backward.png';
+		this.left.src = 'assets/ship_left.png';
+		this.right.src = 'assets/ship_right.png';
+		
+		this.shift = 0;
+		this.frameWidth = 50;
+		this.frameHeight = 90;
+		this.widthOffset = this.frameWidth/2;
+		this.heightOffset = this.frameHeight/2
+		this.totalFrames = 60;
+		this.currentFrame = 1;
+		this.currentImage = this.idle;
+	}
+	update() {
+		this.shift += this.frameWidth;
+		if (this.currentFrame == this.totalFrames) {
+			this.shift = 0;
+			this.currentFrame = 1;
+		}
+		this.currentFrame++;
+		this.currentImage = this.idle;
+	}
+	render() {
+		CTX.drawImage(this.currentImage, this.shift, 0, this.frameWidth, this.frameHeight, -this.widthOffset, -this.heightOffset, this.frameWidth, this.frameHeight);
+	}
+	selectForward() { this.currentImage = this.forward; }
+	selectIdle() { this.currentImage = this.idle; }
+	selectBackward() { this.currentImage = this.backward; }
+	selectLeft() { this.currentImage = this.left; }
+	selectRight() { this.currentImage = this.right; }
+}
 
-var player_backward = new Image();
-player_backward.onload = function() {
-};
-player_backward.src = "assets/ship_backward.png";
-
-var player_left = new Image();
-player_left.onload = function() {
-};
-player_left.src = 'assets/ship_left.png';
-
-var player_right = new Image();
-player_right.onload = function() {
-};
-player_right.src = 'assets/ship_right.png';
-
-var shift = 0;
-var frameWidth = 50;
-var frameHeight = 90;
-var totalFrames = 60;
-var currentFrame = 0;
-
-var player_state = player_idle;
 
 class Player extends GameObject {
 	constructor(x = 0, y = 0) {
@@ -47,34 +54,32 @@ class Player extends GameObject {
 		this.startLocation = new Point(x, y);
 		this.transform.setLocation(x, y);
 		this.speed = 2;
-		this.projectiles = new Array(); //NOTE: do not reassign. An array containing player's projectiles.
+		this.projectiles = new Array();
+		this.sprite = new PlayerSprite();
+		this.width = 50; //same as sprite
+		this.height = 90;
 	}
 	
-	// setup() {
-	// 	this.transform.setLocation(this.startLocation.getX(), this.startLocation.getY());
-	// 	while (this.projectiles.length > 0) {
-	// 		this.projectiles.pop();
-	// 	}
-	// }
-	
 	update() {
+		this.sprite.update();
 		if (ENGINE.getKeyState().getKey('w')) {
 			this.move(0, -this.speed);
-			player_state= player_forward;
+			this.sprite.selectForward();
 		}
 		if (ENGINE.getKeyState().getKey('a')) { //NOTE possible optimization, set up reference to ENGINE's KeyState in constructor.
 			this.move(-this.speed, 0);
-			player_state = player_left;
+			this.sprite.selectLeft();
 		}
 		if (ENGINE.getKeyState().getKey('s')) {
 			this.move(0, this.speed);
-			player_state = player_backward;
+			this.sprite.selectBackward();
 		}
 		if (ENGINE.getKeyState().getKey('d')) {
 			this.move(this.speed, 0);
-			player_state = player_right;
+			this.sprite.selectRight();
 		}
 	}
+	
 	move(x, y) {
 		this.transform.getLocation().add(x, y);
 	}
@@ -85,33 +90,19 @@ class Player extends GameObject {
 	}
 	
 	render() {
-		//TODO rotation
 		CTX.save();
 		CTX.translate(this.getX(), this.getY());
 		CTX.rotate(this.getRotation());
-		//CTX.drawImage(player_idle, 0, 0, player_idle.width, player_idle.height);
-		CTX.drawImage(player_state, shift, 0, frameWidth, frameHeight, 0, 0, frameWidth, frameHeight);
-		shift += 50;
-		if (currentFrame== totalFrames) {
-			shift = 0;
-			currentFrame = 0;
-		}
-		currentFrame++;
-		player_state = player_idle;
+		this.sprite.render();
 		CTX.restore();
 	}
-	
 	
 	getX() { return this.transform.getX(); }
 	getY() { return this.transform.getY(); }
 	getRotation() { return this.transform.getRotation(); }
 	
-
- 
-
-	
 	//Used by CollisionSystem?
-	// getProjectiles() {
-	// 	return this.projectiles();
-	// }
+	getProjectiles() {
+		return this.projectiles();
+	}
 }
