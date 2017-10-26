@@ -22,7 +22,7 @@ class GameObject {
 	// setup() {}
 	update() {}
 	render() {}
-	
+
 	// Publish an event to current event queue on current game state
 	// @param e: the Event to publish
 	publishEvent(e) {
@@ -50,12 +50,22 @@ class GameObject {
 	getEventListeners() {
 		return this.eventListeners;
 	}
-	
+
+	setLocation(x, y) {
+		this.transform.setLocation(x, y);
+	}
+
 	getLocation() {
 		return this.transform.getLocation();
 	}
-	
-	
+
+	getX() { return this.transform.getX(); }
+	getY() { return this.transform.getY(); }
+
+	getPoints() {
+		return this.points;
+	}
+
 	//set to inactive and create event
 	//@param points an integer number of points to add to the score. Score is kept on the LevelManager.
 	destroy() {
