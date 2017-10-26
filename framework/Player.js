@@ -1,10 +1,8 @@
 /*
-	A simple Player that can move horizontally on the screen.
+  	A simple Player that can move horizontally on the screen.
 	(use wasd keys to move)
-	See GameObject.js for more details
+  	See GameObject.js for more details
 */
-
-
 class PlayerSprite {
 	constructor() {
 		//setup images

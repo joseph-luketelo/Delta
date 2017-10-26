@@ -1,0 +1,160 @@
+Some basic javascript stuff. hopefully this will help save some time combing through tutorials.
+My javascript is a bit rusty, so please correct me if i've made any errors.
+-amanda
+
+basic html container:
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="UTF-8">
+		<script src="main.js" defer></script> <!-- this is where script(s) are loaded. -->
+		<title> framework </title>
+	</head>
+	<body onload="setup()"> <!-- this is where the entry method (in main.js) is called. -->
+		<canvas id="canvas_id" width="900" height="600"></canvas>
+	</body>
+	</html>
+
+Basic flow: html page loads, calls a method in your .js script using the onload atttribute.
+Scripts must be loaded via the <script> tag. use the defer attribute, so that the script can access elements on the page, ex canvas.
+Note the "onload" attribute in the body. this calls the entry method, in this case setup(), in main.js
+You can set the "onload" attribute to call any method within your script.
+main.js:
+	//entry method: called once after the page is done loading.
+	function setup() {
+		window.requestAnimationFrame(update); //starts looping
+	}
+	
+	//main update loop, called every frame
+	function update() {
+		window.requestAnimationFrame(update); //continue looping. 
+		//^ this requests the next animation frame from the browser.
+	}
+//end main.js
+
+
+
+running:
+open the .html file in any browser.
+make sure the html includes all the necessary scripts.
+referesh the page to "re-compile"
+
+
+
+logging 7 debugging:
+in chrome, ctrl+shift+j or ctrl+shift+i to bring up the console & dev tools panel.
+use console.log() in your code to log stuff.
+this panel can also be used for profiling, debugging, etc
+
+
+
+
+defining variables:
+-local variables are defined using "let" or "var". "let" is better for variable scope reasons.
+let foo = 6;
+let bar = "six";
+foo = bar; //this is allowed. there's not really any type safety, so... be careful.
+
+
+
+looping:
+for (let i = 0; i < 5; i++) {}
+//see also:
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in
+
+
+
+arrays:
+	declaring arrays:
+	https://stackoverflow.com/questions/931872/what-s-the-difference-between-array-and-while-declaring-a-javascript-ar
+	-you can push and pop (etc) from basic arrays in javascript.
+	https://www.w3schools.com/js/js_arrays.asp
+	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
+
+
+
+defining a class:
+	class MyClass {
+		constructor(num) { //params don't have types, only names.
+			//class variables go here. this serves as both the declaration and definition place for vars.
+			// the "this" keyword must be used when referencing instance vars and methods from within the class/instance.
+			this.foo = null;
+			this.myVar = num;
+		}
+
+		//method definitions. return types are not used.
+		func() {
+		}
+
+		func2() {
+			this.func(); //referencing a method on this class
+			return this.myVar;
+		}
+
+		//static functions:
+		static staticFunc() {
+		}
+	}
+	foobar = new MyClass(6); //create an instance
+//note that classes must be defined before they are used, ie above any global functions, at the top of the .js file.
+
+//extending a class:
+	class MySubclass extends MyClass {
+		constructor() {
+			super(7); //call this first.
+		}
+		//overrides func2 in MyClass.
+		func2() {
+			return 8;
+		}
+	}
+
+a comprehensive article on classes:
+http://www.benmvp.com/learning-es6-classes/
+
+
+
+
+enums:
+https://stijndewitt.com/2014/01/26/enums-in-javascript/
+
+//examples:
+let testEnum = {
+	A: 0,
+	B: 1,
+	C: 2
+}
+
+//or
+let ColorEnum = {
+	RED: "rgba(255, 0, 0, 255)",
+	GREEN: "rgba(0, 255, 0, 255)",
+	BLUE: "rgba(0, 0, 255, 255)",
+}
+
+//using a class and getters also works, but is more wordy:
+class ColorEnum2 {
+	//using getters (note the "get" keyword):
+	static get RED() {
+		return "rgba(255, 0, 0 255)";
+	}
+	static get BLUE() {
+		return "rgba(0, 0, 255, 255)";
+	}
+}
+ColorEnum2.BLUE; //access. note lack of brackets ()
+
+
+
+graphics & using canvas:
+//the canvas element lives on the html page.
+//this is how you can acces it from js:
+const canvas = document.getElementById("canvas_id"); //the id may be different, depending on the html
+// a canvas might be defined in the .html as:
+<canvas id="canvas_id" width="900" height="600"></canvas>
+
+// the context is used for graphics and drawing and stuff:
+const ctx = canvas.getContext("2d"); //any object can access the context & draw stuff
+for common rendering methods:
+https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
