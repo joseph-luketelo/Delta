@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<!-- Order of scripts is important. -->
+	<script defer>
+		"use strict";
+	</script>
+	<script src="Colors.js" defer></script>
+	<script src="EventFilter.js" defer></script>
+	<script src="EventEnum.js" defer></script>
+	<script src="RawKeyMap.js" defer></script>
+	<script src="GameEngine.js" defer></script>
+	<script src="GameObject.js" defer></script>
+	
+	<script src="Player.js" defer></script>
+	<script src="Bullet.js" defer></script>
+	<script src="Event.js" defer></script>
+	<script src="EventListener.js" defer></script>
+	<script src="EventPublisher.js" defer></script>
+	<script src="EventQueue.js" defer></script>
+	<script src="ListenerMap.js" defer></script>
+	<script src="State.js" defer></script>
+	<script src="GameState.js" defer></script>
+	<script src="PlayingGameState.js" defer></script>
+	<script src="StartMenuGameState.js" defer></script>
+	<script src="KeyState.js" defer></script>
+	<script src="Point.js" defer></script>
+	<script src="Transform.js" defer></script>
+	<script src="System.js" defer></script>
+	<script src="CollisionSystem.js" defer></script>
+	<script src="GameObjectSystem.js" defer></script>
+		
+	<script src="PlayerSystem.js" defer></script>
+	<script src="BulletSystem.js" defer></script>
+	<script src="LevelSystem.js" defer></script>
+	<script src="main.js" defer></script> <!-- this script must be listed last. -->
+	<title> framework </title>
+	<style>
+	body {
+		background-color: #08080a;
+		color:#acdfef;
+		font-family:"courier";
+		overflow: hidden;
+		font-weight:900;
+	}
+	canvas {
+		border: 2px solid #151515;
+		display: block;
+		padding-left: 0;
+		padding-right: 0;
+		margin: auto;
+	}
+	</style>
+</head>
+<body onload="setup()">
+	<canvas id="canvas_id" width="900" height="600"></canvas>
+</body>
+</html>
