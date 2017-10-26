@@ -84,9 +84,12 @@ let LevelPresets = {
 			let x = mode.ast_start_x_range.rand();
 			let y = mode.ast_start_y_range.rand();
 			ast.setLocation(x, y);
-			ast.setVelocity(0, 5);
+			let dx = new Point(-0.1, 0.1).rand();
+			let dy = new Point(2, 5).rand();
+			ast.setVelocity(dx, dy);
 			return ast;
 		};
+
 		const a_spawnFreqRange = new Point(1, 1); //frequency range to spawn asteroids (frames)
 		const a_numPerSpawnRange = new Point(1, 1); //number of asteroids to spawn at each spawn interval
 		const a_maxNum = 5; //max number of asteroids to spawn for this level
@@ -98,14 +101,24 @@ let LevelPresets = {
 		const e_maxNum = 5; //max number of enemies to spawn for this level
 		const enemySpawner = new ObjectSpawner(e_supplier, e_spawnFreqRange, e_numPerSpawnRange, e_maxNum);
 
-		const targetScore = 100;
+		const targetScore = 50;
 		return new Level(mode, levelNum, targetScore, asteroidSpawner, enemySpawner, undefined);
 	},
 
 	level_02s: function() { //Level supplier
 		const mode = Mode.SCROLLER;
 		const levelNum = 2;
-		const a_supplier = function() { return new TestAsteroid(); };
+		const a_supplier = function() {
+			let ast = new TestAsteroid();
+			let x = mode.ast_start_x_range.rand();
+			let y = mode.ast_start_y_range.rand();
+			ast.setLocation(x, y);
+			let dx = new Point(-0.1, 0.1).rand();
+			let dy = new Point(2, 5).rand();
+			ast.setVelocity(dx, dy);
+			return ast;
+		};
+
 		const a_spawnFreqRange = new Point(1, 1); //frequency range to spawn asteroids (frames)
 		const a_numPerSpawnRange = new Point(1, 1); //number of asteroids to spawn at each spawn interval
 		const a_maxNum = 10; //max number of asteroids to spawn for this level
@@ -118,7 +131,7 @@ let LevelPresets = {
 		const e_maxNum = 10; //max number of enemies to spawn for this level
 		const enemySpawner = new ObjectSpawner(e_supplier, e_spawnFreqRange, e_numPerSpawnRange, e_maxNum);
 
-		const targetScore = 200;
+		const targetScore = 50;
 		return new Level(mode, levelNum, targetScore, asteroidSpawner, enemySpawner, undefined);
 	},
 
@@ -170,7 +183,6 @@ class ObjectSpawner {
 		}
 	}
 
-	//TODO
 	spawn(args) {
 		this.totalSpawned += 1;
 		this.objBuffer.push(this.objectSupplier(/* use args */));
@@ -207,12 +219,6 @@ class Level {
 			console.warn("Warning: no ObjectSpawners were initialized.");
 		}
 	}
-
-	// setup() {
-	// 	for (let spawner of this.spawners) {
-	// 		spawner.setup();
-	// 	}
-	// }
 
 	update() {
 		for (let spawner of this.spawners) {
@@ -255,14 +261,17 @@ class LevelSystem extends System {
 		this.levelPresetsSupplier = levelPresetsSupplier; //gets a new array of predefined levels
 		this.levels = this.levelPresetsSupplier();
 		this.currentLevel = this.levels[0];
-		this.levelCount = 0;
+		this.levelCount = 0; //levels[] index
+		this.mode = this.currentLevel.getMode();
+		this.levelCondition = undefined;
+		this.setLevelCondition(this.mode);
 
 		this.systems = new Array();
 		this.asteroidSystem = asteroidSystem;
 		this.enemySystem = enemySystem;
 
 		//listen for Destroy events, add points to score
-		let instance = this;
+		const instance = this;
 		let destroyListener = new EventListener(EventFilter.DESTROY, function(event) {
 			let points = event.getData();
 			instance.addToScore(points);
@@ -271,6 +280,15 @@ class LevelSystem extends System {
 
 		this.levelsCleared = false; //flag for preventing multiple gameWon events
 		this.addEventListener(destroyListener);
+	}
+
+	//set level's win condition base on the mode
+	setLevelCondition(mode) {
+		if (mode.type == "ASTEROIDS") {
+			this.levelCondition = this.isScoreReached;
+		} else if (mode.type == "SCROLLER") {
+			this.levelCondition = this.isScoreReached;
+		} else { throw new TypeError(); }
 	}
 
 	onEnter() {}
@@ -300,12 +318,10 @@ class LevelSystem extends System {
 
 	// Check if game should proceed to next level
 	checkNextLevelCondition() {
-		// TODO decide when to use isScoreReached() and when to use isLevelCleared()
-		if (this.isScoreReached()) {
+		if (this.levelCondition()) {
 			this.goToNextLevel();
 
 		}
-		// this.isLevelCleared();
 	}
 
 	// Return true if player's score has reached the level's target score.
@@ -343,12 +359,7 @@ class LevelSystem extends System {
 		//TODO restrict player movement based on mode
 	}
 
-
 }
-
-
-
-
 
 
 
@@ -359,16 +370,14 @@ class TestAsteroid extends GameObject {
 		super(points);
 		this.rotSpd = Math.random() * (Math.PI/30);
 		this.velocity.mult(2);
-		this.life = 100;
 	}
 
 	update() {
-		this.life--;
-		if (this.life <= 0) {
-			this.destroy();
-		}
 		this.transform.getLocation().addPoint(this.velocity);
 		this.transform.setRotation(this.transform.getRotation() + this.rotSpd);
+		if (this.isOffscreen()) {
+			this.destroy();
+		}
 	}
 
 	render() {

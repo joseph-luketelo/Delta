@@ -11,6 +11,7 @@
 
 class GameObject {
 	constructor(points = 0) {
+		this.offscreenBuffer = 100;
 		this.isActive = true; //use for flagging for removal, or other functionality,
 		this.points = points; //number of points to add to score if this obj is destroyed.
 		this.transform = new Transform();
@@ -32,14 +33,18 @@ class GameObject {
 		this.eventPublisher.publishEvent(e);
 	}
 
-	getIsActive() {
-		return this.isActive;
+
+	//return true if thsi object is off-screen.
+	//includes offscreenBuffer, incase objects also need to spawn offscreen.
+	isOffscreen() {
+		return (this.getX() < 0 - this.offscreenBuffer) ||
+				(this.getX() > WIDTH + this.offscreenBuffer) ||
+				(this.getY() < 0 - this.offscreenBuffer) ||
+				(this.getY() > HEIGHT + this. offscreenBuffer);
 	}
 
-	//deactivate, possibly flag for removal
-	deactivate() {
-		this.isActive = false;
-	}
+	getIsActive() { return this.isActive; }
+	deactivate() { this.isActive = false; } //deactivate, possibly flag for removal
 
 	addEventListener(eventListener) {
 		if (eventListener instanceof EventListener == false) { throw new TypeError(); }
@@ -47,11 +52,7 @@ class GameObject {
 	}
 
 	// Return this object's array of EventListeners.
-	//use this for adding this object's listeners to a System's, or registering
-	//this object's listners with a GameState.
-	getEventListeners() {
-		return this.eventListeners;
-	}
+	getEventListeners() { return this.eventListeners; }
 
 	setLocation(x, y) {this.transform.setLocation(x, y); }
 	getLocation() { return this.transform.getLocation(); }
@@ -62,9 +63,7 @@ class GameObject {
 	setVelocity(x, y) { this.velocity.set(x, y); }
 	setVelocityP(point) { this.velocity.setPoint(point); }
 
-	getPoints() {
-		return this.points;
-	}
+	getPoints() { return this.points; } //return how many points this object is worth
 
 	//set to inactive and create event
 	//@param points an integer number of points to add to the score. Score is kept on the LevelManager.
