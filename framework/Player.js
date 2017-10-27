@@ -16,7 +16,7 @@ class PlayerSprite {
 		this.backward.src = 'assets/ship_backward.png';
 		this.left.src = 'assets/ship_left.png';
 		this.right.src = 'assets/ship_right.png';
-		
+
 		this.shift = 0;
 		this.frameWidth = 50;
 		this.frameHeight = 90;
@@ -45,6 +45,20 @@ class PlayerSprite {
 	selectRight() { this.currentImage = this.right; }
 }
 
+class PlayerBullet{
+	constructor(x,y){
+		this.xloc = x;
+		this.yloc = y;
+		this.ymove =0;
+	}
+	fireBullet(){
+		let b = new Bullet(x, y);
+	}
+	update() {
+	}
+	render() {
+	}
+}
 
 class Player extends GameObject {
 	constructor(x = 0, y = 0) {
@@ -52,12 +66,12 @@ class Player extends GameObject {
 		this.startLocation = new Point(x, y);
 		this.transform.setLocation(x, y);
 		this.speed = 2;
+		this.rotateSpeed = 0.10;
 		this.projectiles = new Array();
 		this.sprite = new PlayerSprite();
 		this.width = 50; //same as sprite
 		this.height = 90;
 	}
-	
 	update() {
 		this.sprite.update();
 		if (ENGINE.getKeyState().getKey('w')) {
@@ -65,6 +79,7 @@ class Player extends GameObject {
 			this.sprite.selectForward();
 		}
 		if (ENGINE.getKeyState().getKey('a')) { //NOTE possible optimization, set up reference to ENGINE's KeyState in constructor.
+			//this.move(-this.speed, 0);
 			this.move(-this.speed, 0);
 			this.sprite.selectLeft();
 		}
@@ -76,17 +91,18 @@ class Player extends GameObject {
 			this.move(this.speed, 0);
 			this.sprite.selectRight();
 		}
+
 	}
-	
+
 	move(x, y) {
 		this.transform.getLocation().add(x, y);
 	}
-	
+
 	rotate(radians) {
 		const rot = this.getRotation();
 		this.transform.setRotation(rot + radians);
 	}
-	
+
 	render() {
 		CTX.save();
 		CTX.translate(this.getX(), this.getY());
@@ -94,11 +110,11 @@ class Player extends GameObject {
 		this.sprite.render();
 		CTX.restore();
 	}
-	
+
 	getX() { return this.transform.getX(); }
 	getY() { return this.transform.getY(); }
 	getRotation() { return this.transform.getRotation(); }
-	
+
 	//Used by CollisionSystem?
 	getProjectiles() {
 		return this.projectiles();

@@ -15,4 +15,5 @@ class BulletSystem extends System {
 	setBullet(b) {
 		this.bullet = b;
 	}
+
 }

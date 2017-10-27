@@ -6,7 +6,7 @@ class KeyState {
 		//an array of keys we want to keep track of.
 		//values should match key names in KeyboardEvent.key
 		//TODO documentation link here
-		this.keys = ["w", "a", "s", "d", "g"];
+		this.keys = ["w", "a", "s", "d", "f", "g"];
 		this.keyMap = new Map();
 		for (let k of this.keys) {
 			this.keyMap.set(k, false);
@@ -20,7 +20,7 @@ class KeyState {
 		}
 		// console.log(key, state);
 	}
-	
+
 	clearKeys() {
 		this.keyMap.forEach(function(value, key) {
 			value = false;
