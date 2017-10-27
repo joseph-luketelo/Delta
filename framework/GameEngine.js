@@ -9,8 +9,8 @@
 class GameEngine {
 	constructor() {
 		this.keyState = new KeyState(); //keeps track of which keys are down
-		
-		// NOTE: initialization stuff in GameEngine's constructor 
+
+		// NOTE: initialization stuff in GameEngine's constructor
 		// moved to PlayingGameState's constructor.
 		this.playingState = new PlayingGameState();
 		this.currentState = this.playingState; //the GameEngine's current State
@@ -20,12 +20,12 @@ class GameEngine {
 	// Future: implement pausing
 	// pauseGame() {
 	// 	this.enterState(this.pausedState);
-	// } 
+	// }
 	// unPause() {
 	// 	this.enterState(this.playingState);
 	// }
 	//start playing a new game from the start menu
-	
+
 	//setup a new game by creating new GameStates (discard old ones)
 	setupNewGame() {
 		this.keyState.clearKeys();
@@ -33,18 +33,18 @@ class GameEngine {
 		this.currentState = this.playingState; //the GameEngine's current State
 		this.currentState.onEnter();
 	}
-	
+
 	update() {
-		//update the current GameState. the current state will update its systems.
+		//update the current GameState, which will update each of its systems.
 		this.currentState.update();
 	}
 
 	render() {
-		//render the current GameState. the current will render its systems.
+		//render the current GameState, which will render each of its systems.
 		this.currentState.render();
 	}
 
-	//receive Events, and pass to the current state to queue
+	//receive an event from some source and queue it.
 	queueEvent(e) {
 		if (e instanceof Event == false) { throw new TypeError(); }
 		this.currentState.enqueueEvent(e);
@@ -57,7 +57,7 @@ class GameEngine {
 		this.currentState = newState;
 		this.currentState.onEnter();
 	}
-	
+
 	tryEnterState(newState) {
 		if (newState instanceof State == false) { throw new TypeError(); }
 		if (this.currentState.canExit() && newState.canEnter()) {

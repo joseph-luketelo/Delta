@@ -72,6 +72,7 @@ class Player extends GameObject {
 		this.width = 50; //same as sprite
 		this.height = 90;
 	}
+  
 	update() {
 		this.sprite.update();
 		if (ENGINE.getKeyState().getKey('w')) {
@@ -115,8 +116,4 @@ class Player extends GameObject {
 	getY() { return this.transform.getY(); }
 	getRotation() { return this.transform.getRotation(); }
 
-	//Used by CollisionSystem?
-	getProjectiles() {
-		return this.projectiles();
-	}
 }

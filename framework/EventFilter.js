@@ -4,7 +4,7 @@
 	See Event.js
 */
 
-let EventFilter = {
+const EventFilter = {
 	KEYBOARD: "KEYBOARD",
 	COLLISION: "COLLISION",
 	DESTROY: "DESTROY", //when an object (asteroid, enemy, player) is destroyed

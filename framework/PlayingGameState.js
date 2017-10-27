@@ -34,11 +34,12 @@ class PlayingGameState extends GameState {
 		let bulletSystem = new BulletSystem(new Bullet(-3, -80, playerSystem));//updates and renders player bullets
 		let asteroidSystem = new GameObjectSystem(); //updates and renders asteriods
 		let enemySystem = new GameObjectSystem(); //updates and renders enemies
-		let collisionSystem = new CollisionSystem(playerSystem, asteroidSystem); //sample collision system
+    // let collisionSystem = new CollisionSystem(playerSystem, asteroidSystem); //sample collision system
+			//checks and handles collisions
+			//call damage() on game objects if they have been hit
+			//call destroy() on game objects if they have been destroyed
 		let bossSystem = undefined;
-
-
-
+		//transitionSystem = new System();
 
 		//Spawning & levelling TODO use preset levels array on the LevelSet
 		let levelPresetsSupplier = LevelPresets.getPresets; //returns an array of Level presets
@@ -51,7 +52,7 @@ class PlayingGameState extends GameState {
 		this.addSystem(playerSystem);
 		this.addSystem(bulletSystem);
 		this.addSystem(levelSystem);
-		this.addSystem(collisionSystem);
+// 		this.addSystem(collisionSystem);
 
 		let gameWonListener = new EventListener(EventFilter.GAME, function(event) {
 			if (event.getEventEnum() == EventEnum.GAME_WON) {
@@ -61,6 +62,13 @@ class PlayingGameState extends GameState {
 			}
 		});
 		this.registerEventListener(gameWonListener);
+	}
+
+	update() {
+		this.dequeueEvent();
+		for (let sys of this.systems) {
+			sys.update();
+		}
 	}
 
 	render() {

@@ -1,13 +1,3 @@
-// TODO make object lists for GameObjectSystem
-// Updated:
-// GameEngine.js
-// GameModeManager.js
-// GameObjectSystem.js
-// CollisionSystem.js
- 
-
-
-
 /*
 	A system that updates and renders an array of game objects.
 	GameObjects in an array will be automatically removed if they are set to inactive.
@@ -19,13 +9,13 @@ class GameObjectSystem extends System {
 		super();
 		this.gameObjects = new Array(); //array of game objects
 	}
-	
+
 	// Add a single GameObject
 	addObject(o) {
 		if (o instanceof GameObject == false) { throw new TypeError(); }
 		this.gameObjects.push(o);
 	}
-	
+
 	// Add an array of GameObjects
 	addObjects(gameObjects) {
 		if (gameObjects instanceof Array == false) { throw new TypeError(); }
@@ -33,18 +23,12 @@ class GameObjectSystem extends System {
 			this.addObject(o);
 		}
 	}
-	
-	// setup() {
-	// 	while (this.gameObjects.length > 0) {
-	// 		this.gameObjects.pop();
-	// 	}
-	// }
-	
+
 	//return array of objects
 	getObjects() {
 		return this.gameObjects;
 	}
-	
+
 	//update all game objects in the list, and remove inactive ones.
 	update() {
 		let toRemove = [];
@@ -67,7 +51,7 @@ class GameObjectSystem extends System {
 			o.render();
 		}
 	}
-	
+
 	getLength() {
 		return this.gameObjects.length;
 	}

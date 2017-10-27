@@ -6,7 +6,7 @@
 
 	Responsible for managing an EventQueue, and passing Events to EventListeners.
 		Since each GameState has its own EventQueue, this prevents Events from
-		disappearing if the game is paused, and prevents input events from 
+		disappearing if the game is paused, and prevents input events from
 		piling up while the game is paused.
 */
 class GameState extends State {
@@ -22,27 +22,26 @@ class GameState extends State {
 			sys.setup();
 		}
 	}
-	
+
 	update() {
 		this.dequeueEvent();
 		for (let sys of this.systems) {
 			sys.update();
 		}
 	}
-	
+
 	onEnter() { //entry logic, ex. start a timer, spawn stuff
 		for (let sys of this.systems) {
 			sys.onEnter();
 		}
 	}
-	
+
 	onExit() { //exit logic, ex stop a timer, release resources
 		for (let sys of this.systems) {
 			sys.onExit();
 		}
 	}
-	
-	
+
 	//add an event to the queue
 	enqueueEvent(e) {
 		this.eventQueue.enqueue(e);
