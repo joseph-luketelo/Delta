@@ -16,9 +16,6 @@ function setup() {
 	});
 	document.addEventListener("keyup", function(event) {
 		ENGINE.receiveRawKeyEvent(event, false);
-		// if (event.key == "q") {
-		// 	ENGINE.setupNewGame2();
-		// }
 	});
 
 	test(); //for testing
