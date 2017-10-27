@@ -1,11 +1,13 @@
 TODO:
-	- see specifications.txt
 	- Projectile class; projectiles fired by player
 
 low priority:
+	-image/canvas buffering
 	-figure out how to use REQUIREJS or something similar, for concatenating multiple js files into one.
+	- factor out transform? make x, y, rot variables on game object, or have GameObject extend Transform
+
+Observed bugs:
+	- asteroid randomly disappears (amanda)
 
 Possible bugs:
 	-missing checks for undefined/null/valid type (instanceof)
-
-	

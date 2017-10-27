@@ -7,7 +7,7 @@ class Point {
 	getY() { return this.y; }
 	setX(x) { this.x = x; }
 	setY(y) { this.y = y; }
-	
+
 	set(x, y) {
 		this.x = x;
 		this.y = y;
@@ -42,13 +42,10 @@ class Point {
 	}
 
 	normalize() {
-		let mag = magnitude();
+		let mag = this.magnitude();
 		if (mag > 0) {
-			x /= mag;
-			y /= mag;
-		} else if (mag == 0) {
-		} else {
-			//TODO throw error
+			this.x /= mag;
+			this.y /= mag;
 		}
 	}
 
@@ -69,5 +66,13 @@ class Point {
 		const x = Math.random();
 		const y = Math.random();
 		return new Point(x, y);
+	}
+
+	static newDirection(p1, p2) {
+		let x = p1.getX()  - p2.getX();
+		let y = p1.getY()  - p2.getY();
+		let dir = new Point(x, y);
+		dir.normalize();
+		return dir;
 	}
 }

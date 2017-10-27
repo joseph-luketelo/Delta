@@ -33,7 +33,9 @@ Modes: scroller, asteroid, boss
 */
 
 const Mode = {
-	ASTEROID: "ASTEROID",
+	ASTEROID: {
+		type: "ASTEROID",
+	},
 	SCROLLER: {
 		type: "SCROLLER",
 		ast_start_x_range: new Point(0, WIDTH),
@@ -55,25 +57,27 @@ const LevelPresets = {
 	*/
 
 	level_01: function() { //Level supplier
+		// level
 		const mode = Mode.SCROLLER;
 		const levelNum = 1;
+		//asteroid
 		const a_supplier = function() {
 			let ast = new TestAsteroid();
 			let x = mode.ast_start_x_range.rand();
 			let y = mode.ast_start_y_range.rand();
 			ast.setLocation(x, y);
-			let dx = new Point(-0.1, 0.1).rand();
-			let dy = new Point(2, 5).rand();
+			let dx = randFloat(-0.5, 0.5);
+			let dy = randFloat(2, 5);
 			ast.setVelocity(dx, dy);
 			return ast;
 		};
-
 		const a_spawnFreqRange = new Point(10, 50); //frequency range to spawn asteroids (frames)
 		const a_numPerSpawnRange = new Point(1, 1); //number of asteroids to spawn at each spawn interval
 		const a_maxNum = -1; //max number of asteroids to spawn for this level
 		// const a_maxNum = 5; //max number of asteroids to spawn for this level
 		const asteroidSpawner = new ObjectSpawner(a_supplier, a_spawnFreqRange, a_numPerSpawnRange, a_maxNum);
 
+		//enemy
 		const e_supplier = function() { return new TestEnemy(); };
 		const e_spawnFreqRange = new Point(1, 1); //frequency range to spawn enemies (frames)
 		const e_numPerSpawnRange = new Point(1, 1); //number of enemies to spawn at each spawn interval
@@ -85,25 +89,27 @@ const LevelPresets = {
 	},
 
 	level_02: function() {
+		// level
 		const mode = Mode.SCROLLER;
 		const levelNum = 2;
+		// asteroid
 		const a_supplier = function() {
 			let ast = new TestAsteroid();
 			let x = mode.ast_start_x_range.rand();
 			let y = mode.ast_start_y_range.rand();
 			ast.setLocation(x, y);
-			let dx = new Point(-0.1, 0.1).rand();
-			let dy = new Point(2, 5).rand();
+			let dx = randFloat(-1, 1);
+			let dy = randFloat(2, 5);
 			ast.setVelocity(dx, dy);
 			return ast;
 		};
-
 		const a_spawnFreqRange = new Point(1, 1); //frequency range to spawn asteroids (frames)
 		const a_numPerSpawnRange = new Point(1, 1); //number of asteroids to spawn at each spawn interval
 		const a_maxNum = 10; //max number of asteroids to spawn for this level
 		// const a_maxNum = -1; //max number of asteroids to spawn for this level
 		const asteroidSpawner = new ObjectSpawner(a_supplier, a_spawnFreqRange, a_numPerSpawnRange, a_maxNum);
 
+		//enemy
 		const e_supplier = function() { return new TestEnemy(); };
 		const e_spawnFreqRange = new Point(1, 1); //frequency range to spawn enemies (frames)
 		const e_numPerSpawnRange = new Point(1, 1); //number of enemies to spawn at each spawn interval
@@ -114,21 +120,29 @@ const LevelPresets = {
 		return new Level(mode, levelNum, targetScore, asteroidSpawner, enemySpawner, undefined);
 	},
 
-
 	level_a00: function() {
 		const mode = Mode.ASTEROID;
-		const levelNum = 2;
+		const levelNum = undefined;
 		const a_supplier = function() {
 			let ast = new TestAsteroid();
-			// let dir = randInt(0, 4);
-			// let x = mode.ast_start_x_range.rand();
-			// let y = mode.ast_start_y_range.rand();
-			// ast.setLocation(x, y);
-			// let dx = new Point(-0.1, 0.1).rand();
-			// let dy = new Point(2, 5).rand();
-			// ast.setVelocity(dx, dy);
+
+			let x = randFloat(WIDTH/2, WIDTH/2 + 50) * randSign();
+			let y = randFloat(HEIGHT/2, HEIGHT/2 + 50) * randSign();
+			x += WIDTH/2;
+			y += HEIGHT/2;
+			ast.setLocation(x, y);
+
+			x -= WIDTH/2;
+			y -= HEIGHT/2;
+			let vel = new Point(x, y);
+			vel.normalize();
+			const spd = randFloat(1, 5);
+			vel.mult(-spd);
+			//add random angle to direction
+			ast.setVelocityP(vel);
+			console.log(vel);
 			return ast;
-		};
+		}
 
 		const a_spawnFreqRange = new Point(1, 1); //frequency range to spawn asteroids (frames)
 		const a_numPerSpawnRange = new Point(1, 1); //number of asteroids to spawn at each spawn interval
@@ -151,6 +165,8 @@ const LevelPresets = {
 	getPresets: function() {
 		const CLASS = LevelPresets;
 		return [CLASS.level_01(), CLASS.level_02()];
+		// return [CLASS.level_a00(), CLASS.level_02()];
+
 	}
 }
 
@@ -283,7 +299,7 @@ class LevelSystem extends System {
 
 	//set level's win condition base on the mode
 	setLevelCondition(mode) {
-		if (mode.type == "ASTEROIDS") {
+		if (mode.type == "ASTEROID") {
 			this.levelCondition = this.isScoreReached;
 		} else if (mode.type == "SCROLLER") {
 			this.levelCondition = this.isScoreReached;
@@ -378,7 +394,6 @@ class TestAsteroid extends GameObject {
 	constructor(points = 10) {
 		super(points);
 		this.rotSpd = Math.random() * (Math.PI/30);
-		this.velocity.mult(2);
 		this.image = Images.asteroid;
 	}
 
