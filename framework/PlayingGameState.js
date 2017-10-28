@@ -33,7 +33,7 @@ class PlayingGameState extends GameState {
 
 		//Define Systems here.
 		let playerSystem = new PlayerSystem(new Player(WIDTH/2, HEIGHT/2)); //updates and renders player
-		let bulletSystem = new BulletSystem(new Bullet(-3, -80, playerSystem));//updates and renders player bullets
+		let bulletSystem = new BulletSystem(new Bullet(WIDTH/2, HEIGHT/2, playerSystem));//updates and renders player bullets
 		let asteroidSystem = new GameObjectSystem(); //updates and renders asteriods
 		let enemySystem = new GameObjectSystem(); //updates and renders enemies
 		let bossSystem = undefined;
