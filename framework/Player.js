@@ -5,6 +5,7 @@
 */
 class PlayerSprite {
 	constructor() {
+		//setup images
 		this.idle = new Image();
 		this.forward = new Image();
 		this.backward = new Image();
@@ -44,13 +45,29 @@ class PlayerSprite {
 	selectRight() { this.currentImage = this.right; }
 }
 
+class PlayerBullet{
+	constructor(x,y){
+		this.xloc = x;
+		this.yloc = y;
+		this.ymove =0;
+	}
+	fireBullet(){
+		let b = new Bullet(x, y);
+	}
+	update() {
+	}
+	render() {
+	}
+}
+
 class Player extends GameObject {
 	constructor(x = 0, y = 0) {
 		super();
 		this.startLocation = new Point(x, y);
 		this.transform.setLocation(x, y);
 		this.speed = 2;
-		this.rotateSpeed = 0.10;
+		this.angle = 0;
+		this.rotateSpeed = 10;
 		this.projectiles = new Array();
 		this.sprite = new PlayerSprite();
 		this.width = 50; //same as sprite
@@ -60,30 +77,33 @@ class Player extends GameObject {
 	update() {
 		this.sprite.update();
 		if (ENGINE.getKeyState().getKey('w')) {
-			this.move(0, -this.speed);
+			this.move(this.speed*Math.sin(this.angle * Math.PI /180), -this.speed * Math.cos(this.angle * Math.PI / 180));
 			this.sprite.selectForward();
 		}
-		if (ENGINE.getKeyState().getKey('a')) {
-			this.move(-this.speed, 0);
+		if (ENGINE.getKeyState().getKey('a')) { //NOTE possible optimization, set up reference to ENGINE's KeyState in constructor.
+			//this.move(-this.speed, 0);
+			this.angle -= this.rotateSpeed;
+			this.rotate(this.angle);
 			this.sprite.selectLeft();
 		}
 		if (ENGINE.getKeyState().getKey('s')) {
-			this.move(0, this.speed);
+			this.move(-this.speed*Math.sin(this.angle * Math.PI /180), this.speed * Math.cos(this.angle * Math.PI / 180));
 			this.sprite.selectBackward();
 		}
 		if (ENGINE.getKeyState().getKey('d')) {
-			this.move(this.speed, 0);
+			this.angle += this.rotateSpeed;
+			this.rotate(this.angle);
 			this.sprite.selectRight();
 		}
+
 	}
 
 	move(x, y) {
 		this.transform.getLocation().add(x, y);
 	}
 
-	rotate(radians) {
-		const rot = this.getRotation();
-		this.transform.setRotation(rot + radians);
+	rotate(angle) {
+		this.transform.setRotation(angle*Math.PI/180);
 	}
 
 	render() {
