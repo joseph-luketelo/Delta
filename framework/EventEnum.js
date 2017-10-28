@@ -17,18 +17,23 @@
 */
 
 const EventEnum = {
-	KEY_DOWN_W: "KEY_DOWN_W",
-	KEY_DOWN_A: "KEY_DOWN_A",
-	KEY_DOWN_S: "KEY_DOWN_S",
-	KEY_DOWN_D: "KEY_DOWN_D",
+	// KEY_DOWN_W: "KEY_DOWN_W",
+	// KEY_DOWN_A: "KEY_DOWN_A",
+	// KEY_DOWN_S: "KEY_DOWN_S",
+	// KEY_DOWN_D: "KEY_DOWN_D",
+	//
+	// KEY_UP_W: "KEY_UP_W",
+	// KEY_UP_A: "KEY_UP_A",
+	// KEY_UP_S: "KEY_UP_S",
+	// KEY_UP_D: "KEY_UP_D",
 
-	KEY_UP_W: "KEY_UP_W",
-	KEY_UP_A: "KEY_UP_A",
-	KEY_UP_S: "KEY_UP_S",
-	KEY_UP_D: "KEY_UP_D",
+	keydown_p: "keydown_p",
+	keyup_p: "keyup_p",
+
 
 	GAME_EVENT_DOOR_OPEN: "GAME_EVENT_DOOR_OPEN",
 	GAME_WON: "GAME_WON",
+	GAME_PAUSE: "GAME_PAUSE",
 
 	DESTROY_OBJECT: "DESTROY_OBJECT", //object destroyed
 	// DESTROY_ASTEROID: "DESTROY_ASTEROID",

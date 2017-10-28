@@ -1,6 +1,7 @@
 TODO:
 	- Projectile class; projectiles fired by player
-
+	-fonts
+	
 low priority:
 	-image/canvas buffering
 	-figure out how to use REQUIREJS or something similar, for concatenating multiple js files into one.

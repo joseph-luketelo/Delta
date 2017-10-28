@@ -5,7 +5,6 @@
 */
 class PlayerSprite {
 	constructor() {
-		//setup images
 		this.idle = new Image();
 		this.forward = new Image();
 		this.backward = new Image();
@@ -45,21 +44,6 @@ class PlayerSprite {
 	selectRight() { this.currentImage = this.right; }
 }
 
-class PlayerBullet{
-	constructor(x,y){
-		this.xloc = x;
-		this.yloc = y;
-		this.ymove =0;
-	}
-	fireBullet(){
-		let b = new Bullet(x, y);
-	}
-	update() {
-	}
-	render() {
-	}
-}
-
 class Player extends GameObject {
 	constructor(x = 0, y = 0) {
 		super();
@@ -72,15 +56,14 @@ class Player extends GameObject {
 		this.width = 50; //same as sprite
 		this.height = 90;
 	}
-  
+
 	update() {
 		this.sprite.update();
 		if (ENGINE.getKeyState().getKey('w')) {
 			this.move(0, -this.speed);
 			this.sprite.selectForward();
 		}
-		if (ENGINE.getKeyState().getKey('a')) { //NOTE possible optimization, set up reference to ENGINE's KeyState in constructor.
-			//this.move(-this.speed, 0);
+		if (ENGINE.getKeyState().getKey('a')) {
 			this.move(-this.speed, 0);
 			this.sprite.selectLeft();
 		}
@@ -92,7 +75,6 @@ class Player extends GameObject {
 			this.move(this.speed, 0);
 			this.sprite.selectRight();
 		}
-
 	}
 
 	move(x, y) {

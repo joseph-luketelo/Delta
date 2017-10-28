@@ -24,6 +24,10 @@ class Point {
 		this.x += p.getX();
 		this.y += p.getY();
 	}
+	subPoint(point) {
+		this.x -= point.getX();
+		this.y -= point.getY();
+	}
 	mult(factor) {
 		this.x *= factor;
 		this.y *= factor;
@@ -75,4 +79,20 @@ class Point {
 		dir.normalize();
 		return dir;
 	}
+}
+
+
+class Rectangle extends Point {
+	constructor(x, y, w, h) {
+		super(x, y);
+		this.width = w;
+		this.height = h;
+	}
+
+	fill(ctx = CTX) {
+		ctx.fill(this.getX(), this.getY(), this.width, this.height);
+	}
+
+	getWidth() { return this.width; }
+	getHeight() { return this.height; }
 }

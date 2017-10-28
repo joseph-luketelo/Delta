@@ -56,7 +56,7 @@ const LevelPresets = {
 		type bs: boss & scroller
 	*/
 
-	level_01: function() { //Level supplier
+	level_01: function() {
 		// level
 		const mode = Mode.SCROLLER;
 		const levelNum = 1;
@@ -81,7 +81,7 @@ const LevelPresets = {
 		const e_supplier = function() { return new TestEnemy(); };
 		const e_spawnFreqRange = new Point(1, 1); //frequency range to spawn enemies (frames)
 		const e_numPerSpawnRange = new Point(1, 1); //number of enemies to spawn at each spawn interval
-		const e_maxNum = 5; //max number of enemies to spawn for this level
+		const e_maxNum = 0; //max number of enemies to spawn for this level
 		const enemySpawner = new ObjectSpawner(e_supplier, e_spawnFreqRange, e_numPerSpawnRange, e_maxNum);
 
 		const targetScore = 50;
@@ -113,7 +113,7 @@ const LevelPresets = {
 		const e_supplier = function() { return new TestEnemy(); };
 		const e_spawnFreqRange = new Point(1, 1); //frequency range to spawn enemies (frames)
 		const e_numPerSpawnRange = new Point(1, 1); //number of enemies to spawn at each spawn interval
-		const e_maxNum = 10; //max number of enemies to spawn for this level
+		const e_maxNum = 0; //max number of enemies to spawn for this level
 		const enemySpawner = new ObjectSpawner(e_supplier, e_spawnFreqRange, e_numPerSpawnRange, e_maxNum);
 
 		const targetScore = 50;
@@ -125,47 +125,56 @@ const LevelPresets = {
 		const levelNum = undefined;
 		const a_supplier = function() {
 			let ast = new TestAsteroid();
+			let rects = [
+				new Rectangle(-80, -80, WIDTH + 40, 50), //north
+				new Rectangle(-80, HEIGHT + 40, WIDTH + 40, 50), //south
+				new Rectangle(-80, -80, 50, HEIGHT + 40), //east
+				new Rectangle(WIDTH + 40, -80, 50, HEIGHT + 40), //east
+			];
+			let rect = rects[randInt(0, rects.length)];
+			let x = randFloat(rect.getX(), rect.getX() + rect.getWidth());
+			let y = randFloat(rect.getY(), rect.getY() + rect.getHeight());
+			let loc = new Point(x, y);
 
-			let x = randFloat(WIDTH/2, WIDTH/2 + 50) * randSign();
-			let y = randFloat(HEIGHT/2, HEIGHT/2 + 50) * randSign();
-			x += WIDTH/2;
-			y += HEIGHT/2;
-			ast.setLocation(x, y);
-
-			x -= WIDTH/2;
-			y -= HEIGHT/2;
+			const halfWidth = WIDTH/2;
+			const halfHeight = HEIGHT/2;
+			let target = new Point(
+				halfWidth + randFloat(-halfWidth, halfWidth),
+				halfHeight + randFloat(-halfHeight, halfHeight));
 			let vel = new Point(x, y);
+			vel.subPoint(target);
+
 			vel.normalize();
-			const spd = randFloat(1, 5);
+			let spd = randFloat(1, 3);
 			vel.mult(-spd);
-			//add random angle to direction
+
+			ast.setLocation(loc.getX(), loc.getY());
 			ast.setVelocityP(vel);
-			console.log(vel);
 			return ast;
 		}
 
-		const a_spawnFreqRange = new Point(1, 1); //frequency range to spawn asteroids (frames)
+		const a_spawnFreqRange = new Point(80, 80); //frequency range to spawn asteroids (frames)
 		const a_numPerSpawnRange = new Point(1, 1); //number of asteroids to spawn at each spawn interval
-		const a_maxNum = 10; //max number of asteroids to spawn for this level
+		const a_maxNum = -1; //max number of asteroids to spawn for this level
 		// const a_maxNum = -1; //max number of asteroids to spawn for this level
 		const asteroidSpawner = new ObjectSpawner(a_supplier, a_spawnFreqRange, a_numPerSpawnRange, a_maxNum);
 
-		const e_supplier = function() { return new TestEnemy(); };
-		const e_spawnFreqRange = new Point(1, 1); //frequency range to spawn enemies (frames)
-		const e_numPerSpawnRange = new Point(1, 1); //number of enemies to spawn at each spawn interval
-		const e_maxNum = 10; //max number of enemies to spawn for this level
-		const enemySpawner = new ObjectSpawner(e_supplier, e_spawnFreqRange, e_numPerSpawnRange, e_maxNum);
+		// const e_supplier = function() { return new TestEnemy(); };
+		// const e_spawnFreqRange = new Point(10, 20); //frequency range to spawn enemies (frames)
+		// const e_numPerSpawnRange = new Point(1, 1); //number of enemies to spawn at each spawn interval
+		// const e_maxNum = 0; //max number of enemies to spawn for this level
+		// const enemySpawner = new ObjectSpawner(e_supplier, e_spawnFreqRange, e_numPerSpawnRange, e_maxNum);
 
 		const targetScore = 50;
-		return new Level(mode, levelNum, targetScore, asteroidSpawner, enemySpawner, undefined);
+		return new Level(mode, levelNum, targetScore, asteroidSpawner, undefined, undefined);
 	},
 
 
 	// Return a new array of all level presets
 	getPresets: function() {
 		const CLASS = LevelPresets;
-		return [CLASS.level_01(), CLASS.level_02()];
-		// return [CLASS.level_a00(), CLASS.level_02()];
+		// return [CLASS.level_01(), CLASS.level_02()];
+		return [CLASS.level_a00(), CLASS.level_02()];
 
 	}
 }

@@ -13,17 +13,20 @@ class GameEngine {
 		// NOTE: initialization stuff in GameEngine's constructor
 		// moved to PlayingGameState's constructor.
 		this.playingState = new PlayingGameState();
+		this.pausedState = new PauseGameState();
 		this.currentState = this.playingState; //the GameEngine's current State
 		this.currentState.onEnter();
 	}
 
 	// Future: implement pausing
-	// pauseGame() {
-	// 	this.enterState(this.pausedState);
-	// }
-	// unPause() {
-	// 	this.enterState(this.playingState);
-	// }
+	pauseGame() {
+		console.log("pause game");
+		this.enterState(this.pausedState);
+	}
+	resume() {
+		console.log("resume game");
+		this.enterState(this.playingState);
+	}
 	//start playing a new game from the start menu
 
 	//setup a new game by creating new GameStates (discard old ones)
@@ -70,12 +73,13 @@ class GameEngine {
 	// @param e: a KeyboardEvent from the browser
 	// @param isPressed: a boolean representing whether the KeyboardEvent
 	// corresponded to a pressed or released event.
-	receiveRawKeyEvent(e, isPressed) {
-		const keyEvent = RawKeyMap.map(e);
-		if (keyEvent != null) {
-			this.queueEvent(keyEvent);
-			this.keyState.setKey(e.key, isPressed);
+	receiveRawKeyEvent(keyEvent, isPressed) {
+		const event = RawKeyMap.map(keyEvent);
+		// const event = new Event(EventFilter.KEYBOARD, keyEvent.type + "_" + keyEvent.key);
+		if (event != null) {
+			this.queueEvent(event);
 		}
+		this.keyState.setKey(keyEvent.key, isPressed);
 	}
 
 	//accessed by objects who want to know about KeyStates, ex Player.
