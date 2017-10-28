@@ -45,33 +45,19 @@ class PlayerSprite {
 	selectRight() { this.currentImage = this.right; }
 }
 
-class PlayerBullet{
-	constructor(x,y){
-		this.xloc = x;
-		this.yloc = y;
-		this.ymove =0;
-	}
-	fireBullet(){
-		let b = new Bullet(x, y);
-	}
-	update() {
-	}
-	render() {
-	}
-}
-
 class Player extends GameObject {
 	constructor(x = 0, y = 0) {
 		super();
 		this.startLocation = new Point(x, y);
 		this.transform.setLocation(x, y);
-		this.speed = 2;
-		this.angle = 0;
+		this.speed = 2;//player speed
+		this.angle = 0;// used to calculate rotation
 		this.rotateSpeed = 10;
-		this.projectiles = new Array();
+		this.projectiles = new Array(); //remove?
 		this.sprite = new PlayerSprite();
-		this.width = 50; //same as sprite
-		this.height = 90;
+		this.width = 50; //sprite width
+		this.height = 90; //sprite height
+		this.bounds = true;
 	}
 
 	update() {
@@ -95,7 +81,6 @@ class Player extends GameObject {
 			this.rotate(this.angle);
 			this.sprite.selectRight();
 		}
-
 	}
 
 	move(x, y) {
