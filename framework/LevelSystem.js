@@ -55,7 +55,13 @@ const LevelPresets = {
 		type ba: boss & asteroid
 		type bs: boss & scroller
 	*/
-
+	asteroid_spawnAreas: [
+		new Rectangle(-80, -80, WIDTH + 40, 50), //north
+		new Rectangle(-80, HEIGHT + 40, WIDTH + 40, 50), //south
+		new Rectangle(-80, -80, 50, HEIGHT + 40), //east
+		new Rectangle(WIDTH + 40, -80, 50, HEIGHT + 40), //east
+	],
+	
 	level_01: function() {
 		// level
 		const mode = Mode.SCROLLER;
@@ -89,10 +95,8 @@ const LevelPresets = {
 	},
 
 	level_02: function() {
-		// level
 		const mode = Mode.SCROLLER;
 		const levelNum = 2;
-		// asteroid
 		const a_supplier = function() {
 			let ast = new TestAsteroid();
 			let x = mode.ast_start_x_range.rand();
@@ -109,7 +113,6 @@ const LevelPresets = {
 		// const a_maxNum = -1; //max number of asteroids to spawn for this level
 		const asteroidSpawner = new ObjectSpawner(a_supplier, a_spawnFreqRange, a_numPerSpawnRange, a_maxNum);
 
-		//enemy
 		const e_supplier = function() { return new TestEnemy(); };
 		const e_spawnFreqRange = new Point(1, 1); //frequency range to spawn enemies (frames)
 		const e_numPerSpawnRange = new Point(1, 1); //number of enemies to spawn at each spawn interval
@@ -125,13 +128,8 @@ const LevelPresets = {
 		const levelNum = undefined;
 		const a_supplier = function() {
 			let ast = new TestAsteroid();
-			let rects = [
-				new Rectangle(-80, -80, WIDTH + 40, 50), //north
-				new Rectangle(-80, HEIGHT + 40, WIDTH + 40, 50), //south
-				new Rectangle(-80, -80, 50, HEIGHT + 40), //east
-				new Rectangle(WIDTH + 40, -80, 50, HEIGHT + 40), //east
-			];
-			let rect = rects[randInt(0, rects.length)];
+
+			let rect = LevelPresets.asteroid_spawnAreas[randInt(0, 4)];
 			let x = randFloat(rect.getX(), rect.getX() + rect.getWidth());
 			let y = randFloat(rect.getY(), rect.getY() + rect.getHeight());
 			let loc = new Point(x, y);
@@ -143,7 +141,6 @@ const LevelPresets = {
 				halfHeight + randFloat(-halfHeight, halfHeight));
 			let vel = new Point(x, y);
 			vel.subPoint(target);
-
 			vel.normalize();
 			let spd = randFloat(1, 3);
 			vel.mult(-spd);
