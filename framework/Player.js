@@ -52,35 +52,70 @@ class Player extends GameObject {
 		this.transform.setLocation(x, y);
 		this.speed = 2;//player speed
 		this.angle = 0;// used to calculate rotation
-		this.rotateSpeed = 10;
-		this.projectiles = new Array(); //remove?
+		this.rotateSpeed = 5;
 		this.sprite = new PlayerSprite();
 		this.width = 50; //sprite width
 		this.height = 90; //sprite height
 		this.bounds = true;
+
+		this.scrollerUpdate = function() {
+			this.sprite.update();
+			if (ENGINE.getKeyState().getKey('w')) {
+				this.move(0, -this.speed);
+				this.sprite.selectForward();
+			}
+			if (ENGINE.getKeyState().getKey('a')) {
+				this.move(-this.speed, 0);
+				this.sprite.selectLeft();
+			}
+			if (ENGINE.getKeyState().getKey('s')) {
+				this.move(0, this.speed);
+				this.sprite.selectBackward();
+			}
+			if (ENGINE.getKeyState().getKey('d')) {
+				this.move(this.speed, 0);
+				this.sprite.selectRight();
+			}
+		}
+		this.asteroidUpdate = function() {
+			this.sprite.update();
+			if (ENGINE.getKeyState().getKey('w')) {
+				this.move(this.speed*Math.sin(this.angle * Math.PI /180), -this.speed * Math.cos(this.angle * Math.PI / 180));
+				this.sprite.selectForward();
+			}
+			if (ENGINE.getKeyState().getKey('a')) {
+				this.angle -= this.rotateSpeed;
+				this.rotate(this.angle);
+				this.sprite.selectLeft();
+			}
+			if (ENGINE.getKeyState().getKey('s')) {
+				this.move(-this.speed*Math.sin(this.angle * Math.PI /180), this.speed * Math.cos(this.angle * Math.PI / 180));
+				this.sprite.selectBackward();
+			}
+			if (ENGINE.getKeyState().getKey('d')) {
+				this.angle += this.rotateSpeed;
+				this.rotate(this.angle);
+				this.sprite.selectRight();
+			}
+		}
+
+		//set the update mode to call asteroid or scrolller update functions
+		this.updateMode = this.asteroidUpdate;
+		// this.updateMode = this.scrollerUpdate;
+	}
+
+	//restrict movement to scroller mode (no rotation)
+	selectScrollerMode() {
+		this.updateMode = this.scrollerUpdate;
+	}
+
+	//restrict movement to asteroid mode (allow rotation)
+	selectAsteroidMode() {
+		this.updateMode = this.asteroidUpdate;
 	}
 
 	update() {
-		this.sprite.update();
-		if (ENGINE.getKeyState().getKey('w')) {
-			this.move(this.speed*Math.sin(this.angle * Math.PI /180), -this.speed * Math.cos(this.angle * Math.PI / 180));
-			this.sprite.selectForward();
-		}
-		if (ENGINE.getKeyState().getKey('a')) { //NOTE possible optimization, set up reference to ENGINE's KeyState in constructor.
-			//this.move(-this.speed, 0);
-			this.angle -= this.rotateSpeed;
-			this.rotate(this.angle);
-			this.sprite.selectLeft();
-		}
-		if (ENGINE.getKeyState().getKey('s')) {
-			this.move(-this.speed*Math.sin(this.angle * Math.PI /180), this.speed * Math.cos(this.angle * Math.PI / 180));
-			this.sprite.selectBackward();
-		}
-		if (ENGINE.getKeyState().getKey('d')) {
-			this.angle += this.rotateSpeed;
-			this.rotate(this.angle);
-			this.sprite.selectRight();
-		}
+		this.updateMode();
 	}
 
 	move(x, y) {
