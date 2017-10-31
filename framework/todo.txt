@@ -1,14 +1,23 @@
 TODO:
-	- Projectile class; projectiles fired by player
-	-fonts
-	
+	-enemy behaviour (scroller/asteroid)
+		-target player or shoot randomly/in some pattern
+		-add projectiles
+		-add targets for enemey to shoot at (direction or at player)
+	-boss behaviour & projectiles
+	-implement start menu, game over menu, scoreboard
+	-background movement (indicates mode)
+	-set player movement/rotation based on mode (scroller/asteroid)
+	-decide on game cues that trigger mode change (score or all enemies/asteroids/boss cleared)
+
 low priority:
-	-image/canvas buffering
-	-figure out how to use REQUIREJS or something similar, for concatenating multiple js files into one.
+	- fonts, UI stuff
+	- save scores from previous games
+	- image/canvas buffering?
 	- factor out transform? make x, y, rot variables on game object, or have GameObject extend Transform
+	- figure out how to use REQUIREJS or something similar, for concatenating multiple js files into one.
 
 Observed bugs:
-	- asteroid randomly disappears (amanda)
+	- single asteroid sometimes randomly disappears, before going offscreen
 
-Possible bugs:
+Possible bugs sources:
 	-missing checks for undefined/null/valid type (instanceof)
