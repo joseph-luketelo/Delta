@@ -71,6 +71,15 @@ class GameObject {
 
 	getPoints() { return this.points; } //return how many points this object is worth
 
+	//damage this object. will automatically destroy itself if life reaches 0.
+	//@param dam: an int amount of damage to inflict.
+	damage(dam) {
+		this.life -= dam;
+		if (this.life <= 0) {
+			this.destroy();
+		}
+	}
+	
 	//set to inactive and create event
 	//@param points an integer number of points to add to the score. Score is kept on the LevelManager.
 	destroy() {
