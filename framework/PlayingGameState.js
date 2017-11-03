@@ -64,8 +64,15 @@ class PlayingGameState extends GameState {
 			ENGINE.pauseGame();
 		});
 
+		let gKeyListener = new EventListener(EventFilter.KEYBOARD, function(event) {
+			if (event.getEventEnum() == EventEnum.keydown_g) {
+				console.log("pew");
+			}
+		});
+
 		this.registerEventListener(gameWonListener);
 		this.registerEventListener(pauseListener);
+		this.registerEventListener(gKeyListener);
 	}
 
 	update() {
