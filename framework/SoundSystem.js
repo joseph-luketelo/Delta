@@ -1,34 +1,34 @@
-//This class is for Sound Effects 
+//This class is for Sound Effects
 //Work in progress
 
 class SoundSystem{
-    constructor(){
-        
-    }
-    var backgroundSong    = new Audio('AsteroidThemeSong.mp3');
-    var asteroidExplosion = new Audio('AsteroidExplosion.mp3');
-    var alienBossTheme    = new Audio('AlienBoss.mp3');
-    var bulletSound       = new Audio('LaserBlaster.mp3');
-    var thrusterSound     = new Audio('Thrusters.mp3');
 
-    function playBackgroundSong(){
-        backgroundSong.play();
-    }
+	constructor() {
+		this.backgroundSong    = new Audio('AsteroidThemeSong.mp3');
+		this.asteroidExplosion = new Audio('AsteroidExplosion.mp3');
+		this.alienBossTheme    = new Audio('AlienBoss.mp3');
+		this.bulletSound       = new Audio('LaserBlaster.mp3');
+		this.thrusterSound     = new Audio('Thrusters.mp3');
+	}
 
-    function playAsteroidExplosion(){
-        asteroidExplosion.play();
-    }
+	playBackgroundSong(){
+		this.backgroundSong.play();
+	}
 
-    function playAlienBossTheme(){
-        alienBossTheme.play()
-    }
+	playAsteroidExplosion(){
+		this.asteroidExplosion.play();
+	}
 
-    function playBulletSound(){
-        bulletSound.play();
-    }
+	playAlienBossTheme(){
+		this.alienBossTheme.play()
+	}
 
-    function playThrusterSound(){
-        thrusterSound.play();
-    }
+	playBulletSound(){
+		this.bulletSound.play();
+	}
+
+	playThrusterSound(){
+		this.thrusterSound.play();
+	}
 
 }
