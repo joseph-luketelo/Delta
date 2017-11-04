@@ -61,6 +61,7 @@ class GameObject {
 	getEventListeners() { return this.eventListeners; }
 
 	setLocation(x, y) {this.transform.setLocation(x, y); }
+	setLocationP(point) { this.transform.setLocation(point.getX(), point.getY()); }
 	getLocation() { return this.transform.getLocation(); }
 	getX() { return this.transform.getX(); }
 	getY() { return this.transform.getY(); }
@@ -70,6 +71,7 @@ class GameObject {
 	setVelocityP(point) { this.velocity.setPoint(point); }
 
 	getPoints() { return this.points; } //return how many points this object is worth
+	getLife() { return this.life; }
 
 	//damage this object. will automatically destroy itself if life reaches 0.
 	//@param dam: an int amount of damage to inflict.
@@ -79,7 +81,7 @@ class GameObject {
 			this.destroy();
 		}
 	}
-	
+
 	//set to inactive and create event
 	//@param points an integer number of points to add to the score. Score is kept on the LevelManager.
 	destroy() {
