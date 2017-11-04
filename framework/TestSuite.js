@@ -121,6 +121,17 @@ class TestSuite {
 		//NOTE: addEventListener does not check for duplicate listeners.
 		// o.publishEvent(new Event()); //TODO dependent on engine.
 
+		//test damage
+		assert(100 == o.getLife()); //full hp
+		o.damage(50); //damage -50 hp
+		assert(50 == o.getLife()); //half hp (50)
+		assert(true == o.getIsActive()); //still active
+		o.damage(50); //damage remaining 50
+		assert(0 == o.getLife()); //half hp (50)
+		assert(false == o.getIsActive()); //object destroyed
+
+
+
 	}
 }
 
