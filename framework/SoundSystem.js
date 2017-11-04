@@ -1,14 +1,13 @@
 //This class is for Sound Effects
 //Work in progress
 
-class SoundSystem{
-
+class SoundSystem {
 	constructor() {
-		this.backgroundSong    = new Audio('AsteroidThemeSong.mp3');
-		this.asteroidExplosion = new Audio('AsteroidExplosion.mp3');
-		this.alienBossTheme    = new Audio('AlienBoss.mp3');
-		this.bulletSound       = new Audio('LaserBlaster.mp3');
-		this.thrusterSound     = new Audio('Thrusters.mp3');
+		this.backgroundSong    = new Audio('assets/AsteroidThemeSong.mp3');
+		this.asteroidExplosion = new Audio('assets/AsteroidExplosion.mp3');
+		this.alienBossTheme    = new Audio('assets/AlienBoss.mp3');
+		this.bulletSound       = new Audio('assets/LaserBlaster.mp3');
+		this.thrusterSound     = new Audio('assets/Thrusters.mp3');
 	}
 
 	playBackgroundSong(){
