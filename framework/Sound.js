@@ -25,7 +25,7 @@ class SoundSystem extends System {
 		  
 		  let gKeyListener = new EventListener(EventFilter.KEYBOARD, function(event) {
 			  if (event.getEventEnum() == EventEnum.keydown_g) {
-				  playThrusterSound();
+				  playBulletSound();
 			  }
 		  });
 		  this.addEventListener(gKeyListener);
@@ -42,7 +42,7 @@ class SoundSystem extends System {
 
 	  playAlienBossTheme(){
 		  this.alienBossTheme.play()
-	  	this.alienBossTheme.loop = true;
+	  	  this.alienBossTheme.loop = true;
 	  }
 
 	  playBulletSound(){
