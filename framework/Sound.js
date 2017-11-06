@@ -30,7 +30,8 @@ class SoundSystem extends System {
 		  });
 		  this.addEventListener(gKeyListener);
 		  
-		  let objectDestroyedListener = new EventListener(EventFilter.COLLISION, function(event) {
+		  //uses the same sound for all destroyed objects
+		  let objectDestroyedListener = new EventListener(EventFilter.DESTROY, function(event) {
 			  if (event.getEventEnum() == EventEnum.DESTROY_OBJECT) {
 				  playAsteroidExplosion();
 			  }
