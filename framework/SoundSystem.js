@@ -14,6 +14,14 @@ class SoundSystem extends System {
 				playThrusterSound();
 			}
 		});
+		this.addEventListener(wKeyListener);
+		
+		let sKeyListener = new EventListener(EventFilter.KEYBOARD, function(event) {
+			if (event.getEventEnum() == EventEnum.keydown_s) {
+				playThrusterSound();
+			}
+		});
+		this.addEventListener(sKeyListener);
 	}
 
 	playBackgroundSong(){
