@@ -29,6 +29,14 @@ class SoundSystem extends System {
 			  }
 		  });
 		  this.addEventListener(gKeyListener);
+		  
+		  let objectDestroyedListener = new EventListener(EventFilter.KEYBOARD, function(event) {
+			  if (event.getEventEnum() == EventEnum.DESTROY_OBJECT) {
+				  playAsteroidExplosion();
+			  }
+		  });
+		  this.addEventListener(objectDestroyedListener);
+		  
 	}
 
 	  playBackgroundSong(){
