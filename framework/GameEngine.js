@@ -27,7 +27,9 @@ class GameEngine {
 		console.log("resume game");
 		this.enterState(this.playingState);
 	}
+
 	//start playing a new game from the start menu
+	startGame() {} //TODO
 
 	//setup a new game by creating new GameStates (discard old ones)
 	setupNewGame() {

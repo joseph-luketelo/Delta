@@ -17,11 +17,11 @@ class GameState extends State {
 		this.systems = new Array();
 	}
 
-	setup() {
-		for (let sys of this.systems) {
-			sys.setup();
-		}
-	}
+	// setup() {
+	// 	for (let sys of this.systems) {
+	// 		sys.setup();
+	// 	}
+	// }
 
 	update() {
 		this.dequeueEvent();
@@ -30,12 +30,15 @@ class GameState extends State {
 		}
 	}
 
+	//call onEnter on all systems
 	onEnter() { //entry logic, ex. start a timer, spawn stuff
 		for (let sys of this.systems) {
 			sys.onEnter();
 		}
 	}
 
+
+	//call onExit on all systems
 	onExit() { //exit logic, ex stop a timer, release resources
 		for (let sys of this.systems) {
 			sys.onExit();
@@ -58,12 +61,14 @@ class GameState extends State {
 		}
 	}
 
+	//Add a system to this game state, and register the system's event listeners.
 	//@param system a System
 	addSystem(system) {
 		if (system instanceof System == false) { throw new TypeError("invalid argument:" + system); }
 		this.systems.push(system);
 		this.registerEventListeners(system.getEventListeners());
 	}
+
 	// removeSystem(system) {
 	// }
 
@@ -83,6 +88,7 @@ class GameState extends State {
 		}
 	}
 
+	//clear all events from the queue
 	clearEvents() {
 		this.eventQueue.clear();
 	}

@@ -31,7 +31,6 @@ class System {
 		this.eventListeners = new Array();
 	}
 
-	setup() {}
 	update() {}
 	onEnter() {}
 	onExit() {}
@@ -43,18 +42,19 @@ class System {
 		if (e instanceof Event == false) { throw new TypeError(); }
 		this.publisher.publishEvent(e);
 	}
-	
+
 	addEventListener(l) {
 		if (l instanceof EventListener == false) { throw new TypeError(); }
 		this.eventListeners.push(l);
 	}
-	addEventListeners(listeners) {
-		if (listeners instanceof Array == false) { throw new TypeError(); }
-		for (let l of listeners) {
-			if (l instanceof EventListener == false) { throw new TypeError(); }
-			this.eventListeners.push(l);
-		}
-	}
+
+	// addEventListeners(listeners) {
+	// 	if (listeners instanceof Array == false) { throw new TypeError(); }
+	// 	for (let l of listeners) {
+	// 		if (l instanceof EventListener == false) { throw new TypeError(); }
+	// 		this.eventListeners.push(l);
+	// 	}
+	// }
 
 	getEventListeners() {
 		return this.eventListeners;

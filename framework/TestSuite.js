@@ -1,5 +1,5 @@
 const assert = function (test) {
-	if (!test) { throw new Error("Assertion Error"); }
+	if (!test || test == undefined) { throw new Error("Assertion Error"); }
 }
 
 
@@ -7,6 +7,9 @@ class TestSuite {
 	static runTests() {
 		this.test_globals();
 		this.test_GameObject();
+		this.test_System();
+		this.test_EventQueue();
+		this.test_GameState();
 	}
 
 	static test_globals() {
@@ -130,24 +133,111 @@ class TestSuite {
 		assert(0 == o.getLife()); //half hp (50)
 		assert(false == o.getIsActive()); //object destroyed
 
+		/*
+			getVelocity() { return this.velocity; }
+			setVelocity(x, y) { this.velocity.set(x, y); }
+			setVelocityP(point) { this.velocity.setPoint(point); }
+
+			//set to inactive and create event
+			//@param points an integer number of points to add to the score. Score is kept on the LevelManager.
+			destroy()
+		*/
+	}
+
+	static test_System() {
+		let system = new System();
+		let l = new EventListener(EventFilter.OTHER, function(e) {
+		});
+		assert(system.getEventListeners() instanceof Array);
+		assert(0 == system.getEventListeners().length);
+		system.addEventListener(l);
+		assert(1 == system.getEventListeners().length);
+		// update() {}
+		// onEnter() {}
+		// onExit() {}
+		// render() {}
+		// publishEvent(e)
+	}
+
+	static test_EventQueue() {
+		let q = new EventQueue();
+		assert(true == q.isEmpty());
+		let e1 = new Event();
+		let e2 = new Event();
+		q.enqueue(e1);
+		q.enqueue(e2);
+		assert(false == q.isEmpty());
+		assert(e1 == q.dequeue());
+		assert(false == q.isEmpty());
+		assert(e2 == q.dequeue());
+		assert(true == q.isEmpty());
+
+		q.enqueue(e1);
+		q.enqueue(e2);
+		q.clear();
+		assert(true == q.isEmpty());
+	}
+
+	static test_GameState() {
+		let gs = new GameState();
+		let s = new System();
+
+		let count = 0;
+		class System_A extends System {
+			constructor() {
+				super();
+				let l = new EventListener(EventFilter.OTHER, function(e) {
+					count = 3;
+				});
+				this.addEventListener(l);
+			}
+			onEnter() { count = 0; }
+			update() { count++; }
+			onExit() { count = -1; }
+		}
+		let system = new System_A();
+		gs.addSystem(system);
+
+		//call dequeueEvent and update systems
+		gs.onEnter(); //call onEnter on all systems
+		assert(0 == count);
+		gs.update();
+		assert(1 == count);
+		gs.onExit(); //call onExit on all systems
+		assert(-1 == count);
+		gs.enqueueEvent(new Event());
+		gs.dequeueEvent();
+		assert(3 == count);
+
+		count = 0;
+		gs.enqueueEvent(new Event());
+		gs.update(); //dequeues the event
+		assert(4 == count); //count = 3, count++
 
 
+		let count2 = 0;
+		let l2 = new EventListener(EventFilter.OTHER, function(e) {
+			count2 = 1;
+		});
+
+		//add an event listener to the map
+		//@param l: an EventListener
+		gs.registerEventListener(l2);
+		gs.enqueueEvent(new Event());
+		gs.update();
+		assert(1 == count2);
+
+		let count3 = 0;
+		let l3 = new EventListener(EventFilter.OTHER, function(e) {
+			count3++;
+		});
+		let listeners = [l3, l3, l3]
+
+		gs.registerEventListeners(listeners);
+		gs.enqueueEvent(new Event());
+		gs.update();
+		assert(3 == count3);
+
+		// clearEvents() //clear all events from the queue
 	}
 }
-
-/*
-
-
-	getVelocity() { return this.velocity; }
-	setVelocity(x, y) { this.velocity.set(x, y); }
-	setVelocityP(point) { this.velocity.setPoint(point); }
-
-	//damage this object. will automatically destroy itself if life reaches 0.
-	//@param dam: an int amount of damage to inflict.
-	damage(dam);
-
-	//set to inactive and create event
-	//@param points an integer number of points to add to the score. Score is kept on the LevelManager.
-	destroy()
-
-*/

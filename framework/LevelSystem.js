@@ -5,9 +5,7 @@ Modes: scroller, asteroid, boss
 	determine when things spawn based on score/difficulty
 	presets, sample progressions
 
-	from the game doc:
-
-	Level Types
+	Level Types:
 		Scroller:
 			- enemies spawn from top of screen only (level scrolls upwards putting them into view)
 			- level is completed once the player reached a certain score
@@ -20,16 +18,22 @@ Modes: scroller, asteroid, boss
 			- follows you around/has pattern
 			- level is completed once boss is dead
 
-		Difficulty
-		Sample progression A:
-			> scroller lvl (easy)
-			> asteroid lvl (easy)
-			> boss lvl (easy)
-			> scroller lvl (med)
-			> asteroid lvl (med)
-			> boss lvl (med)
-			etc
-
+	Level progression:
+		> scroller lvl (easy)
+			-fewer asteroids, slow
+		> asteroid lvl (easy)
+			-fewer asteroids, slow
+		> boss lvl (easy)
+			-
+		> scroller lvl (med)
+			-more asteroids, asteroids faster
+		> asteroid lvl (med)
+			-more asteroids, asteroids faster
+		> boss lvl (med)
+				-
+	TODO
+		restrict player movement between modes
+		UI, bg, or transition to indicate mode change
 */
 
 const Mode = {
@@ -61,7 +65,7 @@ const LevelPresets = {
 		new Rectangle(-80, -80, 50, HEIGHT + 40), //east
 		new Rectangle(WIDTH + 40, -80, 50, HEIGHT + 40), //east
 	],
-	
+
 	level_01: function() {
 		// level
 		const mode = Mode.SCROLLER;
@@ -172,7 +176,7 @@ const LevelPresets = {
 		const CLASS = LevelPresets;
 		// return [CLASS.level_01(), CLASS.level_02()];
 		return [CLASS.level_a00(), CLASS.level_02()];
-
+		//return [scr1, ast1, boss1, scr2, ast2, boss2]; //future level order
 	}
 }
 
