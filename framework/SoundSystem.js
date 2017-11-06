@@ -8,6 +8,12 @@ class SoundSystem extends System {
 		this.alienBossTheme    = new Audio('assets/AlienBoss.mp3');
 		this.bulletSound       = new Audio('assets/LaserBlaster.mp3');
 		this.thrusterSound     = new Audio('assets/Thrusters.mp3');
+		
+		let wKeyListener = new EventListener(EventFilter.KEYBOARD, function(event) {
+			if (event.getEventEnum() == EventEnum.keydown_w) {
+				playThrusterSound();
+			}
+		});
 	}
 
 	playBackgroundSong(){
