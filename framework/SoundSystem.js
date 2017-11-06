@@ -1,7 +1,7 @@
 //This class is for Sound Effects
 //Work in progress
 
-class SoundSystem {
+class SoundSystem extends System {
 	constructor() {
 		this.backgroundSong    = new Audio('assets/AsteroidThemeSong.mp3');
 		this.asteroidExplosion = new Audio('assets/AsteroidExplosion.mp3');
@@ -12,6 +12,7 @@ class SoundSystem {
 
 	playBackgroundSong(){
 		this.backgroundSong.play();
+		this.backgroundSong.loop = true;
 	}
 
 	playAsteroidExplosion(){
@@ -20,6 +21,7 @@ class SoundSystem {
 
 	playAlienBossTheme(){
 		this.alienBossTheme.play()
+		this.alienBossTheme.loop = true;
 	}
 
 	playBulletSound(){
