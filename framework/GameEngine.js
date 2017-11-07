@@ -9,9 +9,6 @@
 class GameEngine {
 	constructor() {
 		this.keyState = new KeyState(); //keeps track of which keys are down
-
-		// NOTE: initialization stuff in GameEngine's constructor
-		// moved to PlayingGameState's constructor.
 		this.playingState = new PlayingGameState();
 		this.pausedState = new PauseGameState();
 		this.currentState = this.playingState; //the GameEngine's current State
@@ -20,11 +17,9 @@ class GameEngine {
 
 	// Future: implement pausing
 	pauseGame() {
-		console.log("pause game");
 		this.enterState(this.pausedState);
 	}
 	resume() {
-		console.log("resume game");
 		this.enterState(this.playingState);
 	}
 
@@ -77,6 +72,7 @@ class GameEngine {
 	// corresponded to a pressed or released event.
 	receiveRawKeyEvent(keyEvent, isPressed) {
 		// const event = RawKeyMap.map(keyEvent);
+		// TODO only queue keys we're interested in.
 		const event = new Event(EventFilter.KEYBOARD, keyEvent.type + "_" + keyEvent.key);
 		if (event != null) {
 			this.queueEvent(event);

@@ -6,7 +6,7 @@ class PauseGameState extends GameState {
 		this.screenshot.width = WIDTH;
 		this.screenshot.height = HEIGHT;
 
-		let resumeListener = new EventListener(EventFilter.KEYBOARD, function(event) {
+		const resumeListener = new EventListener(EventFilter.KEYBOARD, function(event) {
 			if (event.getEventEnum() == EventEnum.keyup_p) {
 				ENGINE.resume();
 			}

@@ -8,7 +8,8 @@ ENGINE = new GameEngine();
 
 //entry method: called by the html page, after it's is done loading (script tags must use the "defer" attribute)
 function setup() {
-	console.log("setup");
+	const instructions = "setup\nwasd: move/rotate\ng: shoot";
+	console.log(instructions);
 
 	//add key event listeners
 	document.addEventListener("keydown", function(event) {

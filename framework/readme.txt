@@ -1,13 +1,12 @@
 TODO
-Key map: only queue raw key events that we're interested in
-continue testing
-.
-UI, bg, or transition to indicate change
-.
-smooth player movement, rotation, acceleration
+moving bg
 add event for setup (ash)
+write more tests
+.
+only queue raw key events that we're interested in
+smooth player movement, rotation, acceleration
 levelsystem acts like fsm but doesnt implement the exact methods
-
+handle on window unfocus, key repeats
 
 
 Changes:
@@ -35,3 +34,6 @@ LevelSystem.js
 
 PlayingGameState.js
 	fix pausing (p to toggle pause)
+
+main.js
+	update setup console message
