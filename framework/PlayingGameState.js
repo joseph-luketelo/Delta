@@ -3,30 +3,6 @@
 	Also the main GameState used.
 */
 
-
-// var imgBg;
-// var imgDrops = new Image();
-// imgDrops.onload = function(){
-// };
-// imgDrops.src = 'assets/alien.png';
-// var player_idle = new Image();
-// player_idle.onload = function() {
-// };
-// player_idle.src = 'assets/ship_idle.png';
-
-// var shift = 0;
-// var frameWidth = 50;
-// var frameHeight = 90;
-// var totalFrames = 60;
-// var currentFrame = 0;
-//
-// var interval;
-//
-// var x = 0;
-// var y = 0;
-// var noOfDrops = 50;
-// var fallingDrops = [];
-
 class PlayingGameState extends GameState {
 	constructor() {
 		super();
@@ -46,6 +22,7 @@ class PlayingGameState extends GameState {
 
 		//Add your System to the main playingState
 		//eventlisteners belonging to each system will be automaticlaly registered with this state.
+		//NOTE: add order will determing render order.
 		this.addSystem(enemySystem);
 		this.addSystem(asteroidSystem);
 		this.addSystem(playerSystem);
@@ -60,8 +37,10 @@ class PlayingGameState extends GameState {
 			}
 		});
 
-		let pauseListener = new EventListener(EventFilter.GAME, function(event) {
-			ENGINE.pauseGame();
+		let pauseListener = new EventListener(EventFilter.KEYBOARD, function(event) {
+			if (event.getEventEnum() == EventEnum.keyup_p) {
+				ENGINE.pauseGame();
+			}
 		});
 
 		let gKeyListener = new EventListener(EventFilter.KEYBOARD, function(event) {
@@ -88,13 +67,13 @@ class PlayingGameState extends GameState {
 
 		//background();
 		//CTX.drawImage(imgDrops, 100, 100, imgDrops.width, imgDrops.height);
-		//TODO determine render order if necessary. reorder the addSystem statements in constructor.
 		for (let sys of this.systems) {
-			sys.render();
+			sys.render(); //NOTE determine render order of systems in constructor.
 		}
 	}
-
 }
+
+// ???
 // function background(){
 // 	CTX.drawImage(imgDrops, Math.random()*100 ,300, imgDrops.width, imgDrops.height);
 // }

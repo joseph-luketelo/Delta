@@ -66,7 +66,7 @@ class Player extends GameObject {
 			}
 			if (ENGINE.getKeyState().getKey('a')) {
 				this.move(-this.speed, 0);
-				this.sprite.selectLeft();
+				// this.sprite.selectLeft();
 			}
 			if (ENGINE.getKeyState().getKey('s')) {
 				this.move(0, this.speed);
@@ -74,7 +74,7 @@ class Player extends GameObject {
 			}
 			if (ENGINE.getKeyState().getKey('d')) {
 				this.move(this.speed, 0);
-				this.sprite.selectRight();
+				// this.sprite.selectRight();
 			}
 		}
 		this.asteroidUpdate = function() {
@@ -100,7 +100,7 @@ class Player extends GameObject {
 		}
 
 		//set the update mode to call asteroid or scrolller update functions
-		this.updateMode = this.asteroidUpdate;
+		this.updateMode = this.asteroidUpdate; //NOTE testing - uncomment to select default mode
 		// this.updateMode = this.scrollerUpdate;
 	}
 
@@ -137,5 +137,4 @@ class Player extends GameObject {
 	getX() { return this.transform.getX(); }
 	getY() { return this.transform.getY(); }
 	getRotation() { return this.transform.getRotation(); }
-
 }

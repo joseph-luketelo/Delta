@@ -174,8 +174,10 @@ const LevelPresets = {
 	// Return a new array of all level presets
 	getPresets: function() {
 		const CLASS = LevelPresets;
-		// return [CLASS.level_01(), CLASS.level_02()];
-		return [CLASS.level_a00(), CLASS.level_02()];
+		// return [CLASS.level_01(), CLASS.level_02()]; //a
+		// return [CLASS.level_a00(), CLASS.level_02()]; //b
+		return [CLASS.level_01(), CLASS.level_a00()]; //c
+
 		//return [scr1, ast1, boss1, scr2, ast2, boss2]; //future level order
 	}
 }
@@ -263,8 +265,10 @@ class Level {
 	}
 
 	render() {
-		CTX.fillStyle = Colors.BLACK;
-		CTX.fillText("level: " + this.levelNum, WIDTH/2, 10); //TODO font style
+		CTX.fillStyle = Colors.WHITE;
+		CTX.font = Fonts.DEFAULT.str;
+		fillText("level: " + this.levelNum, WIDTH/2, 20, Fonts.DEFAULT);
+		fillText("mode: " + this.mode.type, WIDTH/2, HEIGHT -10, Fonts.DEFAULT);
 	}
 
 	onEnter() {}
@@ -282,6 +286,12 @@ class Level {
 class LevelSystem extends System {
 	constructor(levelPresetsSupplier, playerSystem, asteroidSystem, enemySystem, bossSystem) {
 		super();
+		this.systems = new Array();
+		this.asteroidSystem = asteroidSystem;
+		this.enemySystem = enemySystem;
+		this.playerSystem = playerSystem;
+		this.player = playerSystem.getPlayer();
+
 		this.score = 0;
 		this.levelPresetsSupplier = levelPresetsSupplier; //gets a new array of predefined levels
 		this.levels = this.levelPresetsSupplier();
@@ -290,10 +300,6 @@ class LevelSystem extends System {
 		this.mode = this.currentLevel.getMode();
 		this.levelCondition = undefined;
 		this.setLevelCondition(this.mode);
-
-		this.systems = new Array();
-		this.asteroidSystem = asteroidSystem;
-		this.enemySystem = enemySystem;
 
 		//listen for Destroy events, add points to score
 		const instance = this;
@@ -307,12 +313,14 @@ class LevelSystem extends System {
 		this.addEventListener(destroyListener);
 	}
 
-	//set level's win condition base on the mode
+	//set level's win condition base on the mode, as well as player movement
 	setLevelCondition(mode) {
 		if (mode.type == "ASTEROID") {
 			this.levelCondition = this.isScoreReached;
+			this.player.selectAsteroidMode(); //set player move mode
 		} else if (mode.type == "SCROLLER") {
 			this.levelCondition = this.isScoreReached;
+			this.player.selectScrollerMode(); //set player move mode
 		} else { throw new TypeError(); }
 	}
 
@@ -350,8 +358,8 @@ class LevelSystem extends System {
 
 	// Return true if player's score has reached the level's target score.
 	isScoreReached() { return this.score >= this.currentLevel.getTargetScore(); }
-	// Return true if there are no active asteroids or enemies left.
 
+	// Return true if there are no active asteroids or enemies left.
 	isLevelCleared() { return (this.asteroidSystem.getLength() == 0 && this.enemySystem.getLength() == 0); }
 
 	// Proceed to the next level, or publish a game won Event if all levels have been cleared.
@@ -361,11 +369,14 @@ class LevelSystem extends System {
 		if (this.levels[this.levelCount] != undefined) {
 			this.currentLevel = this.levels[this.levelCount];
 			this.currentLevel.onEnter();
+			this.setLevelCondition(this.currentLevel.getMode()); //TODO test
+
 		} else { //if next level is undefined, then all levels have been cleared.
 			if (this.levelsCleared == false) { //check flag, ensure only called once
-				this.levelsCleared = true;
-				const event = new Event(EventFilter.GAME, EventEnum.GAME_WON, undefined);
-				this.publishEvent(event);
+				//TODO uncomment when ready to handle game won
+				// this.levelsCleared = true;
+				// const event = new Event(EventFilter.GAME, EventEnum.GAME_WON, undefined);
+				// this.publishEvent(event);
 			}
 		}
 	}
@@ -373,14 +384,9 @@ class LevelSystem extends System {
 	addToScore(points) {
 		this.score += points;
 	}
-
-	//set player movement mode
-	setPlayerMovement(isTopDown) {
-		//TODO restrict player movement based on mode
-	}
 }
 
-let Images = {
+const Images = {
 	asteroid: {
 		image: new Image(),
 		width: 51,
@@ -411,7 +417,7 @@ class TestAsteroid extends GameObject {
 		this.transform.getLocation().addPoint(this.velocity);
 		this.transform.setRotation(this.transform.getRotation() + this.rotSpd);
 		if (this.isOffscreen()) {
-			// this.destroy(); //TODO call deactivate() instead.
+			// this.destroy(); //NOTE testing - call deactivate() instead.
 			this.deactivate();
 		}
 	}

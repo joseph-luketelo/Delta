@@ -1,13 +1,14 @@
-//Declare at the top for full global scope
+//contains global objects & functions.
+
+
+//Global objects from the DOM
 const CANVAS = document.getElementById("canvas_id");
 const CTX = CANVAS.getContext("2d"); //any object can access the context & draw stuff
 const WIDTH = CANVAS.width;
 const HEIGHT = CANVAS.height;
 
+//Global game objects (to be defined in main.js)
 let ENGINE = undefined;
-
-
-
 
 /* Utility functions */
 const randInt = function(min, max) { //return rand int in range [min, max)
@@ -21,4 +22,11 @@ const randFloat = function(min, max) { //return rand int in range [min, max)
 // AKN: https://stackoverflow.com/questions/8611830/javascript-random-positive-or-negative-number
 const randSign = function() { // return 1 or -1
 	return Math.round(Math.random()) * 2 -1;
+}
+
+// convenience method for displaying text.
+const fillText = function(text, x, y, font, ctx = CTX) {
+	ctx.font = font.str;
+	const w = (text.length/2) * (font.size/1.75);
+	ctx.fillText(text, x - w, y);
 }

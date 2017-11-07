@@ -11,13 +11,6 @@
 
 class GameObject {
 	constructor(points = 0, life = 100) {
-		//offscreen checking stuff
-		const buffer = 100;
-		this.northBuffer = 0 - buffer;
-		this.eastBuffer = WIDTH + buffer;
-		this.southBuffer = HEIGHT + buffer;
-		this.westBuffer = 0 - buffer;
-
 		this.isActive = true; //use for flagging for removal, or other functionality,
 		this.points = points; //number of points to add to score if this obj is destroyed.
 		this.life = life;
@@ -28,6 +21,13 @@ class GameObject {
 		this.eventListeners = new Array();
 		this.eventPublisher = new EventPublisher();
 	}
+
+	//Methods used for checking if object is offscreen
+	static getBufferValue() { return 100; }
+	static getBufferN() { return -GameObject.getBufferValue(); }
+	static getBufferE() { return WIDTH + GameObject.getBufferValue(); }
+	static getBufferS() { return HEIGHT + GameObject.getBufferValue(); }
+	static getBufferW() { return -GameObject.getBufferValue(); }
 
 	// Override for specific behaviours.
 	update() {}
@@ -43,10 +43,10 @@ class GameObject {
 	//return true if thsi object is off-screen.
 	//includes offscreenBuffer, incase objects also need to spawn offscreen.
 	isOffscreen() {
-		return (this.getX() < this.westBuffer) ||
-				(this.getX() > this.eastBuffer) ||
-				(this.getY() < this.northBuffer) ||
-				(this.getY() > this.southBuffer);
+		return 	(this.getX() < GameObject.getBufferW()) ||
+				(this.getX() > GameObject.getBufferE()) ||
+				(this.getY() < GameObject.getBufferN()) ||
+				(this.getY() > GameObject.getBufferS());
 	}
 
 	getIsActive() { return this.isActive; }
