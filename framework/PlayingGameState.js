@@ -38,7 +38,7 @@ class PlayingGameState extends GameState {
 		let enemySystem = new GameObjectSystem(); //updates and renders enemies
 		let bossSystem = undefined;
 		let levelSystem = new LevelSystem(LevelPresets.getPresets, playerSystem, asteroidSystem, enemySystem, bossSystem); // levels, playerSystem, asteroidSystem, enemySystem, bossSystem)
-		let soundSystem = new Sound(); //  updates sounds
+		let soundSystem = new SoundSystem(); //  updates sounds
 		//transitionSystem = new System();
 		// let collisionSystem = new CollisionSystem(playerSystem, asteroidSystem); //sample collision system
 			//checks and handles collisions
