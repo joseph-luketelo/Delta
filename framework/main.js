@@ -19,6 +19,7 @@ function setup() {
 	});
 
 	test(); //for testing
+	ENGINE.start();
 	window.requestAnimationFrame(update); //starts the game update loop
 }
 

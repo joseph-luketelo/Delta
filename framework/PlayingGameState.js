@@ -63,7 +63,9 @@ class PlayingGameState extends GameState {
 		});
 
 		let pauseListener = new EventListener(EventFilter.GAME, function(event) {
-			ENGINE.pauseGame();
+			if (event.getEventFilter() == EventEnum.GAME_PAUSE) {
+				ENGINE.pauseGame();
+			}
 		});
 
 		let gKeyListener = new EventListener(EventFilter.KEYBOARD, function(event) {
@@ -75,7 +77,6 @@ class PlayingGameState extends GameState {
 		this.registerEventListener(gameWonListener);
 		this.registerEventListener(pauseListener);
 		this.registerEventListener(gKeyListener);
-		this.registerEventListener(soundSystem.getEventListeners());
 	}
 
 	update() {

@@ -5,17 +5,21 @@
 	ex playing, paused, menu, game over, etc.
 */
 
-
 class GameEngine {
 	constructor() {
 		this.keyState = new KeyState(); //keeps track of which keys are down
-
+		this.eventPublisher = new EventPublisher();
 		// NOTE: initialization stuff in GameEngine's constructor
 		// moved to PlayingGameState's constructor.
 		this.playingState = new PlayingGameState();
 		this.pausedState = new PauseGameState();
 		this.currentState = this.playingState; //the GameEngine's current State
 		this.currentState.onEnter();
+
+	}
+
+	start() {
+		this.eventPublisher.publishEvent(new Event(EventFilter.GAME, EventEnum.GAME_START));
 	}
 
 	// Future: implement pausing
