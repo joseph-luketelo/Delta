@@ -44,7 +44,7 @@ class SoundSystem extends System {
 		});
 		this.addEventListener(objectDestroyedListener);
 		
-		let gameStartListener = new EventListener(EventFilter.Game, function(event) {
+		let gameStartListener = new EventListener(EventFilter.GAME, function(event) {
 			if (event.getEventEnum() == EventEnum.GAME_START) {
 				instance.playBackgroundSong();
 			}
