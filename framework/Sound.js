@@ -43,6 +43,13 @@ class SoundSystem extends System {
 			}
 		});
 		this.addEventListener(objectDestroyedListener);
+		
+		let gameStartListener = new EventListener(EventFilter.Game, function(event) {
+			if (event.getEventEnum() == EventEnum.GAME_START) {
+				instance.playBackgroundSong();
+			}
+		});
+		this.addEventListener(gameStartListener);
 
 	}
 	//These methods play the sounds for each type of event, thrust up or down, shooting bullets, collisions and background sounds
