@@ -85,11 +85,11 @@ class SoundSystem extends System {
 	}
 	
 	stopThrusterSound(){
-		this.thrusterSound.stop();
+		this.thrusterSound.pause();
 	}
 	
 	stopBulletSound(){
-		this.bulletSound.stop();
+		this.bulletSound.pause();
 	}
 	
 
