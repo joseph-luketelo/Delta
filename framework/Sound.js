@@ -19,12 +19,18 @@ class SoundSystem extends System {
 			if (event.getEventEnum() == EventEnum.keydown_w) {
 				instance.playThrusterSound();
 			}
+			if (event.getEventEnum() == EventEnum.keyup_w) {
+				instance.stopThrusterSound();
+			}
 		});
 		this.addEventListener(wKeyListener);
-
+		
 		let sKeyListener = new EventListener(EventFilter.KEYBOARD, function(event) {
 			if (event.getEventEnum() == EventEnum.keydown_s) {
 				instance.playThrusterSound();
+			}
+			if (event.getEventEnum() == EventEnum.keyup_s) {
+				instance.stopThrusterSound();
 			}
 		});
 		this.addEventListener(sKeyListener);
@@ -32,6 +38,9 @@ class SoundSystem extends System {
 		let gKeyListener = new EventListener(EventFilter.KEYBOARD, function(event) {
 			if (event.getEventEnum() == EventEnum.keydown_g) {
 				instance.playBulletSound();
+			}
+			if (event.getEventEnum() == EventEnum.keyup_g) {
+				instance.stopBulletSound();
 			}
 		});
 		this.addEventListener(gKeyListener);
@@ -74,5 +83,14 @@ class SoundSystem extends System {
 	playThrusterSound(){
 		this.thrusterSound.play();
 	}
+	
+	stopThrusterSound(){
+		this.thrusterSound.stop();
+	}
+	
+	stopBulletSound(){
+		this.bulletSound.stop();
+	}
+	
 
 }
