@@ -38,6 +38,8 @@ class PlayingGameState extends GameState {
 		let enemySystem = new GameObjectSystem(); //updates and renders enemies
 		let bossSystem = undefined;
 		let levelSystem = new LevelSystem(LevelPresets.getPresets, playerSystem, asteroidSystem, enemySystem, bossSystem); // levels, playerSystem, asteroidSystem, enemySystem, bossSystem)
+// 		TODO
+		//add your small asteroid system here
 		//transitionSystem = new System();
 		// let collisionSystem = new CollisionSystem(playerSystem, asteroidSystem); //sample collision system
 			//checks and handles collisions
@@ -52,6 +54,11 @@ class PlayingGameState extends GameState {
 		this.addSystem(bulletSystem);
 		this.addSystem(levelSystem);
 		// this.addSystem(collisionSystem);
+		//TODO add your system here
+		
+		//make lsitener
+		//lister for EventEnum.DESTROY_ASTEROID
+		//small asteroid system.spawn()
 
 		let gameWonListener = new EventListener(EventFilter.GAME, function(event) {
 			if (event.getEventEnum() == EventEnum.GAME_WON) {
@@ -73,6 +80,7 @@ class PlayingGameState extends GameState {
 		this.registerEventListener(gameWonListener);
 		this.registerEventListener(pauseListener);
 		this.registerEventListener(gKeyListener);
+		//TODO add yourlistener
 	}
 
 	update() {
