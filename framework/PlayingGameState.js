@@ -58,7 +58,10 @@ class PlayingGameState extends GameState {
 		
 		//make lsitener
 		//lister for EventEnum.DESTROY_ASTEROID
-		//small asteroid system.spawn()
+// 			let x = event.getData().getX();
+			//let y = event.getData().getY();
+			//create asteroid small asteroid(x, y)
+			//ast system.addObject(small ast);
 
 		let gameWonListener = new EventListener(EventFilter.GAME, function(event) {
 			if (event.getEventEnum() == EventEnum.GAME_WON) {
