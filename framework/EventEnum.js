@@ -30,8 +30,11 @@ const EventEnum = {
 	keydown_p: "keydown_p",
 	keyup_p: "keyup_p",
 	keydown_g: "keydown_g",
+	keyup_g: "keyup_g",
 	keydown_w: "keydown_w",
 	keydown_s: "keydown_s",
+	keyup_w: "keyup_w",
+	keyup_s: "keyup_s",
 
 
 	GAME_EVENT_DOOR_OPEN: "GAME_EVENT_DOOR_OPEN",
