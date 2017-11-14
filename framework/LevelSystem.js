@@ -423,6 +423,9 @@ class TestAsteroid extends GameObject {
 		CTX.drawImage(this.image.image, -this.image.wOffset, -this.image.hOffset);
 		CTX.restore();
 	}
+	//TODO override destroy()
+	//this.isactive = false
+	//
 }
 
 //Placeholder enemy class, blue squares.
