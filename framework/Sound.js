@@ -75,6 +75,7 @@ class SoundSystem extends System {
 
 	playBulletSound(){
 		this.bulletSound.play();
+		this.bulletSound.playbackRate = 2.0;
 	}
 
 	playThrusterSound(){
@@ -85,9 +86,4 @@ class SoundSystem extends System {
 		this.thrusterSound.pause();
 	}
 	
-	stopBulletSound(){
-		this.bulletSound.pause();
-	}
-	
-
 }
