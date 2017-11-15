@@ -1,5 +1,5 @@
 //This class is for Sound Effects
-//Work in progress. TODO Intitialization event and properly calling sound.
+//Work in progress
 
 class SoundSystem extends System {
 	constructor() {
@@ -19,9 +19,7 @@ class SoundSystem extends System {
 			if (event.getEventEnum() == EventEnum.keydown_w) {
 				instance.playThrusterSound();
 			}
-			if (event.getEventEnum() == EventEnum.keyup_w) {
-				instance.stopThrusterSound();
-			}
+
 		});
 		this.addEventListener(wKeyListener);
 		
@@ -29,9 +27,7 @@ class SoundSystem extends System {
 			if (event.getEventEnum() == EventEnum.keydown_s) {
 				instance.playThrusterSound();
 			}
-			if (event.getEventEnum() == EventEnum.keyup_s) {
-				instance.stopThrusterSound();
-			}
+
 		});
 		this.addEventListener(sKeyListener);
 
@@ -62,6 +58,7 @@ class SoundSystem extends System {
 	playBackgroundSong(){
 		this.backgroundSong.play();
 		this.backgroundSong.loop = true;
+		this.backgroundSong.volume = .5;
 	}
 
 	playAsteroidExplosion(){
@@ -76,14 +73,12 @@ class SoundSystem extends System {
 	playBulletSound(){
 		this.bulletSound.play();
 		this.bulletSound.playbackRate = 6.0;
+		this.bulletSound.volume = .7;
 	}
 
 	playThrusterSound(){
 		this.thrusterSound.play();
+		this.thrusterSound.volume = .5;
 	}
-	
-	stopThrusterSound(){
-		this.thrusterSound.pause();
-	}
-	
+		
 }
