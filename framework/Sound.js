@@ -39,9 +39,6 @@ class SoundSystem extends System {
 			if (event.getEventEnum() == EventEnum.keydown_g) {
 				instance.playBulletSound();
 			}
-			if (event.getEventEnum() == EventEnum.keyup_g) {
-				instance.stopBulletSound();
-			}
 		});
 		this.addEventListener(gKeyListener);
 
