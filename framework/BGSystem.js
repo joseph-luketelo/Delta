@@ -1,4 +1,5 @@
-//Class for drawing background image(s)
+//Class for drawing background image(s).
+//Will be added to the engine via PlayingGameState.js
 class BGSystem extends System {
 	constructor() {
 		super();
