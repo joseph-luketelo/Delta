@@ -37,12 +37,14 @@ class GameObjectSystem extends System {
 			const o = this.gameObjects[i];
 			o.update();
 			if (!o.getIsActive()) {
-				toRemove.push(i);
+				toRemove.push(i); //flag indexes of asteroids to remove
 			}
 		}
+
 		//remove inactive gameobjects
-		for (let i of toRemove) {
-			this.gameObjects.splice(i, 1);
+		for (let i = 0; i < toRemove.length; i++) {
+			const index = toRemove.pop();
+			this.gameObjects.splice(index, 1);
 		}
 	}
 
@@ -50,6 +52,17 @@ class GameObjectSystem extends System {
 		for (let o of this.gameObjects) {
 			o.render();
 		}
+
+		//testing
+		// // for (let o of this.gameObjects) {
+		// for (let i = 0; i < this.gameObjects.length; i++) {
+		// 	const o = this.gameObjects[i];
+		// 	o.render();
+		// 	CTX.strokeStyle = Colors.RED;
+		// 	CTX.fillStyle = Colors.RED;
+		// 	CTX.strokeRect(o.transform.getX() -25, o.transform.getY()-25, 50, 50);
+		// 	CTX.fillText("" + i, o.transform.getX()+25, o.transform.getY()-25);
+		// }
 	}
 
 	getLength() {
