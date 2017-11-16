@@ -284,22 +284,23 @@ class Level {
 
 // Class that updates and manages Levels. Each level contains data for spawning asteroids & enemies
 class LevelSystem extends System {
-	constructor(levelPresetsSupplier, playerSystem, asteroidSystem, enemySystem, bossSystem) {
+	constructor(levelPresetsSupplier, playerSystem, asteroidSystem, enemySystem, bossSystem, bgSystem) {
 		super();
 		this.systems = new Array();
 		this.asteroidSystem = asteroidSystem;
 		this.enemySystem = enemySystem;
 		this.playerSystem = playerSystem;
 		this.player = playerSystem.getPlayer();
+		this.bgSystem = bgSystem;
 
 		this.score = 0;
 		this.levelPresetsSupplier = levelPresetsSupplier; //gets a new array of predefined levels
 		this.levels = this.levelPresetsSupplier();
 		this.currentLevel = this.levels[0];
 		this.levelCount = 0; //levels[] index
-		this.mode = this.currentLevel.getMode();
+		// this.mode = this.currentLevel.getMode();
 		this.levelCondition = undefined;
-		this.setLevelCondition(this.mode);
+		this.setLevelCondition(this.currentLevel.getMode());
 
 		//listen for Destroy events, add points to score
 		const instance = this;
@@ -343,6 +344,9 @@ class LevelSystem extends System {
 				this.enemySystem.addObject(e);
 			}
 		}
+		if (this.currentLevel.getMode() == Mode.SCROLLER) {
+			this.bgSystem.scroll();
+		}
 	}
 
 	render() {
@@ -383,6 +387,10 @@ class LevelSystem extends System {
 
 	addToScore(points) {
 		this.score += points;
+	}
+
+	getMode() {
+		return this.currentLevel.getMode();
 	}
 }
 

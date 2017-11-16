@@ -8,12 +8,13 @@ class PlayingGameState extends GameState {
 		super();
 
 		//Define Systems here.
+		let bgSystem = new BGSystem();
 		let playerSystem = new PlayerSystem(new Player(WIDTH/2, HEIGHT/2)); //updates and renders player
 		let bulletSystem = new BulletSystem(new Bullet(WIDTH/2, HEIGHT/2, playerSystem));//updates and renders player bullets
 		let asteroidSystem = new GameObjectSystem(); //updates and renders asteriods
 		let enemySystem = new GameObjectSystem(); //updates and renders enemies
 		let bossSystem = undefined;
-		let levelSystem = new LevelSystem(LevelPresets.getPresets, playerSystem, asteroidSystem, enemySystem, bossSystem); // levels, playerSystem, asteroidSystem, enemySystem, bossSystem)
+		let levelSystem = new LevelSystem(LevelPresets.getPresets, playerSystem, asteroidSystem, enemySystem, bossSystem, bgSystem); // levels, playerSystem, asteroidSystem, enemySystem, bossSystem)
 		//transitionSystem = new System();
 		// let collisionSystem = new CollisionSystem(playerSystem, asteroidSystem); //sample collision system
 			//checks and handles collisions
@@ -23,6 +24,7 @@ class PlayingGameState extends GameState {
 		//Add your System to the main playingState
 		//eventlisteners belonging to each system will be automaticlaly registered with this state.
 		//NOTE: add order will determing render order.
+		this.addSystem(bgSystem);
 		this.addSystem(enemySystem);
 		this.addSystem(asteroidSystem);
 		this.addSystem(playerSystem);
