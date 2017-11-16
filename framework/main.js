@@ -3,12 +3,13 @@
 	Contains entry and main loop methods that are called by the page on load.
 */
 
-//Other globals declared or defined in globals.js
+//Define globals declared in globals.js
 ENGINE = new GameEngine();
 
 //entry method: called by the html page, after it's is done loading (script tags must use the "defer" attribute)
 function setup() {
-	console.log("setup");
+	const instructions = "setup\nwasd: move/rotate\ng: shoot";
+	console.log(instructions);
 
 	//add key event listeners
 	document.addEventListener("keydown", function(event) {
@@ -18,6 +19,7 @@ function setup() {
 		ENGINE.receiveRawKeyEvent(event, false);
 	});
 
+	ENGINE.start();
 	TestSuite.runTests();
 	window.requestAnimationFrame(update); //starts the game update loop
 }

@@ -37,7 +37,6 @@ class GameState extends State {
 		}
 	}
 
-
 	//call onExit on all systems
 	onExit() { //exit logic, ex stop a timer, release resources
 		for (let sys of this.systems) {

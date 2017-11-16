@@ -6,8 +6,10 @@ class PauseGameState extends GameState {
 		this.screenshot.width = WIDTH;
 		this.screenshot.height = HEIGHT;
 
-		let resumeListener = new EventListener(EventFilter.GAME, function(event) {
-			ENGINE.resume();
+		const resumeListener = new EventListener(EventFilter.KEYBOARD, function(event) {
+			if (event.getEventEnum() == EventEnum.keyup_p) {
+				ENGINE.resume();
+			}
 		});
 		this.registerEventListener(resumeListener);
 	}
@@ -25,11 +27,11 @@ class PauseGameState extends GameState {
 
 	render() {
 		CTX.drawImage(this.screenshot, 0, 0);
-		CTX.fillStyle = "rgba(0, 0, 0, 0.5)";
+		CTX.fillStyle = "rgba(0, 0, 0, 0.5)"; //bg overlay color
 		CTX.fillRect(0, 0, WIDTH, HEIGHT);
-		CTX.fillStyle = "rgba(255, 255, 255, 1)";
-		CTX.fillText("PAUSED", WIDTH/2, HEIGHT/2); //TODO font style
-		CTX.fillText("press P to resume", WIDTH/2, HEIGHT/2 + 30); //TODO font style
+		CTX.fillStyle = Colors.WHITE; //text color
+		fillText("PAUSED", WIDTH/2, HEIGHT/2, Fonts.DEFAULT);
+		fillText("press P to resume", WIDTH/2, HEIGHT/2 + 30, Fonts.DEFAULT);
 	}
 
 	saveScreenshot() {

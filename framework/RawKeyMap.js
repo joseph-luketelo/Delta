@@ -1,5 +1,8 @@
 //Map KeyboardEvents from the browser into Events like pause.
 class RawKeyMap {
+	// static keys() {
+	// 	return [];
+	// }
 	static map(keyEvent) {
 		switch(keyEvent.key) {
 			case 'p':
