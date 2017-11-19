@@ -52,17 +52,6 @@ class GameObjectSystem extends System {
 		for (let o of this.gameObjects) {
 			o.render();
 		}
-
-		//testing
-		// // for (let o of this.gameObjects) {
-		// for (let i = 0; i < this.gameObjects.length; i++) {
-		// 	const o = this.gameObjects[i];
-		// 	o.render();
-		// 	CTX.strokeStyle = Colors.RED;
-		// 	CTX.fillStyle = Colors.RED;
-		// 	CTX.strokeRect(o.transform.getX() -25, o.transform.getY()-25, 50, 50);
-		// 	CTX.fillText("" + i, o.transform.getX()+25, o.transform.getY()-25);
-		// }
 	}
 
 	getLength() {
