@@ -3,7 +3,7 @@
 To run the game, open index.html in a browser.
 
 
-Current functionaliy:
+**_Current functionaliy:_**
 - "wasd" to move, "g" to fire
 - asteroids & enemies spawn depending on level
 - (testing) asteroids destroyed automatically when offscreen (instead of by player); game automatically progress through levels.
@@ -11,7 +11,7 @@ Current functionaliy:
 - player rotation depends on current level mode (scroller or asteroid)
 
 
-TODO - main todo's:
+**_TODO - main todo's:_**
 - Systems:
 	- asteroid fragments - jason
 	- enemy behaviour - jason?
@@ -26,7 +26,7 @@ TODO - main todo's:
 - keep player in bounds/on screen
 - UI - fix score positioning
 
-TODO - refinement:
+**_TODO - refinement:_**
 - smooth player movement & rotation, via vel, accel
 	- rotate towards a target, rather than raw rotation
 	- smooth rotation reset when transitioning via rot velocity
@@ -34,7 +34,7 @@ TODO - refinement:
 - transition smoothly between modes, effects, UI indicators, etc
 	- ensure all asteroids are deactivated before goign to next mode/level?
 
-TODO - low priority:
+**_TODO - low priority:_**
 - optimization - stuttering issues?
 - fonts, UI stuff
 - only queue raw key events that we're interested in
