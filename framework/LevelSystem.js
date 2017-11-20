@@ -43,6 +43,7 @@ const Mode = {
 */
 class ObjectSpawner {
 	constructor(objectSupplier, spawnFreqRange, numPerSpawnRange, maxNum) {
+		if (objectSupplier == undefined) { throw new TypeError(); }
 		this.objectSupplier = objectSupplier; //a callback/function that returns a new GameObject
 		//objectSupplier responsible for setting variables on obejct like spawn location, speed
 		this.spawnFreqRange = spawnFreqRange; //a point specifying the frequency that asteroids should spawn (in frames).
@@ -96,12 +97,17 @@ class Level {
 		this.asteroidSpawner = asteroidSpawner;
 		this.enemySpawner = enemySpawner;
 		this.spawners = new Array(); //array of ObjectSpawners
+		this.bossSpawner = bossSpawner;
 		if (asteroidSpawner instanceof ObjectSpawner) {
 			this.spawners.push(asteroidSpawner);
 		}
 		if (enemySpawner instanceof ObjectSpawner) {
 			this.spawners.push(enemySpawner);
 		}
+		if (bossSpawner instanceof ObjectSpawner) {
+			this.spawners.push(bossSpawner);
+		}
+		
 		if (this.spawners.length == 0) {
 			console.warn("Warning: no ObjectSpawners were initialized.");
 		}
@@ -133,6 +139,9 @@ class Level {
 	getEnemyBuffer() {
 		return this.enemySpawner == undefined ? undefined : this.enemySpawner.getBuffer();
 	}
+	getBossBuffer() {
+		return this.bossSpawner == undefined ? undefined : this.bossSpawner.getBuffer();
+	}
 }
 
 // Class that updates and manages Levels. Each level contains data for spawning asteroids & enemies
@@ -145,6 +154,8 @@ class LevelSystem extends System {
 		this.playerSystem = playerSystem;
 		this.player = playerSystem.getPlayer();
 		this.bgSystem = bgSystem;
+		
+		this.bossSystem = bossSystem;
 
 		this.score = 0;
 		this.levels = levelPresetsSupplier();
@@ -176,6 +187,7 @@ class LevelSystem extends System {
 		} else if (mode.type == "BOSS") {
 			//TODO
 			this.levelCondition = this.isScoreReached;
+			this.player.selectScrollerMode(); //set player move mode
 		}
 		else { throw new TypeError("invalid mode: " + mode); }
 	}
@@ -197,6 +209,15 @@ class LevelSystem extends System {
 			while (enemies.length > 0) {
 				const e = enemies.pop();
 				this.enemySystem.addObject(e);
+			}
+		}
+		if (this.bossSystem != undefined) {
+			const bosses = this.currentLevel.getBossBuffer();
+			if (bosses != undefined) {
+				while (bosses.length > 0) {
+					const b = bosses.pop();
+					this.bossSystem.addObject(b);
+				}
 			}
 		}
 		if (this.currentLevel.getMode() == Mode.SCROLLER) {

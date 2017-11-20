@@ -77,19 +77,15 @@ const LevelPresets2 = {
 				}
 			} else if (mode == Mode.BOSS || mode == Mode.BOSS_A || mode == Mode.BOSS_S ) {
 				//TODO
+				a_supplier = function() {
+					return make_scroll_ast(new Point(), new Point()); //TODO no asteroids for boss level
+				};
+				
 				let b_supplier = function() {
-					let boss = new Boss();
-					//let rect = LevelPresets.asteroid_spawnAreas[randInt(0, 4)];
-					let x = WIDTH/2;
-					let y = -30;
-					let loc = new Point(x, y);
-
-					const halfWidth = WIDTH/2;
-					const halfHeight = HEIGHT/2;
-
-					return boss;
+					return new Boss();
 				}
 				bossSpawner = new ObjectSpawner(b_supplier, new Point(1, 1), new Point(1, 1), 1);
+				// bossSpawner = new ObjectSpawner(b_supplier, a_spawnFreqRange, a_numPerSpawnRange, a_maxNum);
 			} else {
 				throw new Error("invalid mode: " + mode);
 			}
@@ -97,6 +93,7 @@ const LevelPresets2 = {
 			const asteroidSpawner = new ObjectSpawner(a_supplier, a_spawnFreqRange, a_numPerSpawnRange, a_maxNum);
 			const enemySpawner = new ObjectSpawner(e_supplier, e_spawnFreqRange, e_numPerSpawnRange, e_maxNum);
 
+			
 			let level = new Level(mode, levelNum, targetScore, asteroidSpawner, enemySpawner, bossSpawner);
 			levels.push(level);
 		}
