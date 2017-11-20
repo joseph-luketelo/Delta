@@ -14,7 +14,10 @@ class PlayingGameState extends GameState {
 		let asteroidSystem = new GameObjectSystem(); //updates and renders asteriods
 		let enemySystem = new GameObjectSystem(); //updates and renders enemies
 		let bossSystem = undefined;
-		let levelSystem = new LevelSystem(LevelPresets.getPresets, playerSystem, asteroidSystem, enemySystem, bossSystem, bgSystem); // levels, playerSystem, asteroidSystem, enemySystem, bossSystem)
+		// let levelSystem = new LevelSystem(LevelPresets.getPresets, playerSystem, asteroidSystem, enemySystem, bossSystem, bgSystem); // levels, playerSystem, asteroidSystem, enemySystem, bossSystem)
+		let levelSystem = new LevelSystem(LevelPresets2.getLevels, playerSystem, asteroidSystem, enemySystem, bossSystem, bgSystem); // levels, playerSystem, asteroidSystem, enemySystem, bossSystem)
+		
+		
 		//transitionSystem = new System();
 		// let collisionSystem = new CollisionSystem(playerSystem, asteroidSystem); //sample collision system
 			//checks and handles collisions
@@ -24,7 +27,7 @@ class PlayingGameState extends GameState {
 		//Add your System to the main playingState
 		//eventlisteners belonging to each system will be automaticlaly registered with this state.
 		//NOTE: add order will determing render order.
-		this.addSystem(bgSystem);
+		this.addSystem(bgSystem); //bg system should be added first, so that it's drawn before other elements.
 		this.addSystem(enemySystem);
 		this.addSystem(asteroidSystem);
 		this.addSystem(playerSystem);
@@ -74,8 +77,3 @@ class PlayingGameState extends GameState {
 		}
 	}
 }
-
-// ???
-// function background(){
-// 	CTX.drawImage(imgDrops, Math.random()*100 ,300, imgDrops.width, imgDrops.height);
-// }
