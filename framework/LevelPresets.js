@@ -1,3 +1,5 @@
+// TODO fix bug.
+// see TODO's in LevelSYstem and LevelPresets.
 // Simple container class for using strings as objects.
 class Str {
 	constructor(str = "") { this.str = str; }
@@ -6,7 +8,7 @@ class Str {
 }
 
 // A Container object for predefined levels.
-// Uses level_resets.tsv 
+// Uses level_resets.tsv
 const LevelPresets2 = {
 	//return an array of functions
 	getLevels: function() {
@@ -21,36 +23,36 @@ const LevelPresets2 = {
 			// 	read level
 			i = getNextColumn2(i, line, container) +1;
 			let levelNum = Number(container.getStr());
-			
+
 			// 	read mode
 			i = getNextColumn2(i, line, container) +1;
 			let modeKey = container.getStr();
 			// let mode = Mode.get(modeStr);
 			let mode = Mode[modeKey];
-			
+
 			// 	read dxRange and or dyRange
 			i = getNextColumn2(i, line, container) +1;
 			let dx_dy = container.getStr();
-			
+
 			// 	read target score
 			i = getNextColumn2(i, line, container) +1;
 			let targetScore = Number(container.getStr());
-			
+
 			// 	read maxAsteroids
 			i = getNextColumn2(i, line, container) +1;
 			let a_maxNum = Number(container.getStr());
-			
+
 			// 	read asteroid spawn freq and # per spawn range
 			i = getNextColumn2(i, line, container) +1;
 			let a_spawnFreq_numPer = container.getStr();
 			let a_spawnFreq_numPer_pts = getPoints(a_spawnFreq_numPer);
 			let a_spawnFreqRange = a_spawnFreq_numPer_pts[0];
 			let a_numPerSpawnRange = a_spawnFreq_numPer_pts[1];
-			
+
 			// 	read max enemies
 			i = getNextColumn2(i, line, container) +1;
 			let e_maxNum = Number(container.getStr());
-			
+
 			// 	read enemy spawn freq and # per spawn range
 			i = getNextColumn2(i, line, container) +1;
 			let e_spawnFreq_numPer = container.getStr();
@@ -60,6 +62,7 @@ const LevelPresets2 = {
 
 			let a_supplier = undefined;
 			const e_supplier = function() { return new TestEnemy(); };
+			let bossSpawner = undefined;
 			if (mode == Mode.SCROLLER) {
 				a_supplier = function() {
 					let pts = getPoints(dx_dy);
@@ -72,37 +75,51 @@ const LevelPresets2 = {
 				a_supplier = function() {
 					return make_asteroids_ast(spd);
 				}
-			} else if (mode == Mode.BOSS_A || mode == Mode.BOSS_S) {
+			} else if (mode == Mode.BOSS || mode == Mode.BOSS_A || mode == Mode.BOSS_S ) {
 				//TODO
-				console.warn("Warning, no implementation for this mode.");
+				let b_supplier = function() {
+					let boss = new Boss();
+					//let rect = LevelPresets.asteroid_spawnAreas[randInt(0, 4)];
+					let x = WIDTH/2;
+					let y = -30;
+					let loc = new Point(x, y);
+
+					const halfWidth = WIDTH/2;
+					const halfHeight = HEIGHT/2;
+
+					return boss;
+				}
+				bossSpawner = new ObjectSpawner(b_supplier, new Point(1, 1), new Point(1, 1), 1);
 			} else {
 				throw new Error("invalid mode: " + mode);
 			}
 
 			const asteroidSpawner = new ObjectSpawner(a_supplier, a_spawnFreqRange, a_numPerSpawnRange, a_maxNum);
 			const enemySpawner = new ObjectSpawner(e_supplier, e_spawnFreqRange, e_numPerSpawnRange, e_maxNum);
-			const bossSpawner = undefined;
+
 			let level = new Level(mode, levelNum, targetScore, asteroidSpawner, enemySpawner, bossSpawner);
 			levels.push(level);
 		}
 		return levels;
 	},
-	
+
 	// (see level_presets.tsv)
-	levelStr: "" + 
-	"1	SCROLLER	(-0.5, 0.5), (2, 5)	100	-1	(20, 50), (1, 1)	0	n/a\n" +
-	"2	SCROLLER	(-0.5, 0.5), (2, 5)	200	-1	(20, 45), (1, 1)	0	n/a\n" +
-	"3	SCROLLER	(-0.6, 0.6), (2, 6)	400	-1	(18, 45), (1, 1)	0	n/a\n" +
-	"4	SCROLLER	(-0.6, 0.6), (2, 6)	600	-1	(15, 40), (1, 1)	0	n/a\n" +
-	"5	SCROLLER	(-0.65, 0.65), (2, 7)	800	-1	(13, 35), (1, 1)	0	n/a\n" +
-	"6	ASTEROID	spd(1, 3)	1000	-1	(20, 50), (1, 1)	0	n/a\n" +
-	"7	SCROLLER	(-0.5, 0.5), (2, 5)	100	-1	(20, 50), (1, 1)	3	(1, 1), (3, 3)\n" +
-	"8	SCROLLER	(-0.5, 0.5), (2, 5)	200	-1	(20, 45), (1, 1)	5	(delay, delay), (5, 5)\n" +
-	"9	SCROLLER	(-0.6, 0.6), (2, 6)	400	-1	(18, 45), (1, 1)	5	(delay, delay), (5, 5)\n" +
-	"10	SCROLLER	(-0.6, 0.6), (2, 6)	600	-1	(15, 40), (1, 1)	7	(delay, delay), (7, 7)\n" +
-	"11	SCROLLER	(-0.65, 0.65), (2, 7)	800	-1	(13, 35), (1, 1)	7	(delay, delay), (7, 7)\n" +
-	"12	ASTEROID	spd(1, 3)	1000	-1	(20, 50), (1, 1)	9	(delay, delay), (9, 9)\n",
-	
+	//TODO update
+	levelStr: "" +
+	// "1	SCROLLER	(-0.5, 0.5), (2, 5)	100	-1	(20, 50), (1, 1)	0	n/a\n" +
+	// "2	SCROLLER	(-0.5, 0.5), (2, 5)	200	-1	(20, 45), (1, 1)	0	n/a\n" +
+	// "3	SCROLLER	(-0.6, 0.6), (2, 6)	400	-1	(18, 45), (1, 1)	0	n/a\n" +
+	// "4	SCROLLER	(-0.6, 0.6), (2, 6)	600	-1	(15, 40), (1, 1)	0	n/a\n" +
+	// "5	SCROLLER	(-0.65, 0.65), (2, 7)	800	-1	(13, 35), (1, 1)	0	n/a\n" +
+	// "6	ASTEROID	spd(1, 3)	1000	-1	(20, 50), (1, 1)	0	n/a\n" +
+	// "7	SCROLLER	(-0.5, 0.5), (2, 5)	100	-1	(20, 50), (1, 1)	3	(1, 1), (3, 3)\n" +
+	// "8	SCROLLER	(-0.5, 0.5), (2, 5)	200	-1	(20, 45), (1, 1)	5	(1, 1), (5, 5)\n" +
+	// "9	SCROLLER	(-0.6, 0.6), (2, 6)	400	-1	(18, 45), (1, 1)	5	(1, 1), (5, 5)\n" +
+	// "10	SCROLLER	(-0.6, 0.6), (2, 6)	600	-1	(15, 40), (1, 1)	7	(1, 1), (7, 7)\n" +
+	// "11	SCROLLER	(-0.65, 0.65), (2, 7)	800	-1	(13, 35), (1, 1)	7	(1, 1), (7, 7)\n" +
+	// "12	ASTEROID	spd(1, 3)	1000	-1	(20, 50), (1, 1)	9	(1, 1), (9, 9)\n" +
+	"13	BOSS	spd(1, 3)	2500	0	(20, 50), (1, 1)	0	(1, 1), (1, 1)\n",
+
 	asteroid_spawnAreas: [
 		new Rectangle(-80, -80, WIDTH + 40, 50), //north
 		new Rectangle(-80, HEIGHT + 40, WIDTH + 40, 50), //south
@@ -127,7 +144,7 @@ function make_scroll_ast(dxRange, dyRange) {
 //return a new Asteroid for the ASTEROID mode
 function make_asteroids_ast(velRange) {
 	let ast = new TestAsteroid();
-	
+
 	let rect = LevelPresets2.asteroid_spawnAreas[randInt(0, 4)];
 	let x = randFloat(rect.getX(), rect.getX() + rect.getWidth());
 	let y = randFloat(rect.getY(), rect.getY() + rect.getHeight());
@@ -155,7 +172,7 @@ function getLines(input) {
 	let l = "";
 	let flag = false;
 	let i = 0;
-	
+
 	let count = 0;
 	while (!flag && count++ < 1000) {
 		if (i < input.length) {
@@ -301,7 +318,7 @@ const LevelPresets = {
 		return [CLASS.level_01(), CLASS.level_a00(), CLASS.level_02()];
 		// return [CLASS.level_a00()];
 		// return [CLASS.level_02()];
-		
+
 	}
 }
 */

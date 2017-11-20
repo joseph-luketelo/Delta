@@ -18,9 +18,6 @@ Modes: scroller, asteroid, boss
 			- follows you around/has pattern
 			- level is completed once boss is dead
 				-
-	TODO
-		restrict player movement between modes
-		UI, bg, or transition to indicate mode change
 */
 
 const Mode = {
@@ -31,6 +28,9 @@ const Mode = {
 		type: "SCROLLER",
 		ast_start_x_range: new Point(0, WIDTH),
 		ast_start_y_range: new Point(-50, -50),
+	},
+	BOSS: {
+		type: "BOSS",
 	},
 	BOSS_A: "BOSS_A",
 	BOSS_S: "BOSS_S",
@@ -46,7 +46,7 @@ class ObjectSpawner {
 		this.objectSupplier = objectSupplier; //a callback/function that returns a new GameObject
 		//objectSupplier responsible for setting variables on obejct like spawn location, speed
 		this.spawnFreqRange = spawnFreqRange; //a point specifying the frequency that asteroids should spawn (in frames).
-		this.numPerSpawnRange = numPerSpawnRange; //TODO unused. a number specifying the number of objects to spawn each spawn interval.
+		this.numPerSpawnRange = numPerSpawnRange; // a number specifying the number of objects to spawn each spawn interval.
 		this.maxNum = maxNum; //maximum number of objects that can be spawned. set to -1 for unlimited.
 		this.totalSpawned = 0; //total number spawned so far
 		this.maxReached = false; //flag, true if totalSpawned reaches maxNum
@@ -88,7 +88,7 @@ class ObjectSpawner {
 //Contains data about the current level.
 //keep track of spawning data, add spawned obejcts to a buffer
 class Level {
-	constructor(mode, levelNum, targetScore, asteroidSpawner, enemySpawner, bossSpawner) { //TODO unchecked
+	constructor(mode, levelNum, targetScore, asteroidSpawner, enemySpawner, bossSpawner) {
 		//NOTE unchecked constructor
 		this.mode = mode; //the mode, one of: Mode.SCROLLER, Mode.ASTEROID, Mode.BOSS_A, Mode.BOSS_S
 		this.levelNum = levelNum; //the current level number. will be printed to the screen.
@@ -173,7 +173,11 @@ class LevelSystem extends System {
 		} else if (mode.type == "SCROLLER") {
 			this.levelCondition = this.isScoreReached;
 			this.player.selectScrollerMode(); //set player move mode
-		} else { throw new TypeError("invalid mode: " + mode); }
+		} else if (mode.type == "BOSS") {
+			//TODO
+			this.levelCondition = this.isScoreReached;
+		}
+		else { throw new TypeError("invalid mode: " + mode); }
 	}
 
 	onEnter() {}
@@ -202,7 +206,6 @@ class LevelSystem extends System {
 
 	render() {
 		this.currentLevel.render(); //render level elements
-		//TODO display score
 		fillText("" + this.score, WIDTH -20, 20, Fonts.DEFAULT);
 	}
 
@@ -226,11 +229,10 @@ class LevelSystem extends System {
 		if (this.levels[this.levelCount] != undefined) {
 			this.currentLevel = this.levels[this.levelCount];
 			this.currentLevel.onEnter();
-			this.setLevelCondition(this.currentLevel.getMode()); //TODO test
+			this.setLevelCondition(this.currentLevel.getMode());
 
 		} else { //if next level is undefined, then all levels have been cleared.
 			if (this.levelsCleared == false) { //check flag, ensure only called once
-				//TODO uncomment when ready to handle game won
 				// this.levelsCleared = true;
 				// const event = new Event(EventFilter.GAME, EventEnum.GAME_WON, undefined);
 				// this.publishEvent(event);
