@@ -10,7 +10,8 @@ class PlayingGameState extends GameState {
 		//Define Systems here.
 		let bgSystem = new BGSystem();
 		let playerSystem = new PlayerSystem(new Player(WIDTH/2, HEIGHT/2)); //updates and renders player
-		let bulletSystem = new BulletSystem(new Bullet(WIDTH/2, HEIGHT/2, playerSystem));//updates and renders player bullets
+		// let bulletSystem = new BulletSystem(new Bullet(WIDTH/2, HEIGHT/2, playerSystem));//updates and renders player bullets
+		let playerBulletSystem = new PlayerBulletSystem(playerSystem);//updates and renders player bullets
 		let asteroidSystem = new GameObjectSystem(); //updates and renders asteriods
 		let enemySystem = new GameObjectSystem(); //updates and renders enemies
 		let bossSystem = new GameObjectSystem();
@@ -30,8 +31,8 @@ class PlayingGameState extends GameState {
 		this.addSystem(bgSystem); //bg system should be added first, so that it's drawn before other elements.
 		this.addSystem(enemySystem);
 		this.addSystem(asteroidSystem);
+		this.addSystem(playerBulletSystem);
 		this.addSystem(playerSystem);
-		this.addSystem(bulletSystem);
 		this.addSystem(bossSystem);
 		this.addSystem(levelSystem);
 		// this.addSystem(collisionSystem);
@@ -48,16 +49,10 @@ class PlayingGameState extends GameState {
 				ENGINE.pauseGame();
 			}
 		});
-
-		let gKeyListener = new EventListener(EventFilter.KEYBOARD, function(event) {
-			if (event.getEventEnum() == EventEnum.keydown_g) {
-				console.log("pew");
-			}
-		});
+		
 
 		this.registerEventListener(gameWonListener);
 		this.registerEventListener(pauseListener);
-		this.registerEventListener(gKeyListener);
 	}
 
 	update() {
