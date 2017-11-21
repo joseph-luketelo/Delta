@@ -34,7 +34,6 @@ class BGSystem extends System {
 	render() {
 		if(LevelPresets.getPresets()[0].mode.type === "SCROLLER") {
 			CTX.drawImage(this.bgImageScroller, this.loc1Scroller.getX(), this.loc1Scroller.getY(), this.loc2Scroller.getX(), this.loc2Scroller.getY());
-			// , this.loc3Scroller.getX(), this.loc3Scroller.getY(), this.loc4Scroller.getX(), this.loc4Scroller.getY(),
 		} else if(LevelPresets.getPresets()[0].mode.type === "ASTEROID") {
 			CTX.drawImage(this.bgImageAsteroid, this.loc1Asteroid.getX(), this.loc1Asteroid.getY(), this.loc2Asteroid.getX(), this.loc2Asteroid.getY());
 		}
