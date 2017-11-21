@@ -19,7 +19,7 @@ class PlayingGameState extends GameState {
 		
 		
 		//transitionSystem = new System();
-		let collisionSystem = new CollisionSystem(playerSystem, asteroidSystem, bulletSystem); //sample collision system
+		let collisionSystem = new CollisionSystem(playerSystem, asteroidSystem, bulletSystem, bossSystem); //sample collision system
 			//checks and handles collisions
 			//call damage() on game objects if they have been hit
 			//call destroy() on game objects if they have been destroyed

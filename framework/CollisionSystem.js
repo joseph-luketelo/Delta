@@ -2,12 +2,14 @@
 	Checks for and handles collisions between objects like player, projectiles, and asteroids.
 	Responsible for determining if conditions of a collision (ex distance threshold).
 	NOTE: alter as needed.
+	
+	
  */
 
 class CollisionSystem extends System {
 	// @param player: The player
 	// @param asteroids: An array of asteroids
-	constructor(playerSystem, asteroidSystem, bulletSystem) {
+	constructor(playerSystem, asteroidSystem, bulletSystem, bossSystem) {
 		if (playerSystem instanceof PlayerSystem == false || asteroidSystem instanceof GameObjectSystem == false) { throw new Error("Invalid arguments"); }
 
 		super();
@@ -19,11 +21,26 @@ class CollisionSystem extends System {
 		this.bulletSystem = bulletSystem;
 		// this.projectiles = player.getProjectiles(); //get the player's list of projectiles.
 		// this.enemies = enemies;
+		
+		this.bossSystem = bossSystem;
+		// this.boss = bossSystem.getObjects()[0];
+		// this.bossBullets = this.boss.getBullets(); //Array<Bullet>
+		
 	}
 	
 	update() {
 		this.checkPlayer_Asteroids();
 		this.checkProjectiles_Asteroids();
+		// if (this.bossSystem.getObjects()[0] != undefined) {
+		// 	this.checkBossCollision();
+		// }
+		
+		if (Distance_check(a, b)) {
+			//handle collision
+			//apply damage
+		}
+		
+		
 	}
 	
 	onEnter() {}
@@ -48,6 +65,17 @@ class CollisionSystem extends System {
 		}
 		return false;
 	}
+	
+	//return true or false
+	static Distance_check_arr_arr(arrA, arrB) {
+		//TODO
+	}
+	
+	// return true or false
+	static Distance_check_obj_arr(obj, arr) {
+	}
+	
+	
 	
 	// Check if player is colliding with an asteroid
 	checkPlayer_Asteroids() {
@@ -90,10 +118,9 @@ class CollisionSystem extends System {
 		// 		}
 		// 	}
 		// }
-		
-		
-		
 	}
+	
+	
 	
 	
 	//NOTE example method for if an asteroid is hit
