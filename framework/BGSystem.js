@@ -33,17 +33,20 @@ class BGSystem extends System {
 	//called every frame
 	render() {
 			CTX.drawImage(this.bgImageScroller, this.loc1Scroller.getX(), this.loc1Scroller.getY(), this.loc2Scroller.getX(), this.loc2Scroller.getY());
+			CTX.drawImage(this.bgImageScroller, this.loc1Scroller.getX(), this.loc1Scroller.getY()-1250, this.loc2Scroller.getX(), this.loc2Scroller.getY());
 	}
 
 	// continuously move images vertically (top to bottom). called by another
 	// class (LevelSystem.js) when the game is in scroller mode.
 	// scroll() will stop being called when game is in asteroid mode.
 	scroll() {
-		// console.log(this.loc1Scroller.getX(), this.loc1Scroller.getY());
-		if(this.loc1Scroller.getY() === 0) {
-			this.loc1Scroller.set(0, -450);
+		console.log(this.loc1Scroller.getX(), this.loc1Scroller.getY());
+		if(this.loc1Scroller.getY() >= 1000) {
+			this.loc1Scroller.set(0, -750);
+			this.render();
 		}
 		this.loc1Scroller.addPoint(this.velocity); //move images vertically
+	  // this.loc2Scroller.addPoint(this.velocity);
 		// reset image locations when offscreen (move back to top, when past bottom)
 	}
 
