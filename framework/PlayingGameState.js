@@ -19,7 +19,7 @@ class PlayingGameState extends GameState {
 		
 		
 		//transitionSystem = new System();
-		// let collisionSystem = new CollisionSystem(playerSystem, asteroidSystem); //sample collision system
+		let collisionSystem = new CollisionSystem(playerSystem, asteroidSystem, bulletSystem); //sample collision system
 			//checks and handles collisions
 			//call damage() on game objects if they have been hit
 			//call destroy() on game objects if they have been destroyed
@@ -33,7 +33,7 @@ class PlayingGameState extends GameState {
 		this.addSystem(playerSystem);
 		this.addSystem(bulletSystem);
 		this.addSystem(levelSystem);
-		// this.addSystem(collisionSystem);
+		this.addSystem(collisionSystem);
 
 		let gameWonListener = new EventListener(EventFilter.GAME, function(event) {
 			if (event.getEventEnum() == EventEnum.GAME_WON) {
