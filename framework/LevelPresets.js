@@ -1,5 +1,3 @@
-// TODO fix bug.
-// see TODO's in LevelSYstem and LevelPresets.
 // Simple container class for using strings as objects.
 class Str {
 	constructor(str = "") { this.str = str; }
@@ -7,7 +5,7 @@ class Str {
 	setStr(s) { this.str = s; }
 }
 
-// A Container object for predefined levels.
+// Generate levels from each row of text in LevelPrests2.levelStr
 // Uses level_resets.tsv
 const LevelPresets2 = {
 	//return an array of functions
@@ -76,14 +74,11 @@ const LevelPresets2 = {
 					return make_asteroids_ast(spd);
 				}
 			} else if (mode == Mode.BOSS || mode == Mode.BOSS_A || mode == Mode.BOSS_S ) {
-				//TODO
 				a_supplier = function() {
 					return make_scroll_ast(new Point(), new Point()); //TODO no asteroids for boss level
 				};
-				
-				let b_supplier = function() {
-					return new Boss();
-				}
+
+				let b_supplier = function() { 	return new Boss(); }
 				bossSpawner = new ObjectSpawner(b_supplier, new Point(1, 1), new Point(1, 1), 1);
 				// bossSpawner = new ObjectSpawner(b_supplier, a_spawnFreqRange, a_numPerSpawnRange, a_maxNum);
 			} else {
@@ -92,30 +87,27 @@ const LevelPresets2 = {
 
 			const asteroidSpawner = new ObjectSpawner(a_supplier, a_spawnFreqRange, a_numPerSpawnRange, a_maxNum);
 			const enemySpawner = new ObjectSpawner(e_supplier, e_spawnFreqRange, e_numPerSpawnRange, e_maxNum);
-
-			
 			let level = new Level(mode, levelNum, targetScore, asteroidSpawner, enemySpawner, bossSpawner);
 			levels.push(level);
 		}
 		return levels;
 	},
 
-	// (see level_presets.tsv)
-	//TODO update
+	//formatted text from level_presets.tsv containing level data.
 	levelStr: "" +
-	// "1	SCROLLER	(-0.5, 0.5), (2, 5)	100	-1	(20, 50), (1, 1)	0	n/a\n" +
-	// "2	SCROLLER	(-0.5, 0.5), (2, 5)	200	-1	(20, 45), (1, 1)	0	n/a\n" +
-	// "3	SCROLLER	(-0.6, 0.6), (2, 6)	400	-1	(18, 45), (1, 1)	0	n/a\n" +
-	// "4	SCROLLER	(-0.6, 0.6), (2, 6)	600	-1	(15, 40), (1, 1)	0	n/a\n" +
-	// "5	SCROLLER	(-0.65, 0.65), (2, 7)	800	-1	(13, 35), (1, 1)	0	n/a\n" +
-	// "6	ASTEROID	spd(1, 3)	1000	-1	(20, 50), (1, 1)	0	n/a\n" +
-	// "7	SCROLLER	(-0.5, 0.5), (2, 5)	100	-1	(20, 50), (1, 1)	3	(1, 1), (3, 3)\n" +
-	// "8	SCROLLER	(-0.5, 0.5), (2, 5)	200	-1	(20, 45), (1, 1)	5	(1, 1), (5, 5)\n" +
-	// "9	SCROLLER	(-0.6, 0.6), (2, 6)	400	-1	(18, 45), (1, 1)	5	(1, 1), (5, 5)\n" +
-	// "10	SCROLLER	(-0.6, 0.6), (2, 6)	600	-1	(15, 40), (1, 1)	7	(1, 1), (7, 7)\n" +
-	// "11	SCROLLER	(-0.65, 0.65), (2, 7)	800	-1	(13, 35), (1, 1)	7	(1, 1), (7, 7)\n" +
-	// "12	ASTEROID	spd(1, 3)	1000	-1	(20, 50), (1, 1)	9	(1, 1), (9, 9)\n" +
-	"13	BOSS	spd(1, 3)	2500	0	(20, 50), (1, 1)	0	(1, 1), (1, 1)\n",
+	"1	SCROLLER	(-0.5, 0.5), (2, 5)	100	-1	(20, 50), (1, 1)	0	(1, 1), (0, 0)\n" +
+	"2	SCROLLER	(-0.5, 0.5), (2, 5)	200	-1	(20, 45), (1, 1)	0	(1, 1), (0, 0)\n" +
+	"3	SCROLLER	(-0.6, 0.6), (2, 6)	400	-1	(18, 45), (1, 1)	0	(1, 1), (0, 0)\n" +
+	"4	SCROLLER	(-0.6, 0.6), (2, 6)	600	-1	(15, 40), (1, 1)	0	(1, 1), (0, 0)\n" +
+	"5	SCROLLER	(-0.65, 0.65), (2, 7)	800	-1	(13, 35), (1, 1)	0	(1, 1), (0, 0)\n" +
+	"6	ASTEROID	(1, 3)	1000	-1	(20, 50), (1, 1)	0	(1, 1), (0, 0)\n" +
+	"7	SCROLLER	(-0.5, 0.5), (2, 5)	1100	-1	(20, 50), (1, 1)	3	(1, 1), (3, 3)\n" +
+	"8	SCROLLER	(-0.5, 0.5), (2, 5)	1200	-1	(20, 45), (1, 1)	5	(1, 1), (5, 5)\n" +
+	"9	SCROLLER	(-0.6, 0.6), (2, 6)	1400	-1	(18, 45), (1, 1)	5	(1, 1), (5, 5)\n" +
+	"10	SCROLLER	(-0.6, 0.6), (2, 6)	1600	-1	(15, 40), (1, 1)	7	(1, 1), (7, 7)\n" +
+	"11	SCROLLER	(-0.65, 0.65), (2, 7)	1800	-1	(13, 35), (1, 1)	7	(1, 1), (7, 7)\n" +
+	"12	ASTEROID	(1, 3)	2000	-1	(20, 50), (1, 1)	9	(1, 1), (9, 9)\n" +
+	"13	BOSS	(0, 0), (0, 0)	2500	0	(0, 0), (0, 0)	0	(0, 0), (0, 0)\n",
 
 	asteroid_spawnAreas: [
 		new Rectangle(-80, -80, WIDTH + 40, 50), //north

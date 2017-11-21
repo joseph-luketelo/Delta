@@ -10,15 +10,14 @@ class PlayingGameState extends GameState {
 		//Define Systems here.
 		let bgSystem = new BGSystem();
 		let playerSystem = new PlayerSystem(new Player(WIDTH/2, HEIGHT/2)); //updates and renders player
-		// let bulletSystem = new BulletSystem(new Bullet(WIDTH/2, HEIGHT/2, playerSystem));//updates and renders player bullets
 		let playerBulletSystem = new PlayerBulletSystem(playerSystem);//updates and renders player bullets
 		let asteroidSystem = new GameObjectSystem(); //updates and renders asteriods
 		let enemySystem = new GameObjectSystem(); //updates and renders enemies
 		let bossSystem = new GameObjectSystem();
 		// let levelSystem = new LevelSystem(LevelPresets.getPresets, playerSystem, asteroidSystem, enemySystem, bossSystem, bgSystem); // levels, playerSystem, asteroidSystem, enemySystem, bossSystem)
 		let levelSystem = new LevelSystem(LevelPresets2.getLevels, playerSystem, asteroidSystem, enemySystem, bossSystem, bgSystem); // levels, playerSystem, asteroidSystem, enemySystem, bossSystem)
-		
-		
+
+
 		//transitionSystem = new System();
 		// let collisionSystem = new CollisionSystem(playerSystem, asteroidSystem); //sample collision system
 			//checks and handles collisions
@@ -49,7 +48,7 @@ class PlayingGameState extends GameState {
 				ENGINE.pauseGame();
 			}
 		});
-		
+
 
 		this.registerEventListener(gameWonListener);
 		this.registerEventListener(pauseListener);
