@@ -40,10 +40,24 @@ class CollisionSystem extends System {
 		//player bullets - boss: bullets damage boss
 		
 		
-		//ex
+		
+		
+		//examples
 		// if (this.bossSystem.getObjects()[0] != undefined) {
 		// 	this.checkBossCollision();
 		// }
+		
+		// let handle_player_ast = function() {
+			
+		// }
+		// Distance_check_arr_arr(arrA, arrB, handle_player_ast);
+		
+		
+		
+		// let handle_ast_bullets = function(b) {
+		// 	b.deactivate()
+		// }
+		// Distance_check_arr_arr(arrA, arrB, handle_player_ast);
 	}
 	
 	onEnter() {}
@@ -74,14 +88,21 @@ class CollisionSystem extends System {
 	// }
 	
 	//return true or false
-	static Distance_check_arr_arr(arrA, arrB) {
-		//TODO
-	}
+	// static Distance_check_arr_arr(arrA, arrB, callback) {
+	// 	//TODO
+	// 	for (let a of arrA) {
+	// 		for (let b of arrB) {
+	// 			if (Distance_check(a, b)) {
+					
+	// 			}
+	// 		}
+	// 	}
+	// }
 	
 	// return true or false
-	static Distance_check_obj_arr(obj, arr) {
-		//TODO
-	}
+	// static Distance_check_obj_arr(obj, arr) {
+	// 	//TODO
+	// }
 	
 	
 	
