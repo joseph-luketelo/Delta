@@ -24,7 +24,7 @@ const randSign = function() { // return 1 or -1
 	return Math.round(Math.random()) * 2 -1;
 }
 
-// convenience method for displaying text.
+// convenience method for displaying text. NOTE: only centers. need more funcitonlaity for l/r justify
 const fillText = function(text, x, y, font, ctx = CTX) {
 	ctx.font = font.str;
 	const w = (text.length/2) * (font.size/1.75);

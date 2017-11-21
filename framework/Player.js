@@ -106,6 +106,8 @@ class Player extends GameObject {
 
 	//restrict movement to scroller mode (no rotation)
 	selectScrollerMode() {
+		this.angle = 0;
+		this.rotate(this.angle);
 		this.updateMode = this.scrollerUpdate;
 	}
 

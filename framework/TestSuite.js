@@ -10,6 +10,7 @@ class TestSuite {
 		this.test_System();
 		this.test_EventQueue();
 		this.test_GameState();
+		this.test_levelPresets();
 	}
 
 	static test_globals() {
@@ -218,7 +219,7 @@ class TestSuite {
 		let count2 = 0;
 		let l2 = new EventListener(EventFilter.OTHER, function(e) {
 			count2 = 1;
-		});
+		});	
 
 		//add an event listener to the map
 		//@param l: an EventListener
@@ -239,5 +240,55 @@ class TestSuite {
 		assert(3 == count3);
 
 		// clearEvents() //clear all events from the queue
+	}
+	
+	static test_levelPresets() {
+		
+		// console.log(LevelPresets.getPresets());
+		// console.log(LevelPresets2.getLevels());
+		// test getPoints()
+		let str = "(1, 2), (3, 4)";
+		let pts = getPoints(str);
+		assert(pts[0].getX() == 1);
+		assert(pts[0].getY() == 2);
+		assert(pts[1].getX() == 3);
+		assert(pts[1].getY() == 4);
+		
+		
+		// let m = Mode["SCROLLER"];
+		// console.log(m);
+		
+		//read chars until tab, new line, or index > length. return
+		/*
+		array containing the index of the last read character, and the output string.
+		function getNextColumn(index, input) {
+			let output = "";
+			while(input[index] != "\t" && input[index] != "\n" && index < input.length) {
+				output += input[index++];
+			}
+			return [index, output];
+		}
+		*/
+		// let i = 0;
+		// let input = "a\tb\tc\nd\te\tf\t";
+		// let letters = new Array();
+		// let stop = false;
+		
+		// while(!stop) {
+		// 	let result = getNextColumn(i, input);
+		// 	i = result[0];
+		// 	letters.push(result[1]);
+			
+		// 	let c = input[i];
+		// 	if (i < input.length) {
+		// 		if (c == "\t") { i++; } //same object, next column
+		// 		else if (c == "\n") { i++; } //new level object
+		// 	}
+		// 	if (i >= input.length) {
+		// 		stop = true;
+		// 	}
+		// }
+		// assert(i == input.length);
+		
 	}
 }

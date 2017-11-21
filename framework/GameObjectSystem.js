@@ -37,12 +37,14 @@ class GameObjectSystem extends System {
 			const o = this.gameObjects[i];
 			o.update();
 			if (!o.getIsActive()) {
-				toRemove.push(i);
+				toRemove.push(i); //flag indexes of asteroids to remove
 			}
 		}
+
 		//remove inactive gameobjects
-		for (let i of toRemove) {
-			this.gameObjects.splice(i, 1);
+		for (let i = 0; i < toRemove.length; i++) {
+			const index = toRemove.pop();
+			this.gameObjects.splice(index, 1);
 		}
 	}
 
