@@ -31,16 +31,19 @@ class CollisionSystem extends System {
 	update() {
 		this.checkPlayer_Asteroids();
 		this.checkProjectiles_Asteroids();
+		
+		//TODO:
+		//player - asteroids: asteroid damages player
+		//player bullets - asteroids: player bullets damage asteroid
+		//boss bullets - player: boss bullets damage player
+		//boss - player: boss damages player
+		//player bullets - boss: bullets damage boss
+		
+		
+		//ex
 		// if (this.bossSystem.getObjects()[0] != undefined) {
 		// 	this.checkBossCollision();
 		// }
-		
-		if (Distance_check(a, b)) {
-			//handle collision
-			//apply damage
-		}
-		
-		
 	}
 	
 	onEnter() {}
@@ -66,6 +69,10 @@ class CollisionSystem extends System {
 		return false;
 	}
 	
+	//return the distance between two points or objects
+	// static getDistance(a, b) {
+	// }
+	
 	//return true or false
 	static Distance_check_arr_arr(arrA, arrB) {
 		//TODO
@@ -73,6 +80,7 @@ class CollisionSystem extends System {
 	
 	// return true or false
 	static Distance_check_obj_arr(obj, arr) {
+		//TODO
 	}
 	
 	
