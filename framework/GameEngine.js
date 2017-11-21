@@ -12,7 +12,8 @@ class GameEngine {
 		this.eventPublisher = new EventPublisher();
 		this.playingState = new PlayingGameState();
 		this.pausedState = new PauseGameState();
-		this.currentState = this.playingState; //the GameEngine's current State
+		this.startState = new StartMenuGameState();
+		this.currentState = this.startState; //the GameEngine's current State
 		this.currentState.onEnter();
 	}
 
