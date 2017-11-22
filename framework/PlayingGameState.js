@@ -10,14 +10,14 @@ class PlayingGameState extends GameState {
 		//Define Systems here.
 		let bgSystem = new BGSystem();
 		let playerSystem = new PlayerSystem(new Player(WIDTH/2, HEIGHT/2)); //updates and renders player
-		let bulletSystem = new BulletSystem(new Bullet(WIDTH/2, HEIGHT/2, playerSystem));//updates and renders player bullets
+		let playerBulletSystem = new PlayerBulletSystem(playerSystem);//updates and renders player bullets
 		let asteroidSystem = new GameObjectSystem(); //updates and renders asteriods
 		let enemySystem = new GameObjectSystem(); //updates and renders enemies
-		let bossSystem = undefined;
+		let bossSystem = new GameObjectSystem();
 		// let levelSystem = new LevelSystem(LevelPresets.getPresets, playerSystem, asteroidSystem, enemySystem, bossSystem, bgSystem); // levels, playerSystem, asteroidSystem, enemySystem, bossSystem)
 		let levelSystem = new LevelSystem(LevelPresets2.getLevels, playerSystem, asteroidSystem, enemySystem, bossSystem, bgSystem); // levels, playerSystem, asteroidSystem, enemySystem, bossSystem)
-		
-		
+
+
 		//transitionSystem = new System();
 		// let collisionSystem = new CollisionSystem(playerSystem, asteroidSystem); //sample collision system
 			//checks and handles collisions
@@ -30,8 +30,9 @@ class PlayingGameState extends GameState {
 		this.addSystem(bgSystem); //bg system should be added first, so that it's drawn before other elements.
 		this.addSystem(enemySystem);
 		this.addSystem(asteroidSystem);
+		this.addSystem(playerBulletSystem);
 		this.addSystem(playerSystem);
-		this.addSystem(bulletSystem);
+		this.addSystem(bossSystem);
 		this.addSystem(levelSystem);
 		// this.addSystem(collisionSystem);
 
@@ -48,15 +49,9 @@ class PlayingGameState extends GameState {
 			}
 		});
 
-		let gKeyListener = new EventListener(EventFilter.KEYBOARD, function(event) {
-			if (event.getEventEnum() == EventEnum.keydown_g) {
-				console.log("pew");
-			}
-		});
 
 		this.registerEventListener(gameWonListener);
 		this.registerEventListener(pauseListener);
-		this.registerEventListener(gKeyListener);
 	}
 
 	update() {

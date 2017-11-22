@@ -23,7 +23,7 @@ To run the game, open index.html in a browser.
 	- collision - ahmed?, ash?
 	- tests & engine - amanda
 - start menu, game over menu, scoreboard, prev round scores
-- keep player in bounds/on screen
+- keep player in bounds/on screen, add stayInBounds function to player
 - UI - fix score positioning
 
 **_TODO - refinement:_**
