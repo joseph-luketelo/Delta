@@ -11,6 +11,12 @@
 
 class GameObject {
 	constructor(points = 0, life = 100) {
+		const buffer = 100;
+		this.northBuffer = 0 - buffer;
+		this.eastBuffer = WIDTH + buffer;
+		this.southBuffer = HEIGHT + buffer;
+		this.westBuffer = 0 - buffer;
+		
 		this.isActive = true; //use for flagging for removal, or other functionality,
 		this.points = points; //number of points to add to score if this obj is destroyed.
 		this.life = life;
