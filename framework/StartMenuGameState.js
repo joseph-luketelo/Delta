@@ -10,5 +10,38 @@
 class StartMenuGameState extends GameState {
 	constructor() {
 		super();
+		this.title = new Image();
+		this.title.src = 'assets/title.png'
+
+		const startListener = new EventListener(EventFilter.KEYBOARD, function(event) {
+			if (event.getEventEnum() == EventEnum.keydown_g) {
+				ENGINE.setupNewGame();
+			}
+		});
+		this.registerEventListener(startListener);
 	}
+
+	onEnter() {
+	}
+
+	update() {
+		this.dequeueEvent();
+		for (let sys of this.systems) {
+			sys.update();
+		}
+	}
+
+	render() {
+		CTX.fillStyle = Colors.PURPLE; //bg color
+		CTX.fillRect(0, 0, WIDTH, HEIGHT);
+		CTX.drawImage(this.title, WIDTH/2-(this.title.width/2), 100); //draw title
+
+		CTX.fillStyle = Colors.WHITE; //text color
+		fillText("Controls:", WIDTH/2, HEIGHT/2, Fonts.DEFAULT);
+		fillText("Navigate - w,a,s,d", WIDTH/2, HEIGHT/2 + 30, Fonts.DEFAULT);
+		fillText("Shoot - g", WIDTH/2, HEIGHT/2 + 60, Fonts.DEFAULT);
+		fillText("Press g to Start", WIDTH/2, HEIGHT/2 + 120, Fonts.DEFAULT);
+		fillText("Press p to Pause", WIDTH/2, HEIGHT/2 + 150, Fonts.DEFAULT);
+	}
+
 }
