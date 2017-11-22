@@ -16,13 +16,8 @@ class PlayingGameState extends GameState {
 		let bossSystem = new GameObjectSystem();
 		// let levelSystem = new LevelSystem(LevelPresets.getPresets, playerSystem, asteroidSystem, enemySystem, bossSystem, bgSystem); // levels, playerSystem, asteroidSystem, enemySystem, bossSystem)
 		let levelSystem = new LevelSystem(LevelPresets2.getLevels, playerSystem, asteroidSystem, enemySystem, bossSystem, bgSystem); // levels, playerSystem, asteroidSystem, enemySystem, bossSystem)
-
-
+		let collisionSystem = new CollisionSystem(playerSystem, asteroidSystem, playerBulletSystem, bossSystem); //sample collision system
 		//transitionSystem = new System();
-		let collisionSystem = new CollisionSystem(playerSystem, asteroidSystem, bulletSystem, bossSystem); //sample collision system
-			//checks and handles collisions
-			//call damage() on game objects if they have been hit
-			//call destroy() on game objects if they have been destroyed
 
 		//Add your System to the main playingState
 		//eventlisteners belonging to each system will be automaticlaly registered with this state.

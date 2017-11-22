@@ -2,64 +2,63 @@
 	Checks for and handles collisions between objects like player, projectiles, and asteroids.
 	Responsible for determining if conditions of a collision (ex distance threshold).
 	NOTE: alter as needed.
-	
-	
+
+
  */
 
 class CollisionSystem extends System {
 	// @param player: The player
 	// @param asteroids: An array of asteroids
-	constructor(playerSystem, asteroidSystem, bulletSystem, bossSystem) {
+	constructor(playerSystem, asteroidSystem, pBulletSystem, bossSystem) {
 		if (playerSystem instanceof PlayerSystem == false || asteroidSystem instanceof GameObjectSystem == false) { throw new Error("Invalid arguments"); }
-
 		super();
-		
+
 		// GameObjects or lists of GameObjects that will be checked for collisions.
 		this.playerSystem = playerSystem;
 		this.player = playerSystem.getPlayer();
 		this.asteroidSystem = asteroidSystem;
-		this.bulletSystem = bulletSystem;
+		this.pBulletSystem = pBulletSystem; //player bullet system
 		// this.projectiles = player.getProjectiles(); //get the player's list of projectiles.
 		// this.enemies = enemies;
-		
+
 		this.bossSystem = bossSystem;
 		// this.boss = bossSystem.getObjects()[0];
 		// this.bossBullets = this.boss.getBullets(); //Array<Bullet>
-		
+
 	}
-	
+
 	update() {
 		this.checkPlayer_Asteroids();
 		this.checkProjectiles_Asteroids();
-		
+
 		//TODO:
 		//player - asteroids: asteroid damages player
 		//player bullets - asteroids: player bullets damage asteroid
 		//boss bullets - player: boss bullets damage player
 		//boss - player: boss damages player
 		//player bullets - boss: bullets damage boss
-		
-		
-		
-		
+
+
+
+
 		//examples
 		// if (this.bossSystem.getObjects()[0] != undefined) {
 		// 	this.checkBossCollision();
 		// }
-		
+
 		// let handle_player_ast = function() {
-			
+
 		// }
 		// Distance_check_arr_arr(arrA, arrB, handle_player_ast);
-		
-		
-		
+
+
+
 		// let handle_ast_bullets = function(b) {
 		// 	b.deactivate()
 		// }
 		// Distance_check_arr_arr(arrA, arrB, handle_player_ast);
 	}
-	
+
 	onEnter() {}
 	onExit() {}
 	render() {}
@@ -82,35 +81,35 @@ class CollisionSystem extends System {
 		}
 		return false;
 	}
-	
+
 	//return the distance between two points or objects
 	// static getDistance(a, b) {
 	// }
-	
+
 	//return true or false
 	// static Distance_check_arr_arr(arrA, arrB, callback) {
 	// 	//TODO
 	// 	for (let a of arrA) {
 	// 		for (let b of arrB) {
 	// 			if (Distance_check(a, b)) {
-					
+
 	// 			}
 	// 		}
 	// 	}
 	// }
-	
+
 	// return true or false
 	// static Distance_check_obj_arr(obj, arr) {
 	// 	//TODO
 	// }
-	
-	
-	
+
+
+
 	// Check if player is colliding with an asteroid
 	checkPlayer_Asteroids() {
 		let asteroids = this.asteroidSystem.getObjects(); //returns an array of asteroids
 
-		let ploc = this.player.getLocation();	
+		let ploc = this.player.getLocation();
 		for (let ast of asteroids) {
 			//let loc = ast.getLocation();
 			//if distance between player & asteroid < dist
@@ -121,7 +120,7 @@ class CollisionSystem extends System {
 				}
 		}
 
-		
+
 		//console.log("....")
 
 		// TODO check for collision between player & asteroids
@@ -129,13 +128,13 @@ class CollisionSystem extends System {
 		// let asteroids = this.asteroidSystem.getObjects();
 	}
 
-	
 
-	
+
+
 	// Check if any of the player's projectiles are colliding wit an asteroid
 	checkProjectiles_Asteroids() {
-		
-		
+
+
 		// // TODO check collision
 		// let asteroids = this.asteroidSystem.getObjects();
 		// let projectiles = this.bulletSystem.getObjects();
@@ -148,10 +147,10 @@ class CollisionSystem extends System {
 		// 	}
 		// }
 	}
-	
-	
-	
-	
+
+
+
+
 	//NOTE example method for if an asteroid is hit
 	damageAsteroid(asteroid, projectile) {
 		asteroid.damage(projectile.getDamage);
